@@ -1,0 +1,248 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+    <p:panelGrid styleClass="panel_input">
+        <p:row >
+            <p:column><p:outputLabel value="Interventor:" /></p:column>
+            <p:column colspan="3">
+                <p:selectOneMenu value="#{contratoNewBean.contrato.fkTerceroInter.identificador}" 
+                                 required="true" requiredMessage="Seleccione el Interventor">
+                    <f:selectItem itemLabel="Seleecione" itemValue="" />
+                    <f:selectItems value="#{contratoNewBean.terceroLst}" var="ter"
+                                   itemLabel="#{ter.nit} - #{ter.razonsocial}"        
+                                   itemValue="#{ter.identificador}"
+                                   />
+                </p:selectOneMenu>                                
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Integrantes:" /></p:column>
+            <p:column colspan="3" style="text-align: center">
+                <p:dataTable value="#{contratoNewBean.contrato.contratoTerceroInterList}" 
+                             id="terceroInterTable"
+                             emptyMessage="No existen integrantes registrados"
+                             var="interTer"> 
+                    <p:column headerText="Nit" >
+                        <p:outputLabel value="#{interTer.fkTercero.nit}" style="width: 30%"/>
+                    </p:column>
+                    <p:column headerText="Razon social" style="width: 60%" >
+                        <p:outputLabel value="#{interTer.fkTercero.razonsocial}"/>
+                    </p:column>
+                    <p:column headerText="Cantidad"  style="width: 10%">
+                        <p:outputLabel value="#{interTer.cantidad}"/>
+                    </p:column>
+                    <p:column >
+                        <p:commandButton icon="ui-icon-trash"
+                                         actionListener="#{contratoNewBean.removeTerceroInter(interTer)}"
+                                         update=":formData:tabView:terceroInterTable,:formData:mensajes"
+                                         process="@this"/>
+                    </p:column>
+                    <p:columnGroup type="footer">
+                        <p:outputPanel id="output">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                <p:column>
+                                    <f:facet name="footer"><h:outputText value="#{contratoNewBean.sumaParticipacionInter}"/></f:facet>
+                                </p:column>
+                                <p:column></p:column>
+                            </p:row>
+                        </p:outputPanel>
+                    </p:columnGroup>
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('dlgIntegranteInter').show()" 
+                                 icon="ui-icon-plus" 
+                                 title="Nuevo integrante" 
+                                 value="Nuevo integrante"
+                                 update=":formIntegranteInter:integranteInterDetail"/>
+                <p:inputText id="validaParticipacionInterOk" style="display: none"
+                             value="#{contratoNewBean.sumaParticipacionInterOk}"
+                             required="false"
+                             requiredMessage="Se debe completar la conformación de el consorcio de interventoria" />
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Contrato No:" /></p:column>
+            <p:column>
+                <p:inputText value="#{contratoNewBean.contrato.contInterCodigo}"  
+                             size="7"
+                             required="true" requiredMessage="Ingrese el numero de contrato de interventoria" />
+                <p:outputLabel value="Año:" />
+                <p:inputText value="#{contratoNewBean.contrato.contInterVigencia}"  required="true" requiredMessage="Ingrese el año del contrato de interventoria"  size="4"/>
+            </p:column>
+            <p:column>
+                <p:outputLabel value="Fecha del contrato"  />
+            </p:column>
+            <p:column>
+                <p:calendar value="#{contratoNewBean.contrato.contInterFecha}" required="true" requiredMessage="Ingrese la fecha del contrato de Interventoria" locale="es" />
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column ><p:outputLabel value="Fecha del acta de inicio"  /></p:column>
+            <p:column >
+                <p:calendar value="#{contratoNewBean.contrato.contInterActaInicio}" required="true" locale="es" 
+                            requiredMessage="Ingrese la fecha del acta de inicio del contrato de la interventoria" />
+            </p:column>
+            <p:column ><p:outputLabel value="Fecha Final"  /></p:column>
+            <p:column >
+                <p:calendar value="#{contratoNewBean.contrato.contInterFechaTermi}" required="true" locale="es"
+                            requiredMessage="Ingrese la fecha de terminación del contrato" />
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Plazo inicial (meses):" /></p:column>
+            <p:column><p:inputNumber value="#{contratoNewBean.contrato.contInterPlazoInicial}" required="true" 
+                                     requiredMessage="Ingrese el plazo inicial" decimalSeparator="," thousandSeparator="." 
+                                     /></p:column>
+            <p:column><p:outputLabel value="Valor inicial:" /></p:column>
+            <p:column><p:inputNumber value="#{contratoNewBean.contrato.contInterValorInicial}" 
+                                     thousandSeparator="." decimalSeparator=","
+                                     required="true" requiredMessage="Ingrese el valor inicial" /></p:column>
+        </p:row>
+        <p:row >
+            <p:column colspan="2">
+                <center>
+                    <p:dataTable value="#{contratoNewBean.contrato.contratoProrrogaInterList}" 
+                                 id="tableProrrogaInter"
+                                 var="prorrogaInter"
+                                 emptyMessage="No existen prorrogas registradas"
+                                 >
+                        <f:facet name="header">Interventoria - Prorrogas Registradas</f:facet>
+                        <p:column headerText="Fecha">
+                            <p:outputLabel value="#{prorrogaInter.fecha}" >
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Meses" style="text-align: right">
+                            <p:outputLabel value="#{prorrogaInter.cantidad}" >
+                                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"  />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column >
+                            <p:commandButton icon="ui-icon-trash"
+                                             actionListener="#{contratoNewBean.removeProrrogaInter(prorrogaInter)}"
+                                             update=":formData:tabView:tableProrrogaInter"
+                                             process="@this"/>
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:outputPanel >
+                                <p:row>
+                                    <p:column style="text-align:right" footerText="Total:" />
+                                    <p:column style="text-align:right">
+                                        <f:facet name="footer">
+                                            <h:outputText value="#{contratoNewBean.sumaProrrogaInter}">
+                                                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"  />
+                                            </h:outputText>
+                                        </f:facet>
+                                    </p:column>
+                                    <p:column></p:column>
+                                </p:row>
+                            </p:outputPanel>
+                        </p:columnGroup>
+                    </p:dataTable>
+                    <br />
+                    <p:commandButton oncomplete="PF('prorrogaInterDialog').show()" 
+                                     icon="ui-icon-plus" 
+                                     title="Nueva prorroga" 
+                                     value="Nueva prorroga"
+                                     update=":formProrrogaInter:prorrogaInterDetail"
+                                     />                                        
+                </center>
+            </p:column>
+            <p:column colspan="2">
+                <center>
+                    <p:dataTable value="#{contratoNewBean.contrato.contratoAdicionInterList}" 
+                                 id="tableAdicionInter"
+                                 var="adicionInter"
+                                 emptyMessage="No existen adiciones registradas"
+                                 >
+                        <f:facet name="header">Interventoria - Adiciones Registradas</f:facet>
+                        <p:column headerText="Fecha" style="width: 30%">
+                            <p:outputLabel value="#{adicionInter.fecha}" >
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Valor" style="text-align: right">
+                            <p:outputLabel value="#{adicionInter.valor}" >
+                                <f:convertNumber type="currency" 
+                                                 currencySymbol="$" 
+                                                 maxFractionDigits="2"
+                                                 />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column >
+                            <p:commandButton icon="ui-icon-trash"
+                                             actionListener="#{contratoNewBean.removeAdicionInter(adicionInter)}"
+                                             update=":formData:tabView:tableAdicionInter"
+                                             process="@this"/>
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:outputPanel >
+                                <p:row>
+                                    <p:column style="text-align:right" footerText="Total:" />
+                                    <p:column style="text-align:right">
+                                        <f:facet name="footer">
+                                            <h:outputText value="#{contratoNewBean.sumaAdicionInter}">
+                                                <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                            </h:outputText>
+                                        </f:facet>
+                                    </p:column>
+                                    <p:column></p:column>
+                                </p:row>
+                            </p:outputPanel>
+                        </p:columnGroup>
+                    </p:dataTable>
+                    <br />
+                    <p:commandButton oncomplete="PF('adicionInterDialog').show()" 
+                                     icon="ui-icon-plus" 
+                                     title="Nueva Adición" 
+                                     value="Nueva Adición"
+                                     update=":formAdicionInter:adicionInterDetail"
+                                     />                                        
+
+                </center>
+            </p:column>
+        </p:row>
+        <p:row>
+
+        </p:row>
+        <p:row>
+            <p:column colspan="4" style="text-align: center">
+
+                <p:dataTable   id="tableAjusteInter" 
+                               emptyMessage="No existen registros"
+                               value="#{contratoNewBean.contrato.contratoAjusteInterList}" 
+                               var="ajtInter" >
+                    <f:facet name="header">Interventoria - Modificaciones/Aclaraciones/Suspensiones/Reanudaciones</f:facet>
+                    <p:column headerText="Fecha" style="width: 8%">
+                        <p:outputLabel value="#{ajtObr.fecha}" >
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Tipo" style="width: 15%">
+                        <p:outputLabel value="#{ajtInter.fkAjuste.ajuste}" />
+                    </p:column>
+                    <p:column headerText="Descripcion">
+                        <p:outputLabel value="#{ajtInter.descripcion}" />
+                    </p:column>
+                    <p:column >
+                        <p:commandButton icon="ui-icon-trash"
+                                         actionListener="#{contratoNewBean.removeAjusteInter(ajtInter)}"
+                                         update=":formData:tabView:tableAjusteInter"
+                                         process="@this"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('adicionAjusteInterDialog').show()" 
+                                 icon="ui-icon-plus" 
+                                 update=":formAjusteInter:ajusteInterDetail"
+                                 title="Nuevo registro" 
+                                 value="Nuevo registro"
+                                 />                                        
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+
+</ui:component>

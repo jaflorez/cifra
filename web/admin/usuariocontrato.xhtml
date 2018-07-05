@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="panel_inicio">
+                <h:form id="formData">
+                    <p:growl id="growl" />
+                    <p:outputPanel>
+                        <p:panelGrid  style="width: 100%">
+                            <p:row >
+                                <p:column  >
+                                    Usuario
+                                </p:column>  
+
+                                <p:column  >
+                                    #{usuarioContratoBean.usuarioConsulta.nombre} - #{usuarioContratoBean.usuarioConsulta.apellido} Documento #{usuarioContratoBean.usuarioConsulta.documento}
+                                </p:column>  
+                            </p:row>
+                            <p:row >
+                                <p:column >
+                                    <p:dataTable id="tblDisponibles" var="cto" value="#{usuarioContratoBean.contratoLst}" scrollable="true"   scrollHeight="500"  rowKey="#{cto.identificador}" >
+                                        <f:facet name="header">
+                                            Contratos disponibles
+                                        </f:facet>
+                                        <p:column headerText="Numero" style="width: 20%">
+                                            <h:outputText value="#{cto.contObraCodigo} - #{cto.contObraVigencia}" />
+                                        </p:column>
+                                        <p:column headerText="Objeto" style="width: 70%">
+                                            <h:outputText value="#{cto.objeto}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton icon="ui-icon-check"  actionListener="#{usuarioContratoBean.asignarUsuarioContrato(cto.identificador)}" update=":formData:tblDisponibles,:formData:tblAsignados" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:column>
+                                <p:column colspan="2" style="width: 48%" >
+                                    <p:dataTable id="tblAsignados" var="uct" value="#{usuarioContratoBean.usuarioConsulta.usuarioContratoList}"  scrollable="true"   scrollHeight="500">
+                                        <f:facet name="header">
+                                            Contratos Asignados
+                                        </f:facet>
+                                        <p:column headerText="Numero" style="width: 20%">
+                                            <h:outputText value="#{uct.fkContrato.contObraCodigo} - #{uct.fkContrato.contObraVigencia}" />
+                                        </p:column>
+                                        <p:column headerText="Objeto" style="width: 70%">
+                                            <h:outputText value="#{uct.fkContrato.objeto}" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton icon="ui-icon-trash" actionListener="#{usuarioContratoBean.eliminarUsuarioContrato(uct.fkContrato.identificador)}"  update=":formData:tblDisponibles,:formData:tblAsignados"/>
+                                        </p:column>
+                                        
+                                    </p:dataTable>
+
+                                </p:column>
+
+                            </p:row>
+
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+

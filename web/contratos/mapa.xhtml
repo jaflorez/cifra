@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi_map.xhtml">
+        <ui:define name="content">
+            <h:form id="form_mapa">
+                <p:panel styleClass="panel_inicio" id="panel01">
+                    <p:growl id="msgs" showDetail="true" sticky="true" autoUpdate="true"/>
+
+                    <p:outputPanel>
+                        <h:form>
+                            <p:breadCrumb rendered="#{!contratoNewBean.newContrato}">
+                                <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml" />
+                                <p:menuitem value="Contratos"  />
+                                <p:menuitem value="Contratos registrados"  url="/faces/contratos/contratolst.xhtml" />
+                                <p:menuitem value="Modificar contrato" url="/faces/contratos/contrato.xhtml" />
+                                <p:menuitem value="Tramos/Actividades/Equcipos" url="/faces/contratos/contrato.xhtml" />
+                                <p:menuitem value="Geometría" />
+                            </p:breadCrumb>
+                        </h:form>
+
+
+
+                        <p:panelGrid  style="width: 100%">
+                            <p:row>
+                                <p:column >
+                                    <p:panelGrid style="width: 100%" >
+                                        <p:row>
+                                            <p:column >
+                                                <p:outputLabel value="Tramo" /> 
+                                            </p:column>
+                                            <p:column colspan="3" > 
+                                                <p:outputLabel value="#{mapaBean.contratoTramo.tramo}" /> 
+                                                <h:inputHidden value="#{mapaBean.idContrato}" id="contrato_id" />
+                                                <h:inputHidden value="#{mapaBean.idTramo}" id="tramo_id" />
+                                                <h:inputHidden value="#{mapaBean.contratoTramo.geometria}"  id="geometria"/>
+                                            </p:column>
+                                        </p:row>
+
+                                        <p:row>
+                                            <p:column >
+                                                <p:outputLabel value="Codigo de la via" /> </p:column>
+                                            <p:column colspan="3" > 
+                                                <p:selectOneMenu id="console"  style="width:125px" value="#{mapaBean.contratoTramo.codigovia}">
+                                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                                    <f:selectItems value="#{mapaBean.vias}"/>
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column > 
+                                                <p:outputLabel value="Pr Inicial" /> 
+                                                <p:inputNumber  size="3"  value="#{mapaBean.contratoTramo.prInicial}" decimalPlaces="0" />+
+                                                <p:inputNumber  size="4" value="#{mapaBean.contratoTramo.disIncial}" decimalPlaces="0" />
+                                            </p:column> 
+                                            <p:column > 
+                                                <p:outputLabel value="Pr Final" /> 
+                                                <p:inputNumber  size="3" value="#{mapaBean.contratoTramo.prFinal}" decimalPlaces="0" />+
+                                                <p:inputNumber  size="4" value="#{mapaBean.contratoTramo.disFinal}" decimalPlaces="0" />
+                                            </p:column> 
+                                            <p:column  style="text-align: center">
+                                                <p:commandButton id="btnGuardar" value="Actualizar" ajax="true" actionListener="#{mapaBean.actualizarTramo()}" update="msgs" /> 
+                                                <p:commandButton id="btnCancelar" value="Cancelar" ajax="true" actionListener="#{mapaBean.cancelarEdicion()}" update="msgs" /> 
+                                                <p:commandButton id="btnGuardarGeometria" value="?" ajax="true" actionListener="#{mapaBean.actualizarGeometriaTramo()}" style="display: none" /> 
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'" style="width: 1200px;height: 600px">
+                                        <div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <span>Dibujar:</span>
+                                                        </td>
+                                                        <td>
+                                                            <button id="drbutton" data-dojo-type="dijit/form/Button">Linea</button>
+                                                        </td>
+                                                        <td>
+                                                            <button id="Borrarbutton" data-dojo-type="dijit/form/Button">Borrar</button>
+                                                        </td>
+                                                        <td>
+                                                            <div id="EscLabel"></div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" ></div>
+                                    </div>
+
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column style="text-align: center" colspan="2">
+                                    <p:outputLabel value="Instituto Nacional de Vías - INVIAS" style="font-size: 18px" />
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form id="formData">
+                <p:breadCrumb rendered="#{!contratoNewBean.newContrato}">
+                    <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml" />
+                    <p:menuitem value="Contratos"  />
+                    <p:menuitem value="Contratos registrados"  url="/faces/contratos/contratolst.xhtml" />
+                    <p:menuitem value="Modificar contrato"  />
+                </p:breadCrumb>
+                <p:breadCrumb rendered="#{contratoNewBean.newContrato}">
+                    <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml" />
+                    <p:menuitem value="Contratos"  />
+                    <p:menuitem value="Nuevo contrato" />
+                    
+                </p:breadCrumb>
+
+                <p:growl id="mensajes" />
+                <p:tabView id="tabView">
+                    <p:tab title="Informacion general" >
+                        <ui:include src="contrato_general.xhtml"/>
+                    </p:tab>
+                    <p:tab title="Contrato Obra" >
+                        <ui:include src="contrato_obra.xhtml"/>
+                    </p:tab>
+                    <p:tab title="Contrato Interventoria" >
+                        <ui:include src="contrato_inter.xhtml"/>
+                    </p:tab>
+                    <p:tab title="Tramos/Actividades/Equipo">
+                        <ui:include src="contrato_configuracion.xhtml"/>
+                    </p:tab>
+                </p:tabView>
+                <p:panel>
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row >
+                            <p:column colspan="4" style="text-align: center">
+                                <p:commandButton value="Guardar" update="mensajes"
+                                                 actionListener="#{contratoNewBean.guardarContrato()}"/>
+                                <p:commandButton value="Cancelar" action="/inicio/index" process="@this" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+            <ui:include src="contrato_form_integrante_obra.xhtml"/>
+            <ui:include src="contrato_form_integrante_inter.xhtml"/>
+            <ui:include src="contrato_form_financiero_obra.xhtml"/>
+            <ui:include src="contrato_form_adicion_obra.xhtml"/>
+            <ui:include src="contrato_form_vigencia_obra.xhtml"/>
+            <ui:include src="contrato_form_adicion_inter.xhtml"/>
+            <ui:include src="contrato_form_prorroga_obra.xhtml"/>
+            <ui:include src="contrato_form_prorroga_inter.xhtml"/>
+            <ui:include src="contrato_form_ajuste_obra.xhtml"/>
+            <ui:include src="contrato_form_ajuste_inter.xhtml"/>
+            <ui:include src="contrato_form_tramo.xhtml"/>
+            <ui:include src="contrato_form_actividad.xhtml"/>
+            <ui:include src="contrato_form_maquinaria.xhtml"/>
+        </ui:define>
+    </ui:composition>
+</html>
+

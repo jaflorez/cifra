@@ -1,0 +1,67 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <p:panelGrid styleClass="panel_input">
+        <p:row >
+            <p:column colspan="4" style="text-align: center">
+                <p:dataTable  id="tableTramo"
+                              value="#{contratoViewBean.contrato.contratoTramoList}" var="ctrTrm"
+                              emptyMessage="No existen tramos registrados"  style="width: 100%" >
+                    <f:facet name="header">Lista de tramos</f:facet>
+                    <p:column  headerText="Numero" style="width: 10%">
+                        <p:outputLabel value="#{ctrTrm.numero}" />
+                    </p:column>
+                    <p:column  headerText="Tramo" >
+                        <p:outputLabel value="#{ctrTrm.tramo}" />
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4">
+                <p:separator/>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column colspan="4" style="text-align: center">
+                <p:dataTable  id="tableActividad"
+                              value="#{contratoViewBean.contrato.contratoActividadList}" var="ctrAct"
+                              emptyMessage="No existen actividades registradas"
+                              >
+                    <f:facet name="header">Lista de actvidades</f:facet>
+                    <p:column  headerText="Nombre" style="width: 75%">
+                        <p:outputLabel value="#{ctrAct.fkActividad.actividad}" />
+                    </p:column>
+                    <p:column  headerText="Cantidad" style="width: 10%">
+                        <p:outputLabel value="#{ctrAct.cantidad}" />
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4">
+                <p:separator/>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column colspan="4">
+                <p:dataTable  id="tableMaquinaria"
+                              value="#{contratoViewBean.contrato.contratoMaquinariaList}" 
+                              var="ctrMaq"
+                              emptyMessage="No existe equipo registrado"
+                              >
+                    <f:facet name="header">Equipo mínimo requerido</f:facet>
+                    <p:column  headerText="Nombre" style="width: 70%">
+                        <p:outputLabel value="#{ctrMaq.fkMaquinaria.maquinaria}" />
+                    </p:column>
+                    <p:column  headerText="Cantidad" style="width: 10%">
+                        <p:outputLabel value="#{ctrMaq.cantidad}" />
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+</ui:component>

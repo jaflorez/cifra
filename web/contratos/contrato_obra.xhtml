@@ -1,0 +1,495 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+    <p:panelGrid styleClass="panel_input">
+        <p:row>
+            <p:column colspan="4" styleClass="ui-widget-header row_separator_title">
+                <p:outputLabel value="Informacion del contratista"/>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Contratista:" /></p:column>
+            <p:column colspan="3">
+                <p:selectOneMenu value="#{contratoNewBean.contrato.fkTerceroObra.identificador}" 
+                                 required="true" requiredMessage="Seleccione el contratista">
+                    <f:selectItem itemLabel="Seleecione" itemValue="" />
+                    <f:selectItems value="#{contratoNewBean.terceroLst}" var="ter"
+                                   itemLabel="#{ter.nit} - #{ter.razonsocial}"        
+                                   itemValue="#{ter.identificador}"
+                                   />
+                </p:selectOneMenu>                                
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Integrantes:" /></p:column>
+            <p:column colspan="3" style="text-align: center">
+                <p:dataTable value="#{contratoNewBean.contrato.contratoTerceroObraList}" 
+                             id="terceroObraTable"
+                             emptyMessage="No existen integrantes registrados"
+                             var="obrter"> 
+                    <p:column headerText="Nit" >
+                        <p:outputLabel value="#{obrter.fkTercero.nit}" style="width: 30%"/>
+                    </p:column>
+                    <p:column headerText="Razon social" style="width: 60%" >
+                        <p:outputLabel value="#{obrter.fkTercero.razonsocial}"/>
+                    </p:column>
+                    <p:column headerText="Cantidad"  style="width: 10%">
+                        <p:outputLabel value="#{obrter.cantidad}"/>
+                    </p:column>
+                    <p:column >
+                        <p:commandButton icon="ui-icon-trash"
+                                         actionListener="#{contratoNewBean.removeTerceroObra(obrter)}"
+                                         update=":formData:tabView:terceroObraTable,:formData:mensajes"
+                                         process="@this"
+                                         />
+                    </p:column>
+                    <p:columnGroup type="footer">
+                        <p:outputPanel id="output">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                <p:column>
+                                    <f:facet name="footer"><h:outputText value="#{contratoNewBean.sumaParticipacionObra}"/></f:facet>
+                                </p:column>
+                                <p:column></p:column>
+                            </p:row>
+                        </p:outputPanel>
+                    </p:columnGroup>
+
+
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('dlgIntegranteObra').show()" 
+                                 icon="ui-icon-plus" 
+                                 title="Nuevo integrante" 
+                                 value="Nuevo integrante"
+                                 update=":formIntegranteObra:integranteObraDetail"/>
+                <p:inputText id="validaParticipacionObra" style="display: none" 
+                             value="#{contratoNewBean.sumaParticipacionObraOk}"
+                             required="true"
+                             requiredMessage="Se debe completar la conformación de el consorcio de Obra" />
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4" styleClass="ui-widget-header row_separator_title">
+                <p:outputLabel value="Informacion básica del Contrato de Obra"/>
+            </p:column>
+        </p:row>
+
+        <p:row >
+            <p:column colspan="2"><p:outputLabel value="Contrato No:" />
+                <p:inputText value="#{contratoNewBean.contrato.contObraCodigo}"  
+                             size="7"
+                             required="true" requiredMessage="Ingrese el numero de contrato de obra" />
+                <p:outputLabel value="Año:" />
+                <p:inputText value="#{contratoNewBean.contrato.contObraVigencia}"  required="true" requiredMessage="Ingrese el año del contrato de obra"  size="4"/>
+            </p:column>
+            <p:column>
+                <p:outputLabel value="Fecha de suscripción de la minuta"  />
+            </p:column>
+            <p:column>
+                <p:calendar value="#{contratoNewBean.contrato.contObraFecha}" required="true" requiredMessage="Ingrese la fecha del contrato de Obra" locale="es" />
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column ><p:outputLabel value="Fecha orden de inicio"  /></p:column>
+            <p:column >
+                <p:calendar value="#{contratoNewBean.contrato.contObraActaInicio}" required="true" locale="es" 
+                            requiredMessage="Ingrese la fecha de orden de inicio del contrato de obra" />
+            </p:column>
+            <p:column ><p:outputLabel value="Fecha de terminación"  /></p:column>
+            <p:column >
+                <p:calendar value="#{contratoNewBean.contrato.contObraFechaTermi}" required="true" locale="es"
+                            requiredMessage="Ingrese la fecha de terminación del contrato" />
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Plazo inicial(meses):" /></p:column>
+            <p:column><p:inputNumber value="#{contratoNewBean.contrato.contObraPlazoInicial}" required="true" 
+                                     requiredMessage="Ingrese el plazo inicial" decimalSeparator="," thousandSeparator="." 
+                                     /></p:column>
+            <p:column></p:column>
+            <p:column> </p:column>
+        </p:row>
+        <p:row>
+            <p:column><p:outputLabel value="Valor inicial:" /></p:column>
+            <p:column>
+                <p:inputNumber value="#{contratoNewBean.contrato.contObraValorInicial}" 
+                               thousandSeparator="." decimalSeparator="," symbol="$"
+                               required="true" requiredMessage="Ingrese el valor inicial" >
+                    <p:ajax update=":formData:tabView:resumenContratoObra" />  
+                </p:inputNumber>
+            </p:column>
+            <p:column><p:outputLabel value="Valor anticipo:" /></p:column>
+            <p:column>
+                <p:inputNumber value="#{contratoNewBean.contrato.contObraValorAnticipo}" 
+                               thousandSeparator="." decimalSeparator="," symbol="$"
+                               required="true" requiredMessage="Ingrese el valor del anticipo" >
+                    
+                </p:inputNumber>
+
+
+            </p:column>
+        </p:row>
+
+        <p:row>
+            <p:column colspan="4" styleClass="ui-widget-header row_separator_title">
+                <p:outputLabel value="Informacion financiera del Contrato de Obra"/>
+            </p:column>
+
+        </p:row>
+
+        <p:row>
+            <p:column  colspan="2" style="text-align: center">
+                <p:dataTable value="#{contratoNewBean.contrato.contratoVigenciaObraList}" 
+                             id="vigenciaObraTable"
+                             scrollable="true"
+                             scrollHeight="120"
+                             emptyMessage="Hay registros"
+                             style="width: 100%"
+                             var="vigObr"> 
+                    <f:facet name="header">Vigencias del contrato - Obra</f:facet>
+                    <p:column headerText="Año" sortBy="#{vigObr.ano}" style="width: 20%" >
+                        <p:outputLabel  value="#{vigObr.ano}"/>
+                    </p:column>
+                    <p:column headerText="Valor vigencia"  style="width: 30%;text-align: right" >
+                        <p:outputLabel  value="#{vigObr.valor}" >
+                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Facturado"  style="width: 30%;text-align: right" >
+                        <p:outputLabel  value="#{vigObr.avance}" >
+                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column >
+                        <p:commandButton icon="ui-icon-trash"
+                                         actionListener="#{contratoNewBean.removeVigenciaObra(vigObr)}"
+                                         update=":formData:tabView:vigenciaObraTable,:formData:tabView:resumenContratoObra"
+                                         process="@this"
+                                         />
+                    </p:column>
+                    <p:columnGroup type="footer">
+                        <p:outputPanel id="outputpanelId02">
+                            <p:row>
+
+                                <p:column  style="text-align:right" footerText="Suma:" />
+                                <p:column>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{contratoNewBean.sumaVigenciaObra}">
+                                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{contratoNewBean.sumaFacturadoObra}">
+                                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+
+                                </p:column>
+                                <p:column />
+                            </p:row>
+                        </p:outputPanel>
+                    </p:columnGroup>
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('dlgVigenciaObra').show()" 
+                                 icon="ui-icon-plus" 
+                                 title="Nueva vigencia" 
+                                 value="Nueva vigencia"
+                                 update=":formVigenciaObra:vigenciaObraDetail" />
+            </p:column>
+            <p:column colspan="2" style="text-align: center">
+                <p:dataTable value="#{contratoNewBean.contrato.contratoFinancieroObraList}" 
+                             id="financieroObraTable"
+                             scrollable="true"
+                             scrollHeight="120"
+                             emptyMessage="Hay registros"
+                             sortMode=""
+                             var="finObr"> 
+                    <f:facet name="header">Programa de inversiones - Obra</f:facet>
+                    <p:column headerText="Año" sortBy="#{finObr.ano + finObr.corte}" >
+                        <p:outputLabel value="#{finObr.ano}" style="width: 15%" />
+                    </p:column>
+                    <p:column headerText="Mes o  periodo" style="width: 15%" >
+                        <p:outputLabel value="#{finObr.corte}"/>
+                    </p:column>
+                    <p:column headerText="Valor"  style="width: 35%;text-align: right" >
+                        <p:outputLabel value="#{finObr.valor}">
+                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column >
+                        <p:commandButton icon="ui-icon-pencil"
+                                         title="Modificar programa de inversión"
+                                         oncomplete="PF('dlgFinancieroObra').show()"
+                                         update=":formFinancieroObra:financieroObraDetail"
+                                         process="@this"
+                                         >
+                            <f:setPropertyActionListener value="#{finObr}" target="#{contratoNewBean.curContratoFinancieroObra}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:columnGroup type="footer">
+                        <p:outputPanel id="outputpanelId02">
+                            <p:row>
+                                <p:column/>
+                                <p:column  style="text-align:right" footerText="Total:" />
+                                <p:column>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{contratoNewBean.sumaFinancieroObra}">
+                                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column />
+                            </p:row>
+                        </p:outputPanel>
+                    </p:columnGroup>
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('dlgFinancieroObra').show()" 
+                                 icon="ui-icon-plus" 
+                                 title="Nuevo Programa de inversion" 
+                                 value="Nuevo Programa de inversion"
+                                 actionListener="#{contratoNewBean.newContratoFinancieroObra()}"
+                                 update=":formFinancieroObra:financieroObraDetail" />
+
+
+
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4" styleClass="ui-widget-header row_separator_title">
+                <p:outputLabel value="Prórrogas y adiciones del Contrato de Obra"/>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4" styleClass="ui-widget-header row_separator_title">
+                <p:outputLabel value="Prórrogas y adiciones del Contrato de Obra"/>
+            </p:column>
+        </p:row>
+
+
+        <p:row >
+            <p:column colspan="2">
+                <center>
+                    <p:dataTable value="#{contratoNewBean.contrato.contratoProrrogaObraList}" 
+                                 id="tableProrrogaObra"
+                                 var="prorrogaObra"
+                                 emptyMessage="No existen prórrogas registradas"
+                                 >
+                        <f:facet name="header">Obra - Prórrogas Registradas</f:facet>
+                        <p:column headerText="Fecha Minuta">
+                            <p:outputLabel value="#{prorrogaObra.fecha}" >
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Meses" style="text-align: right; width: 15%">
+                            <p:outputLabel value="#{prorrogaObra.cantidad}" >
+                                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"  />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Fecha final contrato" style="text-align: right">
+                            <p:outputLabel value="#{prorrogaObra.fechaFinalContrato}" >
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </p:outputLabel>
+                        </p:column>
+
+                        <p:column  style="width: 20%">
+                            <p:commandButton icon="ui-icon-trash"
+                                             actionListener="#{contratoNewBean.removeProrrogaObra(prorrogaObra)}"
+                                             update=":formData:tabView:tableProrrogaObra"
+                                             process="@this"/>
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:outputPanel >
+                                <p:row>
+                                    <p:column style="text-align:right" footerText="Total:" />
+                                    <p:column style="text-align:right">
+                                        <f:facet name="footer">
+                                            <h:outputText value="#{contratoNewBean.sumaProrrogaObra}">
+                                                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"  />
+                                            </h:outputText>
+                                        </f:facet>
+                                    </p:column>
+                                    <p:column></p:column>
+                                </p:row>
+                            </p:outputPanel>
+                        </p:columnGroup>
+                    </p:dataTable>
+                    <br />
+
+                    <p:commandButton oncomplete="PF('prorrogaObraDialog').show()" 
+                                     icon="ui-icon-plus" 
+                                     title="Nueva prorroga" 
+                                     value="Nueva prorroga"
+                                     update=":formProrrogaObra:prorrogaObraDetail"
+                                     />                                        
+                </center>
+            </p:column>
+            <p:column colspan="2">
+                <center>
+                    <p:dataTable value="#{contratoNewBean.contrato.contratoAdicionObraList}" 
+                                 id="tableAdicionObra"
+                                 var="adicionObra"
+                                 emptyMessage="No existen adiciones registradas"
+                                 >
+                        <f:facet name="header">Obra - Adiciones/Modificaciones</f:facet>
+                        <p:column headerText="Fecha" style="width: 20%">
+                            <p:outputLabel value="#{adicionObra.fecha}" >
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Valor" style="text-align: right; width: 30%">
+                            <p:outputLabel value="#{adicionObra.valor}" >
+                                <f:convertNumber type="currency" 
+                                                 currencySymbol="$" 
+                                                 maxFractionDigits="2"
+                                                 />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Tipo" style="text-align: center ; width: 20%">
+                            <p:outputLabel value="#{adicionObra.tipo}" />
+                        </p:column>
+                        <p:column headerText="Vigencia" style="text-align: center ; width: 15%">
+                            <p:outputLabel value="#{adicionObra.vigencia}" />
+                        </p:column>
+
+                        <p:column >
+                            <p:commandButton icon="ui-icon-trash"
+                                             actionListener="#{contratoNewBean.removeAdicionObra(adicionObra)}"
+                                             update=":formData:tabView:tableAdicionObra,:formData:tabView:resumenContratoObra"
+                                             process="@this"/>
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:outputPanel >
+                                <p:row>
+                                    <p:column style="text-align:right" footerText="Total:" />
+                                    <p:column style="text-align:right">
+                                        <f:facet name="footer">
+                                            <h:outputText value="#{contratoNewBean.sumaAdicionObra}">
+                                                <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                            </h:outputText>
+                                        </f:facet>
+                                    </p:column>
+                                    <p:column></p:column>
+                                    <p:column></p:column>
+                                    <p:column></p:column>
+                                </p:row>
+                            </p:outputPanel>
+                        </p:columnGroup>
+                    </p:dataTable>
+                    <br />
+                    <p:commandButton oncomplete="PF('adicionObraDialog').show()" 
+                                     icon="ui-icon-plus" 
+                                     title="Nueva Adición" 
+                                     value="Nueva Adición"
+                                     update=":formAdicionObra:adicionObraDetail"
+
+                                     />                                        
+
+                </center>
+            </p:column>
+        </p:row>
+        <p:row>
+
+        </p:row>
+        <p:row>
+            <p:column colspan="4" style="text-align: center">
+
+                <p:dataTable   id="tableAjusteObra" 
+                               emptyMessage="No existen registros"
+                               value="#{contratoNewBean.contrato.contratoAjusteObraList}" 
+                               var="ajtObr" >
+                    <f:facet name="header">Obra - Modificaciones/Aclaraciones/Suspensiones/Reanudaciones</f:facet>
+                    <p:column headerText="Fecha minuta" style="width: 10%">
+                        <p:outputLabel value="#{ajtObr.fecha}"  >
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Tipo" style="width: 15%">
+                        <p:outputLabel value="#{ajtObr.fkAjuste.ajuste}" />
+                    </p:column>
+                    <p:column headerText="Descripcion">
+                        <p:outputLabel value="#{ajtObr.descripcion}" />
+                    </p:column>
+                    <p:column headerText="Fecha Desde" style="width: 10%">
+                        <p:outputLabel value="#{ajtObr.fechaInicio}">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Fecha Hasta" style="width: 10%">
+                        <p:outputLabel value="#{ajtObr.fechaFin}" >
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Fecha Final contrato" style="width: 10%">
+                        <p:outputLabel value="#{ajtObr.fechaFinalContrato}">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column  style="width: 5%">
+                        <p:commandButton icon="ui-icon-trash"
+                                         actionListener="#{contratoNewBean.removeAjusteObra(ajtObr)}"
+                                         update=":formData:tabView:tableAjusteObra"
+                                         process="@this"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('adicionAjusteObraDialog').show()" 
+                                 icon="ui-icon-plus" 
+                                 update=":formAjusteObra:ajusteObraDetail"
+                                 title="Nuevo registro" 
+                                 value="Nuevo registro"
+                                 />                                        
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4" styleClass="ui-widget-header row_separator_title">
+                <p:outputLabel value="Resumen del contrato de obra"/>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4" >
+                <p:panelGrid id="resumenContratoObra" >
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Valor del contrato + Adiciones/Modificaciones :"/>
+                        </p:column>
+                        <p:column class="column_info_number">
+                            <p:outputLabel value="#{contratoNewBean.contrato.contObraValorInicial+contratoNewBean.sumaAdicionObra}" >
+                                <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                            </p:outputLabel>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column >
+                            <p:outputLabel value="(-)Total de la vigencias + Adiciones/Modificaciones:"/>
+                        </p:column>
+                        <p:column class="column_info_number">
+                            <p:outputLabel value="#{contratoNewBean.sumaVigenciaObra + contratoNewBean.sumaAdicionObra}" >
+                                <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                            </p:outputLabel>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Saldo (0):"/>
+                        </p:column>
+                        <p:column class="column_info_number">
+                            <p:outputLabel value="#{contratoNewBean.contrato.contObraValorInicial - contratoNewBean.sumaVigenciaObra}" >
+                                <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                            </p:outputLabel>
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+</ui:component>

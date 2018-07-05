@@ -1,0 +1,46 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <h:form id="formProrrogaInter">
+        <p:dialog header="Prorroga de la Interventoria" widgetVar="prorrogaInterDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="prorrogaInterDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Fecha de aprobación minuta"  />
+                        </p:column>
+                        <p:column  >
+                            <p:calendar value="#{contratoNewBean.curProrrogaInter.fecha}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Meses"  />
+                        </p:column>
+                        <p:column  >
+                            <p:inputNumber  value="#{contratoNewBean.curProrrogaInter.cantidad}"
+                                            decimalPlaces="1"
+                                            />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  colspan="2">
+                            <p:commandButton id="addFuenteMaterial" value="Adicionar" 
+                                             oncomplete="PF('prorrogaInterDialog').hide()"
+                                             actionListener="#{contratoNewBean.adicionarProrrogaInter()}"
+                                             update=":formData:tabView:tableProrrogaInter"
+                                             icon="ui-icon-disk" />
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('prorrogaInterDialog').hide()"/>                            
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</ui:component>
+

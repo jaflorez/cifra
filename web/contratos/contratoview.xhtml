@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:breadCrumb>
+                    <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml"/>
+                    <p:menuitem value="Contratos"  />
+                    <p:menuitem value="Contratos registrados" url="/faces/contratos/contratolst.xhtml"  />
+                    <p:menuitem value="Ver contrato"  />
+                </p:breadCrumb>
+            </h:form>
+
+
+            <h:form id="formData">
+                <p:growl id="mensajes" />
+                <p:panel header="Informacion general">
+                    <ui:include src="contrato_general_view.xhtml"/>
+                </p:panel>
+                <p:panel header="Contrato de obra">
+                    <ui:include src="contrato_obra_view.xhtml"/>
+                </p:panel>
+                <p:panel header="Contrato de Interventoria">
+                    <ui:include src="contrato_inter_view.xhtml"/>
+                </p:panel>
+                <p:panel header="Tramos / Actividades / Equipo mínimo">
+                    <ui:include src="contrato_configuracion_view.xhtml"/>
+                </p:panel>
+                <p:panel>
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row >
+                            <p:column colspan="4" style="text-align: center">
+                                <p:commandButton value="Regresar" process="@this"
+                                                 action="contratolst" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

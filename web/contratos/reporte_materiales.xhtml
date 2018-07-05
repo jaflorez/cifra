@@ -1,0 +1,51 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <p:dialog header="Fuentes de materiales" widgetVar="newMaterialDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="materialesDetail" >
+            <p:panelGrid  >
+                <p:row>
+                    <p:column ><p:outputLabel value="Ubicacion"  /></p:column>
+                    <p:column >
+                        <p:inputTextarea value="#{reporteBean.curReporteMateriales.ubicacion}" cols="25" rows="3" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Permiso minero:" /></p:column>
+                    <p:column>
+                        <p:selectOneRadio  value="#{reporteBean.curReporteMateriales.permisoMinero}">
+                            <f:selectItem itemLabel="Si" itemValue="true" />
+                            <f:selectItem itemLabel="No" itemValue="false" />
+                        </p:selectOneRadio>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="Licencia ambiental:" /></p:column>
+                    <p:column>
+                        <p:selectOneRadio  value="#{reporteBean.curReporteMateriales.licenciaAmbiental}">
+                            <f:selectItem itemLabel="Si" itemValue="true" />
+                            <f:selectItem itemLabel="No" itemValue="false" />
+                        </p:selectOneRadio>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:commandButton id="addFuenteMaterial" value="Adicionar" 
+                                         icon="ui-icon-disk" >
+                            <p:ajax event="click" process="materialesDetail"
+                                    oncomplete="PF('newMaterialDialog').hide()" 
+                                    update=":formData:tableMateriales" 
+                                    
+                                    listener="#{reporteBean.adicionarMateriales()}" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar"
+                                         oncomplete="PF('newMaterialDialog').hide()"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+</ui:component>    

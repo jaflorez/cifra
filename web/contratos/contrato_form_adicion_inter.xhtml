@@ -1,0 +1,43 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="formAdicionInter">
+        <p:dialog header="Adicion al contraro de Interventoria" widgetVar="adicionInterDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="adicionInterDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Fecha de aprobación minuta"  />
+                        </p:column>
+                        <p:column  >
+                            <p:calendar value="#{contratoNewBean.curAdicionInter.fecha}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Valor de la adición"  />
+                        </p:column>
+                        <p:column  >
+                            <p:inputNumber  value="#{contratoNewBean.curAdicionInter.valor}" thousandSeparator="." decimalSeparator="," decimalPlaces="2" symbol="$"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  colspan="2">
+                            <p:commandButton id="addFuenteMaterial" value="Adicionar" 
+                                             oncomplete="PF('adicionInterDialog').hide()"
+                                             actionListener="#{contratoNewBean.adicionarAdicionInter()}"
+                                             update=":formData:tabView:tableAdicionInter"
+                                             icon="ui-icon-disk" />
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('adicionInterDialog').hide()"/>                            
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>    
+</ui:component>
+

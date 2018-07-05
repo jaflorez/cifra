@@ -1,0 +1,280 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <p:dataTable id="avanceMaq" var="reg" 
+                 style="width: 100%"
+                 value="#{reporteBean.rtdot.registroMaquinariaLst}" 
+                 editable="true" editMode="cell"  >                    
+        <f:facet name="header">Maquinaria</f:facet>
+        <p:column headerText="Maquinaria/Tramo" styleClass="column_table_title" >
+            <p:outputLabel value="#{reg.titulo}" />
+        </p:column>
+        <p:column headerText="Prg"  styleClass="column_table_info">
+            <p:outputLabel value="#{reg.programado}" >
+                <f:convertNumber pattern="#0.0" />
+            </p:outputLabel>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(1)}"
+            rendered="#{reporteBean.dibujarColumna(1)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[0]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[0]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(2)}"
+            rendered="#{reporteBean.dibujarColumna(2)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[1]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[1]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(3)}"
+            rendered="#{reporteBean.dibujarColumna(3)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[2]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[2]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(4)}"
+            rendered="#{reporteBean.dibujarColumna(4)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[3]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[3]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(5)}"
+            rendered="#{reporteBean.dibujarColumna(5)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[4]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[4]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(6)}"
+            rendered="#{reporteBean.dibujarColumna(6)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[5]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[5]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(7)}"
+            rendered="#{reporteBean.dibujarColumna(7)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[6]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[6]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(8)}"
+            rendered="#{reporteBean.dibujarColumna(8)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[7]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[7]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(9)}"
+            rendered="#{reporteBean.dibujarColumna(9)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[8]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[8]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(10)}"
+            rendered="#{reporteBean.dibujarColumna(10)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[9]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[9]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(11)}"
+            rendered="#{reporteBean.dibujarColumna(11)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[10]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[10]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(12)}"
+            rendered="#{reporteBean.dibujarColumna(12)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[11]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[11]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(13)}"
+            rendered="#{reporteBean.dibujarColumna(13)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[12]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[12]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(14)}"
+            rendered="#{reporteBean.dibujarColumna(14)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[13]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[13]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(15)}"
+            rendered="#{reporteBean.dibujarColumna(15)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[14]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[14]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(16)}"
+            rendered="#{reporteBean.dibujarColumna(16)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[15]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[15]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(17)}"
+            rendered="#{reporteBean.dibujarColumna(17)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[16]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[16]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(18)}"
+            rendered="#{reporteBean.dibujarColumna(18)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[17]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[17]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(19)}"
+            rendered="#{reporteBean.dibujarColumna(19)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[18]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[18]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(20)}"
+            rendered="#{reporteBean.dibujarColumna(20)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[19]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[19]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(21)}"
+            rendered="#{reporteBean.dibujarColumna(21)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[20]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[20]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(22)}"
+            rendered="#{reporteBean.dibujarColumna(22)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[21]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[21]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(23)}"
+            rendered="#{reporteBean.dibujarColumna(23)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[22]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[22]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(24)}"
+            rendered="#{reporteBean.dibujarColumna(24)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[23]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[23]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(25)}"
+            rendered="#{reporteBean.dibujarColumna(25)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[24]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[24]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(26)}"
+            rendered="#{reporteBean.dibujarColumna(26)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[25]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[25]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(27)}"
+            rendered="#{reporteBean.dibujarColumna(27)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[26]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[26]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column 
+            headerText="#{reporteBean.tituloColumna(28)}"
+            rendered="#{reporteBean.dibujarColumna(28)}"
+            styleClass="column_table_input">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{reg.valor[27]}"><f:convertNumber pattern="#0.0"/> </h:outputText> </f:facet>
+                <f:facet name="input"><p:inputNumber value="#{reg.valor[27]}" decimalPlaces="1"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+        
+        
+        
+        <p:column headerText="" >
+        </p:column>
+        
+    </p:dataTable>
+
+</ui:component>    

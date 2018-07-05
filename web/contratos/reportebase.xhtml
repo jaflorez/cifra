@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <p:panel>
+                <h:form id="formData">
+                    <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                    <p:panelGrid style="width: 100%">
+                        <p:row >
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Informacion general del contrato</p:column>  
+                        </p:row>
+                        <p:row >
+                            <p:column style="width: 25%"><p:outputLabel value="Proyecto" /></p:column>
+                            <p:column style="width: 25%"><p:outputLabel value="#{reporteBean.contrato.fkProyecto.nombre}" /></p:column>
+                            <p:column style="width: 25%"><p:outputLabel value="Programa" /></p:column>
+                            <p:column style="width: 25%"><p:outputLabel value="#{reporteBean.contrato.fkPrograma.nombre}" /></p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column><p:outputLabel value="Dirección territorial:" styleClass="column_title"/></p:column>
+                            <p:column><p:outputLabel value="#{reporteBean.contrato.fkDireccionTerritorial.direccionTerrritorial}" /></p:column>
+                            <p:column><p:outputLabel value="Unidad ejecutora:" /></p:column>
+                            <p:column><p:outputLabel value="#{reporteBean.contrato.fkUnidadEjecutora.unidadEjecutora}" /></p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column><p:outputLabel value="Supervisor del contrato:" /></p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.contrato.fkUsuarioSupervisor.nombre} - #{reporteBean.contrato.fkUsuarioSupervisor.apellido}" />
+                            </p:column>
+                            <p:column><p:outputLabel value="Gestor técnico:" /></p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.contrato.fkUsuarioInterventor.nombre} - #{reporteBean.contrato.fkUsuarioInterventor.apellido}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Objeto" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel  value="#{reporteBean.contrato.objeto}" />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:separator />
+                            </p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Datos para el primer reporte</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Semana No"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{reporteBean.reporte.numerosemana}" required="true" 
+                                             requiredMessage="Ingrese el numero de semana" 
+                                             validatorMessage="No Semana: Ingrese un valor mayor que cero"  
+                                             >
+                                    <f:validateDoubleRange minimum="1"  />
+                                </p:inputText>
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Numero de reporte"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="iptNumeroReporte" value="#{reporteBean.reporte.numeroreporte}"  required="true" requiredMessage="Numero de reporte: Ingrese el numero de reporte" validatorMessage="Numero de reporte: Valor mayor que cero" rendered="#{!reporteBean.enEdicion}">
+                                    <f:validateDoubleRange minimum="1"  />
+                                </p:inputText>    
+                                <p:outputLabel value="#{reporteBean.reporte.numeroreporte}" rendered="#{reporteBean.enEdicion}"/>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Fecha desde"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{reporteBean.reporte.reportedesde}" 
+                                            required="true" 
+                                            locale="es"
+                                            requiredMessage="Fecha desde: Ingrese la fecha inicial del reporte"
+                                            >
+                                    <p:ajax event="dateSelect" 
+                                            listener="#{reporteBean.calcularFechas()}" 
+                                            process="@this"
+                                            update="lblHasta,lblPresentacion,msgs,cmdGuardar"/>    
+                                </p:calendar>
+                            </p:column>
+                            <p:column styleClass="column_title"><p:outputLabel value="Fecha hasta"/></p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.reportehasta}" 
+                                               id="lblHasta">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title"><p:outputLabel value="Fecha límite de Presentación"/></p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.fechaLimitePresentacion}" 
+                                               id="lblPresentacion"
+                                               >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column styleClass="column_title" colspan="2">
+                            </p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column colspan="4" style="text-align: center">
+                                <p:commandButton value="Guardar" 
+                                                 id="cmdGuardar"
+                                                 actionListener="#{reporteBean.insertar()}"
+                                                 disabled="#{reporteBean.disabledGuardarReporteBase}"
+                                                 update="msgs"
+                                                 />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+</html>
+

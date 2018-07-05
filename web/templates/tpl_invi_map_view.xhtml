@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/tableLayout.css"/>
+        <link rel="stylesheet" href="https://js.arcgis.com/3.20/dijit/themes/nihilo/nihilo.css"/>
+            <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css"/>        
+                <h:outputScript name="./js/calendar_es.js" />
+                <script src="https://js.arcgis.com/3.20/"></script>
+                <h:outputScript name="./js/mapa_view.js" />
+                <title>CIFRA</title>
+
+                </h:head>
+                <h:body>
+                    <table cellspacing="0px" width="1360px" align="center">
+                        <tr>
+                            <td id="top">
+                                <div class="logo"></div>
+                                <h:form>
+                                    <p:menubar  model="#{menuBean.menuModel}" >
+                                        <f:facet name="options">
+                                            <p:commandButton action="#{menuBean.cerrarSession}" 
+                                                             icon="ui-icon-power" value="Salir" />
+                                        </f:facet>
+                                    </p:menubar>
+                                </h:form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="content">
+                                <ui:insert name="content">Content</ui:insert>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Usuario:  #{cifraSessionBean.curUsuario.nombre} #{cifraSessionBean.curUsuario.apellido}" />
+                            </td>
+                        </tr>
+                    </table>
+                </h:body>
+                </html>

@@ -1,0 +1,774 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/tpl_invi_map_view.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="panel_inicio">
+                <p:growl id="msgs" showDetail="true" sticky="true" autoUpdate="true" life="200" />
+                <p:outputPanel>
+                    <h:form>
+                        <p:breadCrumb> 
+                            <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml" />
+                            <p:menuitem value="Contratos"  />
+                            <p:menuitem value="Contratos registrados"  url="/faces/contratos/contratolst.xhtml" />
+                            <p:menuitem value="Ficha general del proyecto" url="#" />
+                        </p:breadCrumb>
+                    </h:form>    
+                    <h:form id="frmData">
+                        <p:remoteCommand name="updateForm"  update="frmData:tbl31" />
+                        <p:panelGrid  style="width: 100%">
+                            <p:row>
+                                <p:column styleClass="ui-widget-header" style="text-align: center;width: 25%">
+                                    Fechas 
+                                </p:column>
+                                <p:column styleClass="ui-widget-header" style="text-align: center;width: 25%">
+                                    Datos del contrato
+                                </p:column>
+                                <p:column  styleClass="ui-widget-header" style="text-align: center">
+                                    Contratista Obra
+                                </p:column>
+                                <p:column  styleClass="ui-widget-header" style="text-align: center">
+                                    Contratista Interventoria
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column  style="width: 25%">
+                                    <table style="width: 100%" class="tableInfo">
+                                        <tr><td scope="40%">Estado del Reporte</td><td><p:outputLabel value="#{contratoInfoBean.curReporte.estado}" /></td></tr>
+                                        <tr><td>Reporte #</td><td style="text-align: right"><p:outputLabel value="#{contratoInfoBean.curReporte.numeroreporte}" /></td></tr>
+                                        <tr><td>Semana #</td><td style="text-align: right"><p:outputLabel value="#{contratoInfoBean.curReporte.numerosemana}" /></td></tr>
+                                        <tr><td>Desde</td>
+                                            <td>
+                                                <p:outputLabel value="#{contratoInfoBean.curReporte.reportedesde}" >
+                                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                </p:outputLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hasta</td>
+                                            <td>                                                
+                                                <p:outputLabel value="#{contratoInfoBean.curReporte.reportehasta}" >
+                                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                </p:outputLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de presentacion</td>
+                                            <td>                                                
+                                                <p:outputLabel value="#{contratoInfoBean.curReporte.reportehasta}" >
+                                                    <f:convertDateTime type="date" pattern="dd-MM-yyyy HH:MM"/>
+                                                </p:outputLabel>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p:column>
+                                <p:column style="width: 25%">
+                                    Contrato de obra: <p:outputLabel value="#{contratoInfoBean.contrato.contObraCodigo} - #{contratoInfoBean.contrato.contObraVigencia}" />
+                                    Programa: <p:outputLabel value="#{contratoInfoBean.contrato.fkPrograma.nombre}" /><br></br>
+                                    Proyecto: <p:outputLabel value="#{contratoInfoBean.contrato.fkProyecto.nombre}" /><br></br>
+                                    Estado del contrato: <p:outputLabel value="Pendiente" />
+                                </p:column>
+                                <p:column  style="width: 25%">
+                                    Contratista: 
+                                    <p:commandLink id="razonSocialObr"  actionListener="#{contratoInfoBean.setCurVentana(131)}" update="detalle"  title="Seleccione para ver la conformación de la empresa" >
+                                        <h:outputText value="#{contratoInfoBean.contrato.fkTerceroObra.razonsocial}" />
+                                    </p:commandLink><br/>
+                                    NIT
+                                    #{contratoInfoBean.contrato.fkTerceroObra.nit}
+
+                                </p:column>
+
+                                <p:column  style="width: 25%">
+                                    Interventor: 
+                                    <p:commandLink id="razonSocialInter"  actionListener="#{contratoInfoBean.setCurVentana(141)}" update="detalle" title="Seleccione para ver la conformación de la empresa">
+                                        <h:outputText value="#{contratoInfoBean.contrato.fkTerceroInter.razonsocial}" />
+                                    </p:commandLink><br/>
+                                    NIT
+                                    #{contratoInfoBean.contrato.fkTerceroInter.nit}
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column styleClass="ui-widget-header">Objeto del contrato</p:column>
+                                <p:column colspan="3"><p:outputLabel value="#{contratoInfoBean.contrato.objeto}" /></p:column>
+                            </p:row>
+
+                        </p:panelGrid>
+                        <p:panelGrid id="pngData">
+                            <p:row>
+                                <p:column styleClass="ui-widget-header" style="width: 25%">
+                                    Informacion del reporte
+                                </p:column>
+                                <p:column styleClass="ui-widget-header" colspan="2" style="text-align: center;width: 50%">
+                                    Mapa de ubicación de los tramos del proyecto
+                                </p:column>
+                                <p:column styleClass="ui-widget-header" style="width: 25%">
+                                    Tramos
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="vertical-align: top" id="tbl31">
+                                    <table style="width: 100%" class="tableInfo">
+                                        <tr>
+                                            <td>Interventor</td>
+                                            <td>                                                
+                                                <p:outputLabel value="Pendiente" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Supervisor</td>
+                                            <td>                                                
+                                                <p:outputLabel value="Pendiente" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gestor</td>
+                                            <td>                                                
+                                                <p:outputLabel value="Pendiente" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p:column>
+                                <p:column colspan="2" rowspan="3" id="tbl22">
+                                    <center>
+                                        <button id="ZoomItem" data-dojo-type="dijit/form/Button" style="visibility: hidden">Zoom</button>
+                                        <h:inputHidden value="#{contratoInfoBean.contrato.identificador}" id="contrato_id" />
+                                        <h:inputHidden value="#{contratoInfoBean.idTramo}" id="tramo_id" />
+                                        <h:inputHidden value="#{contratoInfoBean.geometria}" id="geometria" />
+                                        <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'" style="width: 600px;height: 600px">
+                                            <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" ></div>  
+                                        </div>
+                                    </center>
+                                </p:column>
+                                <p:column style="vertical-align: top" id="tbl24">
+                                    <p:dataTable value="#{contratoInfoBean.contrato.contratoTramoList}" var="trm" 
+                                                 emptyMessage="No existen tramos registrados" 
+                                                 scrollable="true" scrollHeight="150" style="width: 100%">
+                                        <p:column headerText="No" style="width: 15%" >
+                                            <p:outputLabel value="#{trm.numero}" />
+                                        </p:column>
+                                        <p:column headerText="Descripcion"    style="width: 70%" >
+                                            <p:outputLabel value="#{trm.tramo}" />
+                                        </p:column>
+                                        <p:column headerText=""     >
+                                            <p:commandButton icon="ui-icon-search" 
+                                                             actionListener="#{contratoInfoBean.asignarCurGeomTramo(trm.identificador)}" 
+                                                             update=":frmData:tramo_id" oncomplete="$('#ZoomItem').click();" />
+                                        </p:column>
+
+
+
+                                    </p:dataTable>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column styleClass="ui-widget-header">
+                                    Contrato de interventoria 
+                                </p:column>
+                                <p:column styleClass="ui-widget-header">
+                                    Contrato de obra
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="vertical-align: top">
+                                    <table style="width: 100%; border: 1;border-color: #000000">
+                                        <tr><td>Valor inicial:</td><td style="text-align: right">
+                                                <p:outputLabel  value="#{contratoInfoBean.contrato.contInterValorInicial}">
+                                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                                </p:outputLabel>
+
+                                            </td></tr>
+                                        <tr><td>Valor adiciones:</td>
+                                            <td style="text-align: right">
+                                                <p:commandLink id="adicionesInterventoria"  actionListener="#{contratoInfoBean.setCurVentana(411)}" update="detalle" >
+                                                    <p:outputLabel  value="#{contratoInfoBean.curReporte.intAdiciones}">
+                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                    </p:outputLabel>
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr><td>Fecha de inicio:</td>
+                                            <td><p:outputLabel value="#{contratoInfoBean.contrato.contInterFecha}" >
+                                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                </p:outputLabel> 
+                                            </td>
+                                        </tr>
+                                        <tr><td>Plazo inicial:</td><td style="text-align: right">#{contratoInfoBean.contrato.contInterPlazoInicial}</td></tr>
+                                        <tr>
+                                            <td>Fecha final (Contrato):</td>
+                                            <td >
+                                                <p:outputLabel value="#{contratoInfoBean.contrato.contInterFechaTermi}" >
+                                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                </p:outputLabel> 
+                                            </td>
+                                        </tr>
+                                        <tr><td>Prorrogas:</td>
+                                            <td style="text-align: right">
+                                                <p:commandLink id="prorrogaInterventoria"  actionListener="#{contratoInfoBean.setCurVentana(412)}" update="detalle" >
+                                                    #{contratoInfoBean.curReporte.intProrroga}
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr><td>Fecha final:</td>
+                                            <td> 
+                                                <p:commandLink id="fechaFinalInterventoria"  actionListener="#{contratoInfoBean.setCurVentana(413)}" update="detalle" >
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.reportedesde}" title="Fecha de terminación del contrato, depende de las prorrogas y las suspensiones" >
+                                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                    </p:outputLabel>                                                 
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr><td><p:outputLabel value="Programado Reporte" title="Suma del valor programado teniendo en cuenta la fecha del reporte" /></td>
+                                            <td> 
+                                                <p:commandLink id="facturadoProgramadoMesInterventoria"  actionListener="#{contratoInfoBean.setCurVentana(414)}" update="detalle" >
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.intFacturadoProgramadoNumMes}" title="Suma del valor programado teniendo en cuenta el corte del reporte"  />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr><td><p:outputLabel value="Programado Corte:" title="Suma del valor programado teniendo en cuenta la fecha del reporte" /></td>
+                                            <td> 
+                                                <p:commandLink id="facturadoProgramadoCorteInterventoria"  actionListener="#{contratoInfoBean.setCurVentana(415)}" update="detalle" >
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.intFacturadoProgramadoFechaReporte}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr><td>Presento Factura</td>
+                                            <td>
+                                                <p:outputLabel  value="Si" rendered="#{contratoInfoBean.curReporte.intPresentoFactura}" /> 
+                                                <p:outputLabel  value="No" rendered="#{!contratoInfoBean.curReporte.intPresentoFactura}" /> 
+                                            </td> 
+                                        </tr>
+                                        <tr><td>Facturado a la fecha</td>
+                                            <td style="text-align: right"> 
+                                                <p:commandLink id="facturadoInterventoria"  actionListener="#{contratoInfoBean.interTotalFacturado()}" update="detalle" >
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.intAcumuladoFacturado}" title="Valor facturado hasta la fecha de este reporte" >
+                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                    </p:outputLabel>
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p:column>
+                                <p:column style="vertical-align: top">
+                                    <table style="width: 100%">
+                                        <tr><td style="width: 50%">Valor inicial:</td>
+                                            <td style="text-align: right"> 
+                                                <p:outputLabel value="#{contratoInfoBean.contrato.contObraValorInicial}">
+                                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                                </p:outputLabel>
+                                            </td>
+                                        </tr>
+                                        <tr><td>Valor adiciones:</td>
+                                            <td style="text-align: right">
+                                                <p:commandLink id="adicionesObra"  actionListener="#{contratoInfoBean.setCurVentana(441)}" update="detalle" >
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.obrAdiciones}" >
+                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                    </p:outputLabel>
+
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr><td>Fecha acta inicio:</td>
+                                            <td style="text-align: right"><p:outputLabel value="#{contratoInfoBean.contrato.contObraActaInicio}" >
+                                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                </p:outputLabel> 
+                                            </td>
+                                        </tr>
+                                        <tr><td>Plazo inicial (meses) :</td><td style="text-align: right">#{contratoInfoBean.contrato.contObraPlazoInicial}</td></tr>
+                                        <tr><td>Prorrogas (meses):</td>
+                                            <td style="text-align: right">
+                                                <p:commandLink id="prorrogasObra"  actionListener="#{contratoInfoBean.setCurVentana(442)}" update="detalle" >
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.obrProrroga}" />
+                                                </p:commandLink>   
+                                            </td>
+                                        </tr>                                        
+                                        <tr><td>Fecha final(Cto):</td>
+                                            <td style="text-align: right">
+                                                <p:outputLabel value="#{contratoInfoBean.contrato.contObraFechaTermi}">
+                                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                </p:outputLabel>  
+                                            </td>
+                                        </tr>
+                                        <tr><td>Fecha final(Actual):</td>
+                                            <td style="text-align: right">
+                                                <p:commandLink id="fechaFinalCalculada"  actionListener="#{contratoInfoBean.setCurVentana(443)}" update="detalle" >
+                                                    <p:outputLabel value="#{contratoInfoBean.contrato.contObraFechaTermiCalculada}">
+                                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                    </p:outputLabel>
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Prg Inversión(Total):</td>
+                                            <td  style="text-align: right">
+                                                <p:commandLink id="prgInversion"  actionListener="#{contratoInfoBean.obraProgramaInversion()}" update="detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.obrPrgInvTotal}" title="Programa de inversion total">
+                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                    </p:outputLabel>
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Prg Inversión(Fecha):</td>
+                                            <td style="text-align: right" >
+                                                <p:outputLabel value="#{contratoInfoBean.curReporte.obrPrgInvAcumuladoFechaReporte}" title="Programa de inversion acumulado a la fecha">
+                                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                                </p:outputLabel>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Prg Inversión(Factado):</td>
+                                            <td style="text-align: right" >
+                                                <p:commandLink id="facturadoInversion"  actionListener="#{contratoInfoBean.obraProgInvFacturadoInversion()}" update="detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.obrFacturadoProgramaInversion}" title="Facturado de inversión a la fecha">
+                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                    </p:outputLabel>
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Facturado a la fecha:</td>
+                                            <td style="text-align: right" >
+                                                <p:commandLink id="totalFacturado"  actionListener="#{contratoInfoBean.obraProgInvTotalFacturado()}" update="detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.obrFacturadoTotal}" title="Facturado de inversión a la fecha">
+                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                    </p:outputLabel>
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column styleClass="ui-widget-header" >Avance fisico</p:column>
+                                <p:column styleClass="ui-widget-header">Actividades</p:column>
+                                <p:column styleClass="ui-widget-header">Predial</p:column>
+                                <p:column styleClass="ui-widget-header">Social</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column >
+                                    <p:outputLabel value="Porcentaje de avance " />
+                                    <p:commandLink id="avanceObra"  actionListener="#{contratoInfoBean.obraAvance()}" update="detalle" style="text-align: right">
+                                        <p:outputLabel value="#{contratoInfoBean.curReporte.obrAvanceFisico}" >
+                                            
+                                        </p:outputLabel>%
+                                    </p:commandLink>
+                                    <br/>
+                                    <p:separator ></p:separator>
+                                    <p:dataTable value="#{contratoInfoBean.contrato.contratoActividadList}" var="act" scrollable="true" scrollRows="5" scrollHeight="150">
+                                        <p:column headerText="Actvidad" style="width: 60%">
+                                            <p:outputLabel value="#{act.fkActividad.actividad}" />
+                                        </p:column> 
+                                        <p:column headerText="Prg">
+                                            <p:outputLabel value="#{act.cantidad}" />
+                                        </p:column> 
+                                        <p:column headerText="Avce">
+                                            <p:commandLink id="avanceObra"  actionListener="#{contratoInfoBean.obraAvanceActividad(act.fkActividad.identificador)}" update=":frmData:detalle" style="text-align: right">
+                                                <p:outputLabel value="#{contratoInfoBean.valorTotalActividad(act.fkActividad.identificador)}" />
+                                            </p:commandLink>
+                                        </p:column> 
+                                    </p:dataTable>
+                                    
+                                </p:column>
+                                <p:column >
+                                </p:column>
+                                <p:column >
+                                    <table> 
+                                        <tr>
+                                            <td>Adquirir</td>
+                                            <td>
+                                                <p:commandLink id="preAdquirir"  actionListener="#{contratoInfoBean.calcularPredios()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.geprPredadquirir}" />
+                                                </p:commandLink>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fichas Aprobadas</td>
+                                            <td>
+                                                <p:commandLink id="preFichas"  actionListener="#{contratoInfoBean.calcularPredios()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.geprFichasaprob}" />
+                                                </p:commandLink>
+
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Avaluos Aprobadas</td>
+                                            <td>
+                                                <p:commandLink id="preAvaluos"  actionListener="#{contratoInfoBean.calcularPredios()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.geprAvaluos}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aquiridos</td>
+                                            <td>
+                                                <p:commandLink id="preAdquidos"  actionListener="#{contratoInfoBean.calcularPredios()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.geprPredadquiridos}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p:column>
+                                <p:column >
+                                    <table> 
+                                        <tr>
+                                            <td>Empleos Generados</td>
+                                            <td>
+                                                <p:commandLink id="empGenerados"  actionListener="#{contratoInfoBean.calcularEmpleos()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.gesoEmpgen}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Directos</td>
+                                            <td>
+                                                <p:commandLink id="empDirectos"  actionListener="#{contratoInfoBean.calcularEmpleos()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.gesoEmpdirgen}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Indirectos</td>
+                                            <td>
+                                                <p:commandLink id="empIndirectos"  actionListener="#{contratoInfoBean.calcularEmpleos()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.gesoEmpindirgen}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Socializaciones</td>
+                                            <td>
+                                                <p:commandLink id="empSoci"  actionListener="#{contratoInfoBean.calcularEmpleos()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.gesoNosocializaciones}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Capacitaciones</td>
+                                            <td>
+                                                <p:commandLink id="empCapacitacion"  actionListener="#{contratoInfoBean.calcularEmpleos()}" update=":frmData:detalle" style="text-align: right">
+                                                    <p:outputLabel value="#{contratoInfoBean.curReporte.gesoNocapacitaciones}" />
+                                                </p:commandLink>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="4"  >
+                                    <p:panelGrid id="detalle">
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 511}">
+
+                                            <p:column >
+                                                <table style="width: 100%">
+                                                    <tr><td style="width: 30%"> 
+                                                            <p:dataTable value="#{contratoInfoBean.facturaItemUtils}" var="fctUtl"
+                                                                         scrollHeight="150"
+                                                                         scrollable="true">
+                                                                <p:column headerText="Fecha" style="width: 25%">
+                                                                    <p:outputLabel value="#{fctUtl.fecha}">
+                                                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                                    </p:outputLabel>
+                                                                </p:column>
+                                                                <p:column headerText="Rpt" style="width: 10%">
+                                                                    <p:outputLabel value="#{fctUtl.numeroReporte}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Smna" style="width: 10%">
+                                                                    <p:outputLabel value="#{fctUtl.numeroSemana}"/>
+                                                                </p:column>
+
+                                                                <p:column headerText="Valor" style="text-align: right">
+                                                                    <p:outputLabel value="#{fctUtl.valor}"  >
+
+                                                                    </p:outputLabel>
+                                                                </p:column>
+                                                            </p:dataTable> 
+                                                        </td>
+                                                        <td style="width: 70%">
+                                                            <p:chart type="line" model="#{contratoInfoBean.dateModel}" style="height:300px; width: 100%"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 131}">
+                                            <p:column>
+                                                <p:dataTable value="#{contratoInfoBean.contrato.contratoTerceroObraList}" var="terc" emptyMessage="No existen consorciados" >
+                                                    <f:facet name="header">
+                                                        Conformacion del Contratista
+                                                    </f:facet>
+
+                                                    <p:column headerText="Razon social" style="width: 60%">
+                                                        <h:outputText value="#{terc.fkTercero.razonsocial}" />
+                                                    </p:column>
+                                                    <p:column headerText="NIT" style="width: 30%">
+                                                        <h:outputText value="#{terc.fkTercero.nit}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="Participacion" style="width: 10%">
+                                                        <h:outputText value="#{terc.cantidad}" /> %
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 141}">
+                                            <p:column>
+                                                <p:dataTable value="#{contratoInfoBean.contrato.contratoTerceroInterList}" var="terc" emptyMessage="No existen consorciados" >
+                                                    <f:facet name="header">
+                                                        Conformacion del Interventor
+                                                    </f:facet>
+                                                    <p:column headerText="Razon social" style="width: 60%">
+                                                        <h:outputText value="#{terc.fkTercero.razonsocial}" />
+                                                    </p:column>
+                                                    <p:column headerText="NIT" style="width: 30%">
+                                                        <h:outputText value="#{terc.fkTercero.nit}" />
+                                                    </p:column>
+
+                                                    <p:column headerText="Participacion" style="width: 10%">
+                                                        <h:outputText value="#{terc.cantidad}" /> %
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:column>
+                                        </p:row>
+
+
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 411}">
+                                            <p:column >
+                                                <center>
+                                                    <p:dataTable value="#{contratoInfoBean.contrato.contratoAdicionInterList}" var="adcInter" emptyMessage="No existen adiciones"  style="width: 50%">
+                                                        <f:facet name="header">
+                                                            Adiciones del contrato de Interventoria
+                                                        </f:facet>
+                                                        <p:column headerText="Fecha" style="width: 60%">
+                                                            <h:outputText value="#{adcInter.fecha}" >
+                                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column headerText="Valor" style="width: 30%">
+
+                                                            <h:outputText value="#{adcInter.valor}">
+                                                                <f:convertNumber type="currency" currencySymbol="$" />
+                                                            </h:outputText>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </center>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 412}">
+                                            <p:column>
+                                                <center>
+                                                    <p:dataTable value="#{contratoInfoBean.contrato.contratoProrrogaInterList}" var="proInter" emptyMessage="No existen adiciones para el contrato de interventoria"
+                                                                 style="width: 50%"
+                                                                 >
+                                                        <f:facet name="header">
+                                                            Prorrogas del contrato de Interventoria
+                                                        </f:facet>
+                                                        <p:column headerText="Fecha" style="width: 40%">
+                                                            <h:outputText value="#{proInter.fecha}" >
+                                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column headerText="Meses" style="width: 60%;text-align: right" >
+                                                            <h:outputText value="#{proInter.cantidad}" />
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </center>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 416}">
+                                            <p:column>
+                                                <table style="width: 100%">
+                                                    <tr>
+                                                        <td style="width: 30%">
+                                                            <p:dataTable value="#{contratoInfoBean.facturaItemUtils}" var="fact" emptyMessage="No existen adiciones para el contrato de interventoria"
+                                                                         style="width: 100%">
+                                                                <f:facet name="header">
+                                                                    Facturacion de la Interventoria
+                                                                </f:facet>
+                                                                <p:column headerText="Rpt" style="width: 15%">
+                                                                    <h:outputText value="#{fact.numeroReporte}" />
+                                                                </p:column>
+                                                                <p:column headerText="Smna" style="width: 15%">
+                                                                    <h:outputText value="#{fact.numeroSemana}" />
+                                                                </p:column>
+                                                                <p:column headerText="Fecha" style="width: 30%">
+                                                                    <h:outputText value="#{fact.fecha}" >
+                                                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                                    </h:outputText>
+                                                                </p:column>
+                                                                <p:column headerText="Valor" style="width: 40%;text-align: right" >
+                                                                    <h:outputText value="#{fact.valor}" >
+                                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                                    </h:outputText>
+                                                                </p:column>
+                                                            </p:dataTable>
+                                                        </td>
+                                                        <td>
+                                                            <p:chart type="line" model="#{contratoInfoBean.dateModel}" style="height:400px;"/>
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 441}">
+                                            <p:column >
+                                                <center>
+                                                    <p:dataTable value="#{contratoInfoBean.contrato.contratoAdicionObraList}" var="adcObra" emptyMessage="No existen adiciones para el contrato de obra"  style="width: 50%">
+                                                        <f:facet name="header">
+                                                            Adiciones del contrato de Obra
+                                                        </f:facet>
+                                                        <p:column headerText="Fecha" style="width: 60%">
+                                                            <h:outputText value="#{adcObra.fecha}" >
+                                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column headerText="Valor" style="width: 30%">
+
+                                                            <h:outputText value="#{adcObra.valor}">
+                                                                <f:convertNumber type="currency" currencySymbol="$" />
+                                                            </h:outputText>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </center>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 442}">
+                                            <p:column>
+                                                <center>
+                                                    <p:dataTable value="#{contratoInfoBean.contrato.contratoProrrogaObraList}" var="proObra" emptyMessage="No existen prorrogas para el contrato de obra"
+                                                                 style="width: 50%">
+                                                        <f:facet name="header">
+                                                            Prorrogas del contrato de Obra
+                                                        </f:facet>
+                                                        <p:column headerText="Fecha" style="width: 40%">
+                                                            <h:outputText value="#{proObra.fecha}" >
+                                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column headerText="Meses" style="width: 60%;text-align: right" >
+                                                            <h:outputText value="#{proObra.cantidad}" />
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </center>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 443}">
+                                            <p:column>
+                                                Fecha final
+                                            </p:column>
+                                        </p:row>
+
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 444}"> 
+                                            <p:column>
+                                                <table style="width: 100%">
+                                                    <tr><td style="width: 30%"> 
+                                                            <p:dataTable value="#{contratoInfoBean.contrato.contratoFinancieroObraList}" var="prgObr"
+                                                                         scrollHeight="150"
+                                                                         scrollable="true">
+                                                                <p:column headerText="Periodo" style="width: 40%">
+                                                                    <p:outputLabel value="#{prgObr.ano} - #{prgObr.corte}  "/>
+                                                                </p:column>
+                                                                <p:column headerText="Valor">
+                                                                    <p:outputLabel value="#{prgObr.valor}" />
+                                                                </p:column>
+                                                            </p:dataTable> 
+                                                        </td>
+                                                        <td style="width: 70%">
+                                                            #{contratoInfoBean.idVentana}
+                                                            <p:chart type="line" model="#{contratoInfoBean.dateModel}" style="height:400px;"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 445}">
+                                            <p:column>
+                                                <table style="width: 100%">
+                                                    <tr ><td style="width: 30%"> 
+                                                            <p:dataTable value="#{contratoInfoBean.facturaItemUtils}" var="fctUtl"
+                                                                         scrollHeight="150"
+                                                                         scrollable="true">
+                                                                <p:column headerText="Fecha" style="width: 25%">
+                                                                    <p:outputLabel value="#{fctUtl.fecha}">
+                                                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                                    </p:outputLabel>
+                                                                </p:column>
+                                                                <p:column headerText="Rpt" style="width: 10%">
+                                                                    <p:outputLabel value="#{fctUtl.numeroReporte}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Smna" style="width: 10%">
+                                                                    <p:outputLabel value="#{fctUtl.numeroSemana}"/>
+                                                                </p:column>
+
+                                                                <p:column headerText="Valor" style="text-align: right">
+                                                                    <p:outputLabel value="#{fctUtl.valor}"  >
+                                                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                                                    </p:outputLabel>
+                                                                </p:column>
+                                                            </p:dataTable> 
+                                                        </td>
+                                                        <td style="width: 70%">
+                                                            <p:chart type="line" model="#{contratoInfoBean.dateModel}" style="height:400px;"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 521}"> 
+                                            <p:column>
+                                                <table style="width: 100%">
+                                                    <tr><td style="width: 30%"> 
+                                                            <p:dataTable value="#{contratoInfoBean.facturaItemUtils}" var="fctUtl"
+                                                                         scrollHeight="150"
+                                                                         scrollable="true">
+                                                                <p:column headerText="Fecha" style="width: 25%">
+                                                                    <p:outputLabel value="#{fctUtl.fecha}">
+                                                                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                                                    </p:outputLabel>
+                                                                </p:column>
+                                                                <p:column headerText="Rpt" style="width: 15%">
+                                                                    <p:outputLabel value="#{fctUtl.numeroReporte}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Smna" style="width: 15%">
+                                                                    <p:outputLabel value="#{fctUtl.numeroSemana}"/>
+                                                                </p:column>
+
+                                                                <p:column headerText="Valor" style="text-align: right">
+                                                                    <p:outputLabel value="#{fctUtl.valor}"  />                                                                    
+                                                                </p:column>
+                                                            </p:dataTable> 
+                                                        </td>
+                                                        <td style="width: 70%">
+                                                            <p:chart type="line" model="#{contratoInfoBean.dateModel}" style="height:400px;"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </p:column>
+                                        </p:row>
+                                        <p:row rendered="#{contratoInfoBean.idVentana == 531}"> 
+                                            <p:column >
+                                                <center>
+                                                    <p:chart type="line" model="#{contratoInfoBean.dateModel}" style="height:400px; width:800px"/>
+                                                </center>
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </h:form>
+                </p:outputPanel>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+

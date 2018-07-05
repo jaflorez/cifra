@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+    <ui:composition template="/templates/tpl_invi.xhtml">
+
+        <ui:define name="content">
+            <h:form>
+                <p:breadCrumb>
+                    <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml"/>
+                    <p:menuitem value="Contratos"  />
+                    <p:menuitem value="Contratos registrados" url="/faces/contratos/contratolst.xhtml"  />
+                    <p:menuitem value="Reporte Semanal" url="/faces/contratos/reportelst.xhtml"  />
+                    <p:menuitem value="Modificar datos de contrato"  />
+                </p:breadCrumb>
+            </h:form>
+
+            <p:growl id="mensajes" showDetail="true" autoUpdate="true"/>
+            <h:form id="formData">
+                <p:panel id="pnlInfo" header="Informacion General del Contrato">
+                    <p:panelGrid  styleClass="panel_input" >
+                        <p:row >
+                            <p:column style="width: 25%"><p:outputLabel value="Numero de contrato:" /></p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel value="#{reporteAdminBean.reporte.fkContrato.identificador}" />
+                                <p:outputLabel value="-" />
+                                <p:outputLabel value="#{reporteAdminBean.reporte.fkContrato.contObraVigencia}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Objeto" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel  value="#{reporteAdminBean.reporte.fkContrato.objeto}" />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 25%">
+                                <p:outputLabel value="Numero de Semana:"/>
+                            </p:column>
+                            <p:column style="width: 25%">
+                                <p:outputLabel value="#{reporteAdminBean.reporte.numerosemana}" />
+                            </p:column>
+                            <p:column style="width: 25%">
+                                <p:outputLabel value="Numero de Reporte:"/>
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteAdminBean.reporte.numeroreporte}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column >
+                                <p:outputLabel value="Fecha desde"/>
+                            </p:column>
+                            <p:column >
+                                <p:outputLabel value="#{reporteAdminBean.reporte.reportedesde}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column >
+                                <p:outputLabel value="Fecha hasta"/>
+                            </p:column>
+
+                            <p:column >
+                                <p:outputLabel value="#{reporteAdminBean.reporte.reportehasta}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column >
+                                <p:outputLabel value="Estado del contrato"/>
+                            </p:column>
+                            <p:column  >
+                                <p:selectOneMenu value="#{reporteAdminBean.curEstadoContrato}">
+                                    <f:selectItem itemLabel="En Ejecución" itemValue="1" />
+                                    <f:selectItem itemLabel="Supendido" itemValue="2" />
+                                    <f:selectItem itemLabel="Terminado" itemValue="3" />
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column >
+                                <p:outputLabel value="Estado del reporte"/>
+                            </p:column>
+                            <p:column  >
+                                <p:selectOneMenu value="#{reporteAdminBean.curEstadoReporte}">
+                                    <f:selectItem itemLabel="Proceso" itemValue="1" />
+                                    <f:selectItem itemLabel="Terminado" itemValue="2" />
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title"  colspan="2" >
+                                <center>
+                                    <p:outputLabel value="Habilitar Observaciones del gestor"/>
+                                    <p:spacer height="10" />
+                                    <p:selectBooleanCheckbox value="#{reporteAdminBean.habilitarGestor}" />
+                                </center>
+                            </p:column>
+                            <p:column styleClass="column_title" colspan="2">
+                                <center>
+                                    <p:outputLabel value="Habilitar modificaciones del interventor"/>
+                                    <p:spacer height="10" />
+                                    <p:selectBooleanCheckbox value="#{reporteAdminBean.habilitarGestor}" />
+                                </center>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title"  colspan="4">
+                                <center>
+                                    <p:commandButton value="Actualizar" action="#{reporteAdminBean.actualizar()}"  />
+                                    <p:commandButton value="Eliminar" rendered="#{reporteAdminBean.esElUltimo}" action="#{reporteAdminBean.eliminar()}"  />
+                                    <p:commandButton value="Cancelar" action="reportelst?faces-redirect=true" process="@this" />
+                                </center>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>            
+        </ui:define>
+    </ui:composition>
+
+</html>
+

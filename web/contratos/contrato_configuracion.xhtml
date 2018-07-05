@@ -1,0 +1,126 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <p:panelGrid styleClass="panel_input">
+        <p:row >
+            <p:column colspan="4" style="text-align: center">
+                <p:dataTable  id="tableTramo"
+                              value="#{contratoNewBean.contrato.contratoTramoList}" var="ctrTrm"
+                              emptyMessage="No existen tramos registrados"  style="width: 100%" >
+                    <f:facet name="header">Lista de tramos</f:facet>
+                    <p:column  headerText="Numero" style="width: 10%">
+                        <p:outputLabel value="#{ctrTrm.numero}" />
+                    </p:column>
+                    <p:column  headerText="Tramo" style="width: 75%">
+                        <p:outputLabel value="#{ctrTrm.tramo}" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         title="Modificar tramo"
+                                         oncomplete="PF('tramoDialog').show()"
+                                         update=":formTramo:tramoDetail"
+                                         process="@this"
+                                         >
+                            <f:setPropertyActionListener value="#{ctrTrm}" target="#{contratoNewBean.curContratoTramo}" />
+                        </p:commandButton>
+                        <p:commandButton icon="ui-icon-pin-s" title="Asignar geometria" actionListener="#{contratoNewBean.editGeometria(ctrTrm.identificador)}" process="@this"   >
+                            
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('tramoDialog').show()" 
+                                 icon="ui-icon-plus" 
+                                 title="Nueva tramo" 
+                                 value="Nueva tramo"
+                                 update=":formTramo:tramoDetail"
+                                 actionListener="#{contratoNewBean.newContratoTramo()}"
+                                 />
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4">
+                <p:separator/>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column colspan="4" style="text-align: center">
+                <p:dataTable  id="tableActividad"
+                              value="#{contratoNewBean.contrato.contratoActividadList}" var="ctrAct"
+                              emptyMessage="No existen metas registradas"
+                              >
+                    <f:facet name="header">Metas a ejecutar</f:facet>
+                    <p:column  headerText="Nombre" style="width: 75%">
+                        <p:outputLabel value="#{ctrAct.fkActividad.actividad}" />
+                    </p:column>
+                    <p:column  headerText="Cantidad" style="width: 10%">
+                        <p:outputLabel value="#{ctrAct.cantidad}" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         title="Modificar meta"
+                                         oncomplete="PF('actividadDialog').show()"
+                                         update=":formActividad:actividadDetail"
+                                         process="@this"
+                                         >
+                            <f:setPropertyActionListener value="#{ctrAct}" target="#{contratoNewBean.curContratoActividad}" />
+                        </p:commandButton>                        
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('actividadDialog').show()" 
+                                 icon="ui-icon-plus" 
+                                 title="Nueva meta" 
+                                 value="Nueva meta"
+                                 update=":formActividad:actividadDetail"
+                                 actionListener="#{contratoNewBean.newContratoActividad()}"
+                                 />
+
+
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column colspan="4">
+                <p:separator/>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column colspan="4" style="text-align: center">
+                <p:dataTable  id="tableMaquinaria"
+                              value="#{contratoNewBean.contrato.contratoMaquinariaList}" 
+                              var="ctrMaq"
+                              emptyMessage="No existe equipo registrado"
+                              >
+                    <f:facet name="header">Equipo mínimo requerido</f:facet>
+                    <p:column  headerText="Nombre" style="width: 70%">
+                        <p:outputLabel value="#{ctrMaq.fkMaquinaria.maquinaria}" />
+                    </p:column>
+                    <p:column  headerText="Cantidad" style="width: 10%">
+                        <p:outputLabel value="#{ctrMaq.cantidad}" />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-pencil"
+                                         title="Modificar meta"
+                                         oncomplete="PF('maquinariaDialog').show()"
+                                         update=":formMaquinaria:maquinariaDetail"
+                                         process="@this"
+                                         >
+                            <f:setPropertyActionListener value="#{ctrMaq}" target="#{contratoNewBean.curContratoMaquinaria}" />
+                        </p:commandButton>                        
+
+
+                    </p:column>
+
+                </p:dataTable>
+                <p:commandButton oncomplete="PF('maquinariaDialog').show()" 
+                                 icon="ui-icon-plus" 
+                                 title="Nuevo equipo"
+                                 value="Nuevo equipo"
+                                 update=":formMaquinaria:maquinariaDetail"
+                                 actionListener="#{contratoNewBean.newContratoMaquinaria()}"
+                                 />
+
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+</ui:component>

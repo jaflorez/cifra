@@ -1,0 +1,48 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <p:panelGrid  styleClass="panel_input" >
+        <p:row >
+            <p:column style="width: 25%"><p:outputLabel value="Proyecto" /></p:column>
+            <p:column colspan="3">
+                <p:outputLabel value="#{contratoViewBean.contrato.fkProyecto.nombre}" />
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column style="width: 15%"><p:outputLabel value="Programa" /></p:column>
+            <p:column style="width: 35%"><p:outputLabel value="#{contratoNewBean.contrato.fkPrograma.nombre}" /></p:column>
+            <p:column style="width: 15%" ><p:outputLabel value="Dirección territorial:" /></p:column>
+            <p:column style="width: 35%"><p:outputLabel value="#{contratoNewBean.contrato.fkDireccionTerritorial.direccionTerrritorial}" /></p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Unidad ejecutora:" /></p:column>
+            <p:column colspan="3">
+                <p:outputLabel value="#{contratoViewBean.contrato.fkUnidadEjecutora.unidadEjecutora}" />
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Supervisor:" /></p:column>
+            <p:column><p:outputLabel value="#{contratoViewBean.contrato.fkUsuarioSupervisor.nombre} #{contratoNewBean.contrato.fkUsuarioSupervisor.apellido} " /> </p:column>
+            <p:column><p:outputLabel value="Gestor técnico de proyecto:" /></p:column>
+            <p:column><p:outputLabel value="#{contratoViewBean.contrato.fkUsuarioGestor.nombre} #{contratoNewBean.contrato.fkUsuarioGestor.apellido}"/></p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Interventor:" /></p:column>
+            <p:column><p:outputLabel value="#{contratoViewBean.contrato.fkUsuarioInterventor.nombre} #{contratoNewBean.contrato.fkUsuarioInterventor.apellido} " /> </p:column>
+            <p:column><p:outputLabel value="Tramo:" /></p:column>
+            <p:column><p:outputLabel value="#{contratoViewBean.contrato.tramo}"/></p:column>
+        </p:row>
+
+        <p:row>
+            <p:column>
+                <p:outputLabel value="Objeto" />
+            </p:column>
+            <p:column colspan="3">
+                <p:outputLabel  value="#{contratoViewBean.contrato.objeto}" />
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+</ui:component>

@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form id="formData">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column styleClass="ui-widget-header">Lista de Maquinaria</p:column>  
+                    </p:row>
+                    <p:row>
+                        <p:column >
+                            <p:commandButton oncomplete="PF('insertarDialog').show()"
+                                             actionListener="#{maquinariaBean.newMaquinaria()}"
+                                             value="Nueva Maquinaria"/>
+
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:dataTable value="#{maquinariaBean.maquinariaLst}" var="maq" id="dataTable">
+                                <p:column headerText="Maquinaria" style="width: 70%">
+                                    <p:outputLabel value="#{maq.maquinaria}" />
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton oncomplete="PF('modificarDialog').show()" 
+                                                     icon="ui-icon-pencil" 
+                                                     title="Modificar" 
+                                                     update=":formData:modificarDetail"
+                                                     >
+                                        <f:setPropertyActionListener value="#{maq}" 
+                                                                     target="#{maquinariaBean.curMaquinaria}" />
+                                    </p:commandButton>
+                                    <p:commandButton oncomplete="PF('eliminarDialog').show()" 
+                                                     icon="ui-icon-trash" 
+                                                     title="Eliminar" 
+                                                     update=":formData:eliminarDetail"
+                                                     >
+                                        <f:setPropertyActionListener value="#{maq}" 
+                                                                     target="#{maquinariaBean.curMaquinaria}" />                                        
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dialog header="Maquinaria" widgetVar="eliminarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="eliminarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column colspan="2">
+                                    Confirme 
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> 
+                                    <p:outputLabel value="Maquinaria:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel   value="#{maquinariaBean.curMaquinaria.maquinaria}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="eliminarButton" value="Eliminar" 
+                                                     actionListener="#{maquinariaBean.eliminarMaquinaria()}"
+                                                     oncomplete="PF('eliminarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('eliminarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                            
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Maquinaria" widgetVar="modificarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="modificarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column><p:outputLabel value="Actividad:"/></p:column>
+                                <p:column>
+                                    <p:inputText value="#{maquinariaBean.curMaquinaria.maquinaria}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButtonEdit" value="Guardar" 
+                                                     actionListener="#{maquinariaBean.modificarMaquinaria()}"
+                                                     oncomplete="PF('modificarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     process="modificarDetail"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('modificarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Insertar Maquinaria" widgetVar="insertarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="insertarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Actividad:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{maquinariaBean.curMaquinaria.maquinaria}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButton" value="Insertar" 
+                                                     actionListener="#{maquinariaBean.insertarMaquinaria()}"
+                                                     oncomplete="PF('insertarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('insertarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

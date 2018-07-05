@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form id="formData">
+                <p:growl id="growl" />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column styleClass="ui-widget-header">Lista de Terceros</p:column>  
+                    </p:row>
+                    <p:row>
+                        <p:column >
+                            <p:commandButton oncomplete="PF('insertarDialog').show()"
+                                             actionListener="#{terceroBean.newTercero()}"
+                                             update="insertarDetail"
+                                             value="Nuevo"/>
+
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:dataTable value="#{terceroBean.terceroLst}" var="tercero" id="dataTable">
+                                <p:column headerText="Nit">
+                                    <p:outputLabel value="#{tercero.nit}" style="width: 20%"/>
+                                </p:column>
+                                <p:column headerText="Razon Social" style="width: 70%">
+                                    <p:outputLabel value="#{tercero.razonsocial}" />
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton oncomplete="PF('modificarDialog').show()" 
+                                                     icon="ui-icon-pencil" 
+                                                     title="Modificar" 
+                                                     update=":formData:modificarDetail,:formData:growl"
+                                                     >
+                                        <f:setPropertyActionListener value="#{tercero}" 
+                                                                     target="#{terceroBean.curTercero}" />
+                                    </p:commandButton>
+                                    <p:commandButton oncomplete="PF('eliminarDialog').show()" 
+                                                     icon="ui-icon-trash" 
+                                                     title="Eliminar" 
+                                                     update=":formData:eliminarDetail"
+                                                     >
+                                        <f:setPropertyActionListener value="#{tercero}" 
+                                                                     target="#{terceroBean.curTercero}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dialog header="Eliminar Tercero" widgetVar="eliminarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="eliminarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column colspan="2">
+                                    Confirme 
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> 
+                                    <p:outputLabel value="Proyecto:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel   value="#{terceroBean.curTercero.razonsocial}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="eliminarButton" value="Eliminar" 
+                                                     actionListener="#{terceroBean.eliminarTercero()}"
+                                                     oncomplete="PF('eliminarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('eliminarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Tercero" widgetVar="modificarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="modificarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Nit"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{terceroBean.curTercero.nit}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Razon social:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{terceroBean.curTercero.razonsocial}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Telefono de contacto:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{terceroBean.curTercero.telefonocontacto}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButtonEdit" value="Guardar" 
+                                                     actionListener="#{terceroBean.modificarTercero()}"
+                                                     oncomplete="PF('modificarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     process="modificarDetail"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('modificarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Insertar Tercero" widgetVar="insertarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="insertarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Nit"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{terceroBean.curTercero.nit}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Razon social:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{terceroBean.curTercero.razonsocial}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Telefono de contacto:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{terceroBean.curTercero.telefonocontacto}" />
+                                </p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButton" value="Insertar" 
+                                                     actionListener="#{terceroBean.insertarTercero()}"
+                                                     oncomplete="PF('insertarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('insertarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="panel_inicio">
+                <h:form id="formData">
+                    <p:growl id="growl" />
+                    <p:outputPanel>
+                        <p:panelGrid  style="width: 100%">
+                            <p:row >
+                                <p:column styleClass="ui-widget-header" colspan="4">Lista de usuarios</p:column>  
+                            </p:row>
+                            <p:row >
+                                <p:column  colspan="4">
+                                    <p:commandButton oncomplete="PF('usuarioDialog').show()"  value="Nuevo usuario" actionListener="#{usuarioBean.nuevoUsuario()}"
+                                                     update="usuarioDetail"
+                                                     >
+
+                                    </p:commandButton>
+                                </p:column>  
+                            </p:row>
+                            <p:row >
+                                <p:column >
+                                    <p:dataTable value="#{usuarioBean.usuarioLst}" var="usr" id="usrTable" paginator="true" rows="10" widgetVar="usrTable">
+                                        <p:column headerText="Apellido" filterBy="#{usr.apellido}" filterMatchMode="contains" >
+                                            <p:outputLabel value="#{usr.apellido}" />
+                                        </p:column>
+                                        <p:column headerText="Nombre" filterBy="#{usr.nombre}" filterMatchMode="contains">
+                                            <p:outputLabel value="#{usr.nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Email">
+                                            <p:outputLabel value="#{usr.email}" />
+                                        </p:column>
+                                        <p:column headerText="Tipo" filterBy="#{usr.tipo}">
+                                            <p:outputLabel value="#{usuarioBean.nombreTipo(usr.tipo)}" />
+                                            <f:facet name="filter">
+                                                <p:selectOneMenu onchange="PF('usrTable').filter()" >
+                                                    <f:selectItem itemLabel="Seleciones" itemValue="#{null}" noSelectionOption="true" />
+                                                    <f:selectItem itemLabel="Administrador" itemValue="1"/>
+                                                    <f:selectItem itemLabel="Gestor Tecnico" itemValue="2"/>
+                                                    <f:selectItem itemLabel="Interventor" itemValue="3"/>
+                                                    <f:selectItem itemLabel="Supervisor" itemValue="4"/>
+                                                    <f:selectItem itemLabel="Financiero" itemValue="5"/>
+                                                    <f:selectItem itemLabel="Consulta" itemValue="6"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+
+                                        </p:column>
+                                        <p:column >
+                                            <p:commandButton icon="ui-icon-pencil" title="Modificar" update=":formData:usuarioDetail" 
+                                                             oncomplete="PF('usuarioDialog').show()" 
+                                                             >
+                                                <f:setPropertyActionListener value="#{usr}" 
+                                                                             target="#{usuarioBean.curUsuario}" />
+                                            </p:commandButton>
+                                            <p:commandButton icon="ui-icon-wrench" title="Asignar contratos" rendered="#{usr.tipo == 6}" 
+                                                             action="usuariocontrato?faces-redirect=true"  >
+                                                <f:setPropertyActionListener  value="#{usr.identificador}" target="#{cifraSessionBean.usuarioId}"  />
+                                            </p:commandButton>
+
+
+
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+
+                    <p:dialog header="Usuario" widgetVar="usuarioDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="usuarioDetail" style="text-align:center;">
+                            <p:panelGrid  >
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Nombre:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.curUsuario.nombre}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Apellido:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.curUsuario.apellido}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Documento:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.curUsuario.documento}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Correo:"/>
+                                        #{usuarioBean.curUsuario.identificador}
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{usuarioBean.curUsuario.email}" />
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel value="Tipo:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="seltipo" value="#{usuarioBean.curUsuario.tipo}" >
+                                            <p:ajax  update="unidad_ejecutora_sel,unidad_ejecutora_lbl" />
+                                            <f:selectItem itemLabel="Administrador" itemValue="1"/>
+                                            <f:selectItem itemLabel="Gestor Tecnico" itemValue="2"/>
+                                            <f:selectItem itemLabel="Interventor" itemValue="3"/>
+                                            <f:selectItem itemLabel="Supervisor" itemValue="4"/>
+                                            <f:selectItem itemLabel="Financiero" itemValue="5"/>
+                                            <f:selectItem itemLabel="Consulta" itemValue="6"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+
+                                </p:row>
+                                <p:row  >
+
+                                    <p:column>
+                                        <h:panelGroup id="unidad_ejecutora_lbl">
+                                            <p:outputLabel    value="Unidad ejecutora" rendered="#{usuarioBean.curUsuario.tipo == 5}"  />
+                                        </h:panelGroup>
+                                    </p:column>
+                                    <p:column>
+                                        <h:panelGroup id="unidad_ejecutora_sel">
+                                            <p:selectOneMenu id="selUnidad" value="#{usuarioBean.curUsuario.fkUnidadEjecutora}" rendered="#{usuarioBean.curUsuario.tipo == 5}">
+                                                <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                                <f:selectItems value="#{usuarioBean.unidadEjecutoraLst}"
+                                                               var="varEjt"
+                                                               itemLabel="#{varEjt.unidadEjecutora}"
+                                                               itemValue="#{varEjt.identificador}"/> 
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <p:commandButton id="saveButton" value="Grabar" 
+                                                         actionListener="#{usuarioBean.insertarUsuario()}"
+                                                         oncomplete="PF('usuarioDialog').hide()"
+                                                         update=":formData:usrTable,:formData:growl"
+                                                         icon="ui-icon-disk" />
+                                        <p:commandButton value="Cancelar"
+                                                         oncomplete="PF('usuarioDialog').hide()"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+

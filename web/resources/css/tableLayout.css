@@ -1,0 +1,97 @@
+body {
+    margin: 0px;
+}
+
+#top {
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+#bottom {
+    padding: 10px;
+}
+
+#left {
+    padding: 10px;
+    width: 150px;
+    vertical-align: top;
+}
+
+#right {
+    padding: 10px;
+    width: 150px;
+    vertical-align: top;
+}
+#content {
+   padding: 10px;
+   vertical-align: top;
+}
+.logo{
+   background:url("#{resource['images:cifraheader.jpg']}") 0 0 no-repeat;
+   width:100%;
+   height:100px;
+}
+
+.form_input_label{
+    font-weight: bold;
+    width: 25%;
+}
+.form_input_field{
+    font-weight: bold;
+    width: 45%;
+}
+
+.form_input_messsage{
+    width: 30%;
+}
+.panel_input{
+    width: 100%;
+}
+.info_field{
+    font-size: 11px;
+    color: #002A80;
+    text-align: center;
+}
+.column_title{
+    font-weight: bold;
+    
+}
+.column_info{
+    width: 170px;
+    color: #333333;
+}
+.column_table_title{
+    font-size: 10px;
+    font-weight: 300;
+    color: windowtext;
+}
+
+.column_table_info{
+    font-size: 10px;
+    text-align: center;
+    width: 15px;
+    color: activecaption;
+    
+}
+.column_table_input{
+    font-size: 10px;
+    width: 15px;
+    color: menutext;
+}
+.column_input_title{
+    font-size: 14px;
+    font-weight: bold;
+}
+.column_info_number{
+    text-align: right;
+    font-weight: bold;
+}
+.row_title{
+    font-size: 12px;
+    font-weight:bold;
+    color: #002A80;
+}
+.row_separator_title{
+    text-align: center;
+    font-weight: bold;
+}

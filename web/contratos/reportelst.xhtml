@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:breadCrumb>
+                    <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml" />
+                    <p:menuitem value="Contratos"  />
+                    <p:menuitem value="Contratos registrados" url="/faces/contratos/contratolst.xhtml" />
+                    <p:menuitem value="Reporte Semanal"  />
+                </p:breadCrumb>
+            </h:form>
+
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true" sticky="true" autoUpdate="true"/>
+                <p:panel styleClass="panel_inicio">
+                    <p:outputPanel>
+
+                        <p:panelGrid style="width: 100%">
+                            <p:row >
+                                <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Reporte Semanal - Informacion general del contrato</p:column>  
+                            </p:row>
+                            <p:row >
+                                <p:column style="width: 25%"><p:outputLabel value="Contrato No." /></p:column>
+                                <p:column style="width: 25%"><p:outputLabel value="#{reporteLstBean.contrato.contObraCodigo}" /></p:column>
+                                <p:column style="width: 25%"><p:outputLabel value="Año" /></p:column>
+                                <p:column style="width: 25%"><p:outputLabel value="#{reporteLstBean.contrato.contObraVigencia}" /></p:column>
+                            </p:row>
+
+                            <p:row >
+                                <p:column style="width: 25%"><p:outputLabel value="Proyecto" /></p:column>
+                                <p:column style="width: 25%"><p:outputLabel value="#{reporteLstBean.contrato.fkProyecto.nombre}" /></p:column>
+                                <p:column style="width: 25%"><p:outputLabel value="Programa" /></p:column>
+                                <p:column style="width: 25%"><p:outputLabel value="#{reporteLstBean.contrato.fkPrograma.nombre}" /></p:column>
+                            </p:row>
+                            <p:row >
+                                <p:column><p:outputLabel value="Dirección Territorial" styleClass="column_title"/></p:column>
+                                <p:column><p:outputLabel value="#{reporteLstBean.contrato.fkDireccionTerritorial.direccionTerrritorial}" /></p:column>
+                                <p:column><p:outputLabel value="Unidad Ejecutora" /></p:column>
+                                <p:column><p:outputLabel value="#{reporteLstBean.contrato.fkUnidadEjecutora.unidadEjecutora}" /></p:column>
+                            </p:row>
+                            <p:row >
+                                <p:column><p:outputLabel value="Supervisor del Contrato de Interventoría" /></p:column>
+                                <p:column>
+                                    <p:outputLabel value="#{reporteLstBean.contrato.fkUsuarioSupervisor.nombre} - #{reporteLstBean.contrato.fkUsuarioSupervisor.apellido}" />
+                                </p:column>
+                                <p:column><p:outputLabel value="Gestor Técnico de Proyecto" /></p:column>
+                                <p:column>
+                                    <p:outputLabel value="#{reporteLstBean.contrato.fkUsuarioGestor.nombre} - #{reporteLstBean.contrato.fkUsuarioGestor.apellido}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Objeto Contrato Obra" />
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:outputLabel  value="#{reporteLstBean.contrato.objeto}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="4" style="text-align: center">
+                                    <p:commandButton action="reportebase?faces-redirect=true" title="Reporte base"  value="Reporte base" rendered="#{!reporteLstBean.disableNuevoReporte}" >
+
+                                        <f:setPropertyActionListener value="#{reporteLstBean.contrato.identificador}" target="#{cifraSessionBean.contratoId}" />
+                                        <f:setPropertyActionListener value="#{false}" target="#{cifraSessionBean.enEdicion}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="4" style="font-size: 11px">
+                                    <p:dataTable value="#{reporteLstBean.reporteLst}" var="rpt" paginator="true" rows="10" id="tblReportes">
+                                        <p:column headerText="Num Repor- te" width="5%" >
+                                            <p:outputLabel value="#{rpt.numeroreporte}" />
+                                        </p:column>
+                                        <p:column headerText="Num Sema- na"  width="5%">
+                                            <p:outputLabel value="#{rpt.numerosemana}" />
+                                        </p:column>
+                                        <p:column headerText="Desde" width="7%" style="text-align: center;">
+                                            <p:outputLabel value="#{rpt.reportedesde}" >
+                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                            </p:outputLabel>
+                                        </p:column>
+                                        <p:column headerText="Hasta"  width="7%" style="text-align: center;">
+                                            <p:outputLabel value="#{rpt.reportehasta}" >
+                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                            </p:outputLabel>
+                                        </p:column>
+                                        <p:column headerText="Fecha limite de presentación"  width="7%" style="text-align: center;" >
+                                            <p:outputLabel value="#{rpt.fechaLimitePresentacion}" >
+                                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                                            </p:outputLabel>
+                                        </p:column>
+                                        <p:column headerText="Fecha de diligenciamiento (Interventor)"  style="text-align: center;width: 10%">
+                                            <p:outputLabel value="#{rpt.fechaPresentacionReporte}" style="font-size: 9px">
+                                                <f:convertDateTime  pattern="yyyy-MM-dd HH:mm "  timeZone="GMT-5" />
+                                            </p:outputLabel>
+                                        </p:column>
+                                        <p:column headerText="Fecha de revisión (Supervisor)" style="text-align: center;width: 10%">
+                                            <p:outputLabel value="#{rpt.supervisorFechaRevision}" style="font-size: 9px">
+                                                <f:convertDateTime  pattern="yyyy-MM-dd HH:mm "  timeZone="GMT-5" />
+                                            </p:outputLabel>
+                                        </p:column>
+                                        <p:column headerText="Fecha de revisión (Gestor)" style="text-align: center;width: 10%">
+                                            <p:outputLabel value="#{rpt.gestorFechaRevision}" style="font-size: 9px">
+                                                <f:convertDateTime  pattern="yyyy-MM-dd HH:mm "  timeZone="GMT-5" />
+                                            </p:outputLabel>
+                                        </p:column>
+                                        <p:column headerText="Estado del reporte" style="width: 7%" >
+                                            <p:outputLabel value="#{rpt.fkEstado.estado}" style="font-size: 9px;width: 10%" />
+                                        </p:column>
+                                        <p:column headerText="Estado del contrato" style="width: 7%" >
+                                            <h:graphicImage  name="/images/est_ejecucion_tn.png" rendered="#{rpt.fkEstadoContrato == 1}" title="Contrato en Ejecucion" />
+                                            <h:graphicImage  name="/images/est_suspendido_tn.png" rendered="#{rpt.fkEstadoContrato == 2}" title="Contrato Suspendido" />
+                                            <h:graphicImage  name="/images/est_terminado_tn.png" rendered="#{rpt.fkEstadoContrato == 3}"  title="Contrato Terminado"/>
+                                        </p:column>
+
+                                        <p:column  >
+                                            <p:commandButton action="reporte?faces-redirect=true" 
+                                                             icon="ui-icon-pencil" title="Actualizar" 
+                                                             rendered="#{rpt.fkEstado.identificador eq 1 and cifraSessionBean.curUsuario.tipo eq 3 }">
+                                                <f:setPropertyActionListener  value="#{rpt.identificador}" target="#{cifraSessionBean.reporteId}"  />
+                                                <f:setPropertyActionListener  value="#{reporteLstBean.contrato.identificador}" target="#{cifraSessionBean.contratoId}"  />
+                                            </p:commandButton>
+                                            <p:commandButton action="reporte_admin?faces-redirect=true" 
+                                                             icon="ui-icon-wrench" title="Modificar estado/Eliminar" 
+                                                             rendered="#{cifraSessionBean.curUsuario.tipo eq 1 }">
+                                                <f:setPropertyActionListener  value="#{rpt.identificador}" target="#{cifraSessionBean.reporteId}"  />
+                                                <f:setPropertyActionListener  value="#{reporteLstBean.contrato.identificador}" target="#{cifraSessionBean.contratoId}"  />
+                                            </p:commandButton>
+                                            <p:commandButton action="reporterevisar?faces-redirect=true" 
+                                                             icon="ui-icon-check" title="Revisar" 
+                                                             rendered="#{rpt.fkEstado.identificador eq 2 
+                                                                         and rpt.supervisorFechaRevision == null 
+                                                                         and cifraSessionBean.curUsuario.tipo eq 4}">
+                                                <f:setPropertyActionListener  value="#{rpt.identificador}" target="#{cifraSessionBean.reporteId}"  />
+                                                <f:setPropertyActionListener  value="#{reporteLstBean.contrato.identificador}" target="#{cifraSessionBean.contratoId}"  />
+                                            </p:commandButton>
+                                            <p:commandButton action="reporterevisar?faces-redirect=true" 
+                                                             icon="ui-icon-check" title="Revisar" 
+                                                             rendered="#{rpt.fkEstado.identificador eq 2 
+                                                                         and rpt.gestorFechaRevision == null 
+                                                                         and cifraSessionBean.curUsuario.tipo eq 2}">
+                                                <f:setPropertyActionListener  value="#{rpt.identificador}" target="#{cifraSessionBean.reporteId}"  />
+                                                <f:setPropertyActionListener  value="#{reporteLstBean.contrato.identificador}" target="#{cifraSessionBean.contratoId}"  />
+                                            </p:commandButton>
+                                            <p:commandButton action="reporteview?faces-redirect=true" 
+                                                             icon="ui-icon-document" title="Ver" >
+                                                <f:setPropertyActionListener  value="#{rpt.identificador}" target="#{cifraSessionBean.reporteId}"  />
+                                                <f:setPropertyActionListener  value="#{reporteLstBean.contrato.identificador}" target="#{cifraSessionBean.contratoId}"  />
+                                            </p:commandButton>
+                                            <p:commandButton action="reporte_print?faces-redirect=true" 
+                                                             icon="ui-icon-print" title="Informe de interventoria" >
+                                                <f:setPropertyActionListener  value="#{rpt.identificador}" target="#{cifraSessionBean.reporteId}"  />
+                                                <f:setPropertyActionListener  value="#{reporteLstBean.contrato.identificador}" target="#{cifraSessionBean.contratoId}"  />
+                                            </p:commandButton>
+                                        </p:column>
+                                        
+                                        <f:facet name="footer"   >
+                                            <p:commandButton value="Nuevo reporte" icon="ui-icon-plusthick" onclick="PF('rptDialog').show()" rendered="#{cifraSessionBean.curUsuario.tipo eq 1}"/>
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="4" style="text-align: center">
+                                    <p:commandButton value="Regresar" action="contratolst" />
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:panel>
+
+                <p:dialog header="Nuevo reporte" widgetVar="rptDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" >
+                    <p:outputPanel id="rptDetail" style="text-align:center;">
+                        <p:panelGrid    columnClasses="label,value">
+                            <p:row>
+                                <p:column >
+                                    <h:outputText value="Insertar un nuevo reporte" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column >
+                                    <h:outputText value="Se va ha ingresar un reporte al final del proyecto" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2" >
+                                    <p:commandButton id="saveButton" value="Insertar" 
+                                                     actionListener="#{reporteLstBean.newReporte()}"
+                                                     oncomplete="PF('rptDialog').hide()"
+                                                     update=":form:tblReportes"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('rptDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

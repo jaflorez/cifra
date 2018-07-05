@@ -1,0 +1,121 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+    <h:form id="filesForm" enctype="multipart/form-data">
+        <p:panel id="panel06"  rendered="#{reporteBean.panelFocus[6]}">
+            <center>
+                <p:growl id="mensajes" showDetail="true"/>
+                <p:panelGrid style="width: 80%" >
+                    <p:row>
+                        <p:column styleClass="ui-widget-header" colspan="3" style="text-align: center">Soporte grafico</p:column>  
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="3">
+                            
+                            <p:fileUpload fileUploadListener="#{reporteBean.handleFileUploadFoto}" 
+                                          mode="advanced" 
+                                          dragDropSupport="false"  
+                                          update=":filesForm:displayFileLoad" 
+                                          sizeLimit="700000" 
+                                          label="Archivos de soporte"
+                                          invalidSizeMessage="Exede el tamaño permitido (700Kb)"
+                                          invalidFileMessage="El archivo tiene que ser imagen"
+                                          oncomplete="updateTotalArchivos"
+                                          cancelLabel="Cancelar"
+                                          uploadLabel="Cargar"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                          multiple="false">
+                            </p:fileUpload>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="3" styleClass="info_field">
+                            Debe ingresar 3 imagenes que registren los avances de la semana no debe exceder los 700Kb.
+                        </p:column>
+                    </p:row>
+                    <p:row >
+                        <p:column colspan="3" style="text-align: center">
+                            <center>
+                                <p:dataTable  id="displayFileLoad" value="#{reporteBean.reporteFotoLst}" 
+                                              var="archivo" emptyMessage="Adicionar archivos" style="width: 80%;text-align: center">  
+                                    <f:facet name="header">Archivos cargados</f:facet> 
+                                    <p:column style="width: 50%" rendered="#{archivo.tipoArchivo == 0}">#{archivo.nombre} </p:column>
+                                    <p:column style="width: 20%" rendered="#{archivo.tipoArchivo == 0}">
+                                        <p:commandButton actionListener="#{reporteBean.removeImageFromArray(archivo.identificador)}" update="filesForm:displayFileLoad"
+                                                         icon="ui-icon-trash"
+                                                         />
+                                    </p:column>
+                                    
+                                    <f:facet name="footer">  
+                                        Total archivos "#{reporteBean.reporteFotoLst.size()}"
+                                    </f:facet> 
+                                </p:dataTable>
+                            </center>
+                        </p:column>
+                    </p:row> 
+                    <p:row>
+                        <p:column styleClass="ui-widget-header" colspan="3" style="text-align: center">Esquema grafico alcance del contrato </p:column>  
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="3">
+                            <p:fileUpload fileUploadListener="#{reporteBean.handleFileUploadAvance}" 
+                                          mode="advanced" 
+                                          dragDropSupport="false"  
+                                          update=":filesForm:lblNombreAvance" 
+                                          sizeLimit="700000" 
+                                          label="Esquema grafico"
+                                          invalidSizeMessage="Exede el tamaño permitido (700Kb)"
+                                          invalidFileMessage="El archivo tiene que ser imagen"
+                                          oncomplete="updateTotalArchivos"
+                                          cancelLabel="Cancelar"
+                                          uploadLabel="Cargar"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                          multiple="false">
+                            </p:fileUpload>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="3" styleClass="info_field">
+                            Ingrese la imagen con el avance del proyecto no debe exceder los 700Kb.
+                        </p:column>
+                    </p:row>
+                    <p:row >
+                        <p:column colspan="3" style="text-align: center">
+                            <center>
+                                <p:outputLabel value="${reporteBean.imageAvance.nombre}" id="lblNombreAvance" />
+                               
+                            </center>
+                        </p:column>
+                    </p:row> 
+                    
+                    
+                    
+                    <p:row >
+                        <p:column colspan="2" style="text-align: center">
+                                <p:commandButton value="Aceptar" 
+                                                 actionListener="#{reporteBean.updateImages()}"
+                                                 update=":formData,:filesForm"
+                                                 process="@this"
+                                                 rendered="#{!reporteBean.panelFocus[0]}"
+                                                 />
+                                <p:commandButton value="Cancelar" 
+                                                 actionListener="#{reporteBean.cancelUpdateImages()}"
+                                                 update=":formData,:filesForm"
+                                                 process="@this"
+                                                 rendered="#{!reporteBean.panelFocus[0]}"
+                                                 />
+                                
+                        </p:column>
+                    </p:row>
+                    
+                </p:panelGrid>
+            </center>
+        </p:panel>
+    </h:form>
+
+
+</ui:component>    

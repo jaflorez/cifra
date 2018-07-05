@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:breadCrumb>
+                    <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml"/>
+                    <p:menuitem value="Reportes/Busquedas"  />
+                    <p:menuitem value="Reporte consolidado" />
+                </p:breadCrumb>
+            </h:form>
+
+            <p:panel styleClass="panel_inicio">
+                <p:growl id="msgs" showDetail="true" sticky="true" autoUpdate="true"/>
+                <p:outputPanel style="width: 100%">
+                    <p:panelGrid  style="width: 100%">
+                        <h:form id="frmData">
+                            <p:growl id="growl" life="2000" />
+                            <p:row>
+                                <p:column style="text-align: center">
+                                    <p:calendar value="#{rptBean.fechaReporte}" id="fechaRpt"></p:calendar>
+                                    <p:commandButton value="Calcular" id="nonAjax" actionListener="#{rptBean.updateTable()}" ajax="false"   update="tbl,downloadLink"/>
+
+                                    <p:commandButton id="downloadLink" value="Descargar" ajax="false" disabled="#{rptBean.disableDescarga}">
+                                        <p:fileDownload value="#{rptBean.fileDownload}" />
+                                    </p:commandButton>
+
+                                </p:column>
+
+                            </p:row>
+                            <p:row>
+                                <p:column style="text-align: center">
+                                    <center>
+                                        <p:dataTable  value="#{rptBean.rptConsolidadoLst}" var="rpt" id="tbl"
+                                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                                      style="width: 100%"      scrollable="true" scrollWidth="1200px" 
+                                                      >
+                                            <p:column headerText="PROYECTO" width="100"><p:outputLabel value="#{rpt.proyecto}" /> </p:column>
+                                            <p:column headerText="CONTRATISTA" width="100"><p:outputLabel value="#{rpt.razonsocial}" /> </p:column>
+                                            <p:column headerText="PROGRAMA" width="100"><p:outputLabel value="#{rpt.nombre}" /> </p:column>
+                                            <p:column headerText="No. CONTRATO" width="100"><p:outputLabel value="#{rpt.numeroContratoObra}" /> </p:column>
+                                            <p:column headerText="VALOR INICIAL" width="100"><p:outputLabel value="#{rpt.contObraValorInicial}" /> </p:column>
+                                            <p:column headerText="FECHA DE INICIO" width="20"><p:outputLabel value="#{rpt.contObraActaInicio}"> <f:convertDateTime type="date" pattern="yyyy-MM-dd"/> </p:outputLabel> </p:column>
+                                            <p:column headerText="PLAZO ORIGINAL (MESES)" width="20"><p:outputLabel value="#{rpt.contObraPlazoInicial}" ></p:outputLabel> </p:column>
+                                            <p:column headerText="FECHA DE TERMINACIÓN" width="20"><p:outputLabel value="#{rpt.contObraFechaTermi}" ><f:convertDateTime type="date" pattern="yyyy-MM-dd"/></p:outputLabel>  </p:column>
+                                            <p:column headerText="PRESENTA FACTURA" width="20"><p:outputLabel value="#{rpt.presentoFactura}" /> </p:column>
+                                            <p:column headerText="FECHA ULTIMA FACTURA" width="20"><p:outputLabel value="#{rpt.fechaUltimaFactura}"><f:convertDateTime type="date" pattern="yyyy-MM-dd"/> </p:outputLabel></p:column>
+                                            <p:column headerText="VALOR DE LA FACTURA"  width="20" ><p:outputLabel value="#{rpt.valorUltimaFactura}"/>  </p:column>
+                                            <p:column headerText="BASICO DE  OBRA"  width="20"><p:outputLabel value="#{rpt.basicoObra}" /> </p:column>
+                                            <p:column headerText="PROGRAMADO ACUMULADO"  width="20"><p:outputLabel value="#{rpt.programadoAcumulado}" /> </p:column>
+                                            <p:column headerText="EJECUTADO ACUMULADO"  width="20"><p:outputLabel value="#{rpt.ejecutadoAcumulado}" /> </p:column>
+                                            <p:column headerText="REPORTE SIFF"  width="20"><p:outputLabel value="#{rpt.siifValor}" /> </p:column>
+                                            <p:column headerText="TOTAL INVERSION EJEC"  width="20"><p:outputLabel value="#{rpt.totalInversionEjecutada}" /> </p:column>
+                                            <p:column headerText="VALOR DE LA VIGENCIA"  width="20"><p:outputLabel value="#{rpt.valorVigencia}" /> </p:column>
+                                            <p:column headerText="%AVANCE OBRA FISICA"  width="20"><p:outputLabel value="#{rpt.avanceObraFisica}" /> </p:column>
+                                            <p:column headerText="ESTADO"  width="20"><p:outputLabel value="#{rpt.estado}" /> </p:column>
+                                            <p:column headerText="5_PRG"  width="20"><p:outputLabel value="#{rpt.act5Prg}" /> </p:column>
+                                            <p:column headerText="5_EJT"  width="20"><p:outputLabel value="#{rpt.act5Avc}" /> </p:column>
+                                            <p:column headerText="1_PRG"  width="20"><p:outputLabel value="#{rpt.act1Prg}" /> </p:column>
+                                            <p:column headerText="1_EJT"  width="20"><p:outputLabel value="#{rpt.act1Avc}" /> </p:column>
+                                            <p:column headerText="2_PRG"  width="20"><p:outputLabel value="#{rpt.act2Prg}" /> </p:column>
+                                            <p:column headerText="2_EJT"  width="20"><p:outputLabel value="#{rpt.act2Avc}" /> </p:column>
+                                            <p:column headerText="3_PRG"  width="20"><p:outputLabel value="#{rpt.act3Prg}" /> </p:column>
+                                            <p:column headerText="3_EJT"  width="20"><p:outputLabel value="#{rpt.act3Avc}" /> </p:column>
+                                            <p:column headerText="4_PRG"  width="20"><p:outputLabel value="#{rpt.act4Prg}" /> </p:column>
+                                            <p:column headerText="4_EJT"  width="20"><p:outputLabel value="#{rpt.act4Avc}" /> </p:column>
+                                            <p:column headerText="6_PRG"  width="20"><p:outputLabel value="#{rpt.act6Prg}" /> </p:column>
+                                            <p:column headerText="6_EJT"  width="20"><p:outputLabel value="#{rpt.act6Avc}" /> </p:column>
+                                            <p:column headerText="7_PRG"  width="20"><p:outputLabel value="#{rpt.act7Prg}" /> </p:column>
+                                            <p:column headerText="7_EJT"  width="20"><p:outputLabel value="#{rpt.act7Avc}" /> </p:column>
+                                            <p:column headerText="8_PRG"  width="20"><p:outputLabel value="#{rpt.act8Prg}" /> </p:column>
+                                            <p:column headerText="8_EJT"  width="20"><p:outputLabel value="#{rpt.act8Avc}" /> </p:column>
+                                            <p:column headerText="9_PRG"  width="20"><p:outputLabel value="#{rpt.act9Prg}" /> </p:column>
+                                            <p:column headerText="9_EJT"  width="20"><p:outputLabel value="#{rpt.act9Avc}" /> </p:column>
+                                            <p:column headerText="10_PRG"  width="20"><p:outputLabel value="#{rpt.act10Prg}" /> </p:column>
+                                            <p:column headerText="10_EJT"  width="20"><p:outputLabel value="#{rpt.act10Avc}" /> </p:column>
+                                            <p:column headerText="11_PRG"  width="20"><p:outputLabel value="#{rpt.act11Prg}" /> </p:column>
+                                            <p:column headerText="11_EJT"  width="20"><p:outputLabel value="#{rpt.act11Avc}" /> </p:column>
+                                            <p:column headerText="12_PRG"  width="20"><p:outputLabel value="#{rpt.act12Prg}" /> </p:column>
+                                            <p:column headerText="12_EJT"  width="20"><p:outputLabel value="#{rpt.act12Avc}" /> </p:column>
+                                            <p:column headerText="13_PRG"  width="20"><p:outputLabel value="#{rpt.act13Prg}" /> </p:column>
+                                            <p:column headerText="13_EJT"  width="20"><p:outputLabel value="#{rpt.act13Avc}" /> </p:column>
+                                            <p:column headerText="14_PRG"  width="20"><p:outputLabel value="#{rpt.act14Prg}" /> </p:column>
+                                            <p:column headerText="14_EJT"  width="20"><p:outputLabel value="#{rpt.act14Avc}" /> </p:column>
+                                            <p:column headerText="15_PRG"  width="20"><p:outputLabel value="#{rpt.act15Prg}" /> </p:column>
+                                            <p:column headerText="15_EJT"  width="20"><p:outputLabel value="#{rpt.act15Avc}" /> </p:column>
+                                            <p:column headerText="16_PRG"  width="20"><p:outputLabel value="#{rpt.act16Prg}" /> </p:column>
+                                            <p:column headerText="16_EJT"  width="20"><p:outputLabel value="#{rpt.act16Avc}" /> </p:column>
+                                            <p:column headerText="17_PRG"  width="20"><p:outputLabel value="#{rpt.act17Prg}" /> </p:column>
+                                            <p:column headerText="17_EJT"  width="20"><p:outputLabel value="#{rpt.act17Avc}" /> </p:column>
+                                            <p:column headerText="18_PRG"  width="20"><p:outputLabel value="#{rpt.act18Prg}" /> </p:column>
+                                            <p:column headerText="18_EJT"  width="20"><p:outputLabel value="#{rpt.act18Avc}" /> </p:column>
+                                            <p:column headerText="19_PRG"  width="20"><p:outputLabel value="#{rpt.act19Prg}" /> </p:column>
+                                            <p:column headerText="19_EJT"  width="20"><p:outputLabel value="#{rpt.act19Avc}" /> </p:column>
+                                            <p:column headerText="20_PRG"  width="20"><p:outputLabel value="#{rpt.act20Prg}" /> </p:column>
+                                            <p:column headerText="20_EJT"  width="20"><p:outputLabel value="#{rpt.act20Avc}" /> </p:column>
+                                            <p:column headerText="21_PRG"  width="20"><p:outputLabel value="#{rpt.act21Prg}" /> </p:column>
+                                            <p:column headerText="21_EJT"  width="20"><p:outputLabel value="#{rpt.act21Avc}" /> </p:column>
+                                            <p:column headerText="22_PRG"  width="20"><p:outputLabel value="#{rpt.act22Prg}" /> </p:column>
+                                            <p:column headerText="22_EJT"  width="20"><p:outputLabel value="#{rpt.act22Avc}" /> </p:column>
+                                            <p:column headerText="23_PRG"  width="20"><p:outputLabel value="#{rpt.act23Prg}" /> </p:column>
+                                            <p:column headerText="23_EJT"  width="20"><p:outputLabel value="#{rpt.act23Avc}" /> </p:column>
+                                            <p:column headerText="24_PRG"  width="20"><p:outputLabel value="#{rpt.act24Prg}" /> </p:column>
+                                            <p:column headerText="24_EJT"  width="20"><p:outputLabel value="#{rpt.act24Avc}" /> </p:column>
+                                            <p:column headerText="25_PRG"  width="20"><p:outputLabel value="#{rpt.act25Prg}" /> </p:column>
+                                            <p:column headerText="25_EJT"  width="20"><p:outputLabel value="#{rpt.act25Avc}" /> </p:column>
+                                            <p:column headerText="26_PRG"  width="20"><p:outputLabel value="#{rpt.act26Prg}" /> </p:column>
+                                            <p:column headerText="26_EJT"  width="20"><p:outputLabel value="#{rpt.act26Avc}" /> </p:column>
+                                            <p:column headerText="27_PRG"  width="20"><p:outputLabel value="#{rpt.act27Prg}" /> </p:column>
+                                            <p:column headerText="27_EJT"  width="20"><p:outputLabel value="#{rpt.act27Avc}" /> </p:column>
+                                            <p:column headerText="28_PRG"  width="20"><p:outputLabel value="#{rpt.act28Prg}" /> </p:column>
+                                            <p:column headerText="28_EJT"  width="20"><p:outputLabel value="#{rpt.act28Avc}" /> </p:column>
+                                            <p:column headerText="29_PRG"  width="20"><p:outputLabel value="#{rpt.act29Prg}" /> </p:column>
+                                            <p:column headerText="29_EJT"  width="20"><p:outputLabel value="#{rpt.act29Avc}" /> </p:column>
+                                        </p:dataTable>
+
+                                        <h:commandLink>
+
+                                            <p:dataExporter type="xls" target="tbl" fileName="rpt_cld" pageOnly="true"/>
+                                        </h:commandLink>
+                                    </center>
+                                </p:column>
+                            </p:row>
+                        </h:form>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:panel>
+
+
+        </ui:define>
+    </ui:composition>
+</html>
+

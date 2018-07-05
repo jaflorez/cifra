@@ -1,0 +1,59 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui" >
+    <h:form id="formTramo">
+        <p:dialog header="Tramo" widgetVar="tramoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="tramoDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column><p:outputLabel value="Numero" /></p:column>
+                        <p:column>
+                            <p:inputNumber value="#{contratoNewBean.curContratoTramo.numero}" size="8" 
+                                           decimalPlaces="0"
+                                           disabled="#{contratoNewBean.editContratoTramo}"
+                                           />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Tramo" /></p:column>
+                        <p:column>
+                            <p:inputText value="#{contratoNewBean.curContratoTramo.tramo}" size="60" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center">
+                            <p:commandButton id="addTramo" value="Adicionar" 
+                                             actionListener="#{contratoNewBean.addicionarTramo()}"
+                                             oncomplete="PF('tramoDialog').hide()"
+                                             update=":formData:tabView:tableTramo"
+                                             rendered="#{!contratoNewBean.editContratoTramo}"
+                                             icon="ui-icon-disk" />
+                            <p:commandButton value="Eliminar"
+                                             icon="ui-icon-trash"
+                                             rendered="#{contratoNewBean.editContratoTramo}"
+                                             actionListener="#{contratoNewBean.removeTramo()}"
+                                             update=":formData:tabView:tableTramo,:formData:mensajes"
+                                             oncomplete="PF('tramoDialog').hide()"/>
+                            <p:commandButton value="Actualizar"
+                                             icon="ui-icon-disk"
+                                             rendered="#{contratoNewBean.editContratoTramo}"
+                                             actionListener="#{contratoNewBean.modificarTramo()}"
+                                             update=":formData:tabView:tableTramo,:formData:mensajes"
+                                             oncomplete="PF('tramoDialog').hide()"/>                            
+                            <p:commandButton value="Cancelar" oncomplete="PF('tramoDialog').hide()"/>
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</ui:component>

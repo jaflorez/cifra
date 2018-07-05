@@ -1,0 +1,63 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <h:form id="formAdicionObra">
+        <p:dialog header="Adicion al contraro de Obra" widgetVar="adicionObraDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="adicionObraDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Fecha de aprobación minuta"  />
+                        </p:column>
+                        <p:column  >
+                            <p:calendar value="#{contratoNewBean.curAdicionObra.fecha}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Valor"  />
+                        </p:column>
+                        <p:column  >
+                            <p:inputNumber  value="#{contratoNewBean.curAdicionObra.valor}" thousandSeparator="." decimalSeparator="," decimalPlaces="2" symbol="$"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Tipo"  />
+                        </p:column>
+                        <p:column  >
+                           
+                            <p:selectOneRadio id="console" value="#{contratoNewBean.curAdicionObra.tipo}" required="true" requiredMessage="Debe seleccionar el tipo de adicción modificacion">
+                                <f:selectItem itemLabel="Adición" itemValue="Adición" />
+                                <f:selectItem itemLabel="Modificación" itemValue="Modificación" />
+                            </p:selectOneRadio>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Vigencia"  />
+                        </p:column>
+                        <p:column  >
+                            <p:inputNumber  value="#{contratoNewBean.curAdicionObra.vigencia}"   decimalPlaces="0"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  colspan="2">
+                            <p:commandButton id="addFuenteMaterial" value="Adicionar" 
+                                             oncomplete="PF('adicionObraDialog').hide()"
+                                             actionListener="#{contratoNewBean.adicionarAdicionObra()}"
+                                             update=":formData:tabView:tableAdicionObra,:formData:tabView:resumenContratoObra"
+                                             icon="ui-icon-disk" />
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('adicionObraDialog').hide()"/>                            
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>    
+</ui:component>
+

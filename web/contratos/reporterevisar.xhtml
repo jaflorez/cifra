@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            
+            <f:event type="preRenderView" listener="#{reporteBean.copiarImagenesFromReporteToFile()}" />
+            <f:event type="preRenderView" listener="#{reporteBean.cargarImagenesFromReporteToArray(false)}" />
+            <f:event type="preRenderView" listener="#{reporteBean.loadTramoActividadMaquinaria()}" />
+
+            <h:form id="formData">
+                <p:growl id="mensajes" showDetail="true" autoUpdate="true"/>
+                <p:panel id="pnlInfo" header="Informacion General del Contrato">
+                    <p:panelGrid  styleClass="panel_input" >
+                        <p:row >
+                            <p:column><p:outputLabel value="Numero de contrato:" /></p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.contrato.contObraCodigo}" />
+                                <p:outputLabel value="-" />
+                                <p:outputLabel value="#{reporteBean.contrato.contObraVigencia}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Objeto" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel  value="#{reporteBean.contrato.objeto}" />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Numero de Semana"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.numerosemana}" />
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Numero de Reporte"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.numeroreporte}" />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Fecha desde"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.reportedesde}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Fecha hasta"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.reportehasta}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title" >
+                                <p:outputLabel value="Fecha limite de presentacion"/>
+                            </p:column>
+                            <p:column  >
+                                <p:outputLabel value="#{reporteBean.reporte.fechaLimitePresentacion}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">II. Avance Financiero</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column  colspan="2" style="text-align: center">
+                                <p:outputLabel value="Obra" style="font-weight: bold;font-size: 14px" />
+                            </p:column>
+                            <p:column  colspan="2" style="text-align: center">
+                                <p:outputLabel value="Interventoria" style="font-weight: bold;font-size: 14px" />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title" style="width: 25%">
+                                <p:outputLabel value="Obra: Presento factura corte anterior"/>
+                            </p:column>
+                            <p:column style="width: 25%">
+                                <p:selectOneRadio value="#{reporteBean.reporte.obrPresentoFactura}" 
+                                                  disabled="true"
+                                                  >
+                                    <f:selectItem itemLabel="Si" itemValue="true" />
+                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                    <p:ajax process="@this" update="lblFecFactObra,lblValFactObra" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column styleClass="column_title" style="width: 25%">
+                                <p:outputLabel value="Presento factura corte anterior" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.intPresentoFactura}" disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="true" />
+                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                    <p:ajax process="@this" update="lblFecFactInt,lblValFactInt" />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteBean.labelFechaFactura(1)}" id="lblFecFactObra"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.obrFechaFactura}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteBean.labelFechaFactura(2)}" id="lblFecFactInt"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.intFechaFactura}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteBean.labelValorFactura(1)}" id="lblValFactObra"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.obrValorFacturado}" />
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteBean.labelValorFactura(2)}" id="lblValFactInt"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.intValorFactura}" /> 
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">III. Avance Fisico</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column  colspan="4">
+                                <ui:include src="reporte_tableact.xhtml"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <ui:include src="reporte_tablemaq.xhtml"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">IV. Gestión ambiental</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="row_title" colspan="4" style="text-align: center"><p:outputLabel value="Fuentes de materiales" /></p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <center>
+                                    <p:dataTable style="width: 80%"
+                                                 id="tableMateriales"
+                                                 emptyMessage="No existen fuentes de materiales registradas"
+                                                 value="#{reporteBean.reporte.reporteMaterialesList}" var="mat">
+                                        <p:column headerText="Ubicacion" style="width: 60%">
+                                            <p:outputLabel value="#{mat.ubicacion}"/>
+                                        </p:column>
+                                        <p:column headerText="Permiso Minero" >
+                                            <p:outputLabel rendered="#{mat.permisoMinero}" value="Si" />
+                                            <p:outputLabel rendered="#{!mat.permisoMinero}" value="No" />
+                                        </p:column>
+                                        <p:column headerText="Licencia ambiental">
+                                            <p:outputLabel rendered="#{mat.licenciaAmbiental}" value="Si" />
+                                            <p:outputLabel rendered="#{!mat.licenciaAmbiental}" value="No" />
+                                        </p:column>
+                                        <p:column >
+                                        </p:column>
+                                    </p:dataTable>
+                                </center>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column >
+                                <p:outputLabel value="Observaciones" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputTextarea cols="60"  rows="2" value="#{reporteBean.reporte.ftmatObservaciones}" readonly="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: center" ><p:outputLabel value="Permisos ambientales y/o licenciamiento ambiental" styleClass="row_title"/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Botaderos" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambBotaderos}"  disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Licencia Ambiental" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambLicenciambiental}" disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Aprovechamiento Forestal" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambAprovforestal}" disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Concesión de Aguas" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio value="#{reporteBean.reporte.ambConcecionaguas}" disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Ocupación de cauces" /></p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambAprovforestal}" disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column><p:outputLabel value="Vertimientos" /></p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambConcecionaguas}" disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Emisiones" /></p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambAprovforestal}" disabled="true">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column></p:column>
+                            <p:column></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Observaciones" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputTextarea rows="2" cols="60" value="#{reporteBean.reporte.ambObservaciones}" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: center">
+                                <p:outputLabel value="Paga (Programa de adaptacion a la Guia Ambiental)" styleClass="row_title"  />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Estado" /></p:column>
+                            <p:column colspan="3"><p:inputTextarea value="#{reporteBean.reporte.pagaEstado}" cols="70" rows="2" disabled="true"/>   </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Observaciones" /></p:column>
+                            <p:column colspan="3"><p:inputTextarea value="#{reporteBean.reporte.pagaObservaciones}" cols="70" rows="2" disabled="true"/>   </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row >
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">V. Gestión Predial</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Total Predios adquirir" /> </p:column>
+                            <p:column><p:outputLabel value="#{reporteBean.reporte.geprPredadquirir}" /></p:column>
+                            <p:column colspan="2" rowspan="4">
+                                <p:outputLabel value="Observaciones" />
+                                <br/>
+                                <p:inputTextarea rows="4"  cols="40" value="#{reporteBean.reporte.geprObservaciones}" readonly="true" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Fichas Prediales aprobadas" /></p:column>
+                            <p:column><p:outputLabel value="#{reporteBean.reporte.geprFichasaprob}"  /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Avalúos aprobados" /></p:column>
+                            <p:column><p:outputLabel value="#{reporteBean.reporte.geprAvaluos}"  /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Predios adquiridos" /></p:column>
+                            <p:column><p:outputLabel value="#{reporteBean.reporte.geprPredadquiridos}"  /></p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">VI. Gestión Social</p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel value="Total empleos generados" />   </p:column>
+                            <p:column><p:outputLabel value="#{reporteBean.reporte.gesoEmpgen}" /> </p:column>
+                            <p:column rowspan="5" colspan="2"><p:outputLabel value="Observaciones" /><br/>
+                                <p:inputTextarea value="#{reporteBean.reporte.gesoObservaciones}"  cols="40" rows="8" readonly="true" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Empleos directos Generados" /> </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.gesoEmpdirgen}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Empleos indirectos Generados" /> </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.gesoEmpindirgen}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="No. Socializaciones generadas" /> </p:column>
+
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.gesoNosocializaciones}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="No. Capacitaciones realizadas" /> 
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.gesoNocapacitaciones}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Sede servicio atención al usuario" /> 
+                            </p:column>
+                            <p:column colspan="3"><p:inputText value="#{reporteBean.reporte.gesoSede}" size="68" readonly="true" /> </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel id="panel05"  >
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">VII. Actividades Realizadas En La Semana</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:inputTextarea cols="80" rows="4" 
+                                                 value="#{reporteBean.reporte.actividadRealizada}"
+                                                 readonly="true" />
+
+
+
+                                <br/>
+                                <h:outputText id="dispActividadRealizada" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">VII. Actividades A Realizar la siguiente semana</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:inputTextarea cols="80" rows="4" 
+                                                 value="#{reporteBean.reporte.actividadARealizar}" 
+                                                 readonly="true"
+                                                 >
+                                    <f:validateLength minimum="50" />
+                                </p:inputTextarea><br/>
+                                <h:outputText id="displayActARealizar" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">VIII. Resumen general</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:inputTextarea cols="80" rows="4" 
+                                                 readonly="true"
+                                                 value="#{reporteBean.reporte.resumen}">
+                                    <f:validateLength minimum="50" />
+                                </p:inputTextarea><br/><h:outputText id="dispResumen" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Soporte Gráfico</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column  colspan="4">
+                                <center>
+                                    <p:galleria value="#{reporteBean.reporteFotoLst}" var="rfa" panelWidth="500" panelHeight="313" showCaption="true">
+                                        <p:graphicImage   title="#{rfa.nombre}" name="img#{rfa.identificador}.#{rfa.extension}"  library="tmp"  />
+                                    </p:galleria>
+                                </center>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Esquema de avance</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column  colspan="4">
+                                <center>
+                                    <p:graphicImage   title="#{reporteBean.imageAvance.nombre}" name="img#{reporteBean.imageAvance.identificador}.#{reporteBean.imageAvance.extension}"  library="tmp"  
+                                                      height="50px" width="750px"
+                                                      />
+                                </center>
+                            </p:column>
+                        </p:row>
+
+
+                    </p:panelGrid>
+                    <p:panelGrid styleClass="panel_input" rendered="#{cifraSessionBean.curUsuario.tipo == 4}" >
+                        <p:row >
+                            <p:column>
+                                <p:outputLabel value="Observaciones del supervisor:" />
+                            </p:column>
+                            <p:column colspan="5" style="text-align: center">
+                                <p:inputTextarea value="#{reporteBean.reporte.supervisorObservaciones}" rows="5" cols="120" />
+                            </p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column colspan="6" style="text-align: center">
+                                <p:commandButton value="Revisado" 
+                                                 actionListener="#{reporteBean.actualizarReporteRevisadoSupervisor()}"
+                                                 update=":formData:mensajes"/>
+                                <p:spacer width="20" />
+                                <p:commandButton value="Regresar" action="reportelst" process="@this"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid styleClass="panel_input" rendered="#{cifraSessionBean.curUsuario.tipo == 2}" >
+                        <p:row >
+                            <p:column>
+                                <p:outputLabel value="Observaciones del gestor técnico" />
+                            </p:column>
+                            <p:column colspan="5" style="text-align: center">
+                                <p:inputTextarea value="#{reporteBean.reporte.gestorObservaciones}" rows="5" cols="120" />
+                            </p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column colspan="6" style="text-align: center">
+                                <p:commandButton value="Revisado" 
+                                                 actionListener="#{reporteBean.actualizarReporteRevisadoGestor() }"
+                                                 update=":formData:mensajes"/>
+                                <p:spacer width="20" />
+                                <p:commandButton value="Regresar" action="reportelst" process="@this"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
+

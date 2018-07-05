@@ -1,0 +1,63 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <h:form id="formActividad">
+        <p:dialog header="Actividad" widgetVar="actividadDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="actividadDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Actividad:" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="selTipoAct" value="#{contratoNewBean.curContratoActividad.fkActividad.identificador}" 
+                                             disabled="#{contratoNewBean.editContratoActividad}"  >
+                                <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                <f:selectItems value="#{contratoNewBean.actividadLst}"
+                                               var="actividad"
+                                               
+                                               itemLabel="#{actividad.actividad}"
+                                               itemValue="#{actividad.identificador}"/> 
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Meta" /></p:column>
+                        <p:column><p:inputNumber value="#{contratoNewBean.curContratoActividad.cantidad}" id="textCantAct"
+                                                 decimalPlaces="1"
+                                                 /></p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center">
+                            <p:commandButton id="addActividad" value="Adicionar" 
+                                             actionListener="#{contratoNewBean.addicionarActividad()}"
+                                             rendered="#{!contratoNewBean.editContratoActividad}"
+                                             oncomplete="PF('actividadDialog').hide()"
+                                             update=":formData:tabView:tableActividad"
+                                             icon="ui-icon-disk" />
+                            <p:commandButton value="Eliminar"
+                                             icon="ui-icon-trash"
+                                             rendered="#{contratoNewBean.editContratoActividad}"
+                                             actionListener="#{contratoNewBean.removeActividad()}"
+                                             update=":formData:tabView:tableActividad,:formData:mensajes"
+                                             oncomplete="PF('actividadDialog').hide()"/>
+                            <p:commandButton value="Actualizar"
+                                             icon="ui-icon-disk"
+                                             rendered="#{contratoNewBean.editContratoActividad}"
+                                             actionListener="#{contratoNewBean.modificarActividad()}"
+                                             update=":formData:tabView:tableActividad,:formData:mensajes"
+                                             oncomplete="PF('actividadDialog').hide()"/>                            
+                            
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('actividadDialog').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+
+</ui:component>

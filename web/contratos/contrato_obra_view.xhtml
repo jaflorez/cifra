@@ -1,0 +1,244 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+    <p:panelGrid styleClass="panel_input">
+        <p:row >
+            <p:column><p:outputLabel value="Contratista:" /></p:column>
+            <p:column colspan="3"><p:outputLabel value="#{contratoViewBean.contrato.fkTerceroObra.razonsocial}" />
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Integrantes:" /></p:column>
+            <p:column colspan="3" style="text-align: center">
+                <p:dataTable value="#{contratoViewBean.contrato.contratoTerceroObraList}" 
+                             id="terceroObraTable"
+                             emptyMessage="No existen integrantes registrados"
+                             var="obrter"> 
+                    <p:column headerText="Nit" >
+                        <p:outputLabel value="#{obrter.fkTercero.nit}" style="width: 30%"/>
+                    </p:column>
+                    <p:column headerText="Razon social" style="width: 60%" >
+                        <p:outputLabel value="#{obrter.fkTercero.razonsocial}"/>
+                    </p:column>
+                    <p:column headerText="Participacion"  style="width: 10%">
+                        <p:outputLabel value="#{obrter.cantidad}"/>
+                    </p:column>
+                    <p:column >
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Contrato No:" /></p:column>
+            <p:column>
+                <p:outputLabel value="#{contratoViewBean.contrato.contObraCodigo}"  />
+                <p:outputLabel value="Año:" />
+                <p:outputLabel value="#{contratoViewBean.contrato.contObraVigencia}"/>
+            </p:column>
+            <p:column>
+                <p:outputLabel value="Fecha del contrato"  />
+            </p:column>
+            <p:column>
+                <p:outputLabel value="#{contratoViewBean.contrato.contObraFecha}">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </p:outputLabel>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column ><p:outputLabel value="Fecha del acta de inicio"  /></p:column>
+            <p:column >
+                <p:outputLabel value="#{contratoViewBean.contrato.contObraActaInicio}">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </p:outputLabel>
+
+            </p:column>
+            <p:column ><p:outputLabel value="Fecha Final"  /></p:column>
+            <p:column >
+                <p:outputLabel value="#{contratoViewBean.contrato.contObraFechaTermi}">
+                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                </p:outputLabel>
+
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Plazo inicial:" /></p:column>
+            <p:column><p:outputLabel value="#{contratoViewBean.contrato.contObraPlazoInicial}" /></p:column>
+            <p:column><p:outputLabel value="Valor inicial:" /></p:column>
+            <p:column><p:outputLabel value="#{contratoViewBean.contrato.contObraValorInicial}"  >
+                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                </p:outputLabel>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column  colspan="2" style="text-align: center">
+                <p:dataTable value="#{contratoViewBean.contrato.contratoVigenciaObraList}" var="vig">
+                    <p:column headerText="Año" >
+                        <p:outputLabel value="#{vig.ano}" />
+                    </p:column>
+                    <p:column headerText="Vigencia" style="text-align: right" >
+                        <p:outputLabel value="#{vig.valor}" >
+                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Facturado" style="text-align: right" >
+                        <p:outputLabel value="#{vig.avance}" >
+                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                        </p:outputLabel>
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+            <p:column colspan="2">
+                <p:dataTable value="#{contratoViewBean.contrato.contratoFinancieroObraList}" 
+                             id="financieroObraTable"
+                             scrollable="true"
+                             scrollHeight="120"
+                             emptyMessage="Hay registros"
+                             sortMode=""
+                             var="finObr"> 
+                    <p:column headerText="Año" sortBy="#{finObr.ano + finObr.corte}" >
+                        <p:outputLabel value="#{finObr.ano}" style="width: 15%" />
+                    </p:column>
+                    <p:column headerText="Corte" style="width: 15%" >
+                        <p:outputLabel value="#{finObr.corte}"/>
+                    </p:column>
+                    <p:column headerText="Valor"  style="text-align: right" >
+                        <p:outputLabel value="#{finObr.valor}">
+                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:columnGroup type="footer">
+                        <p:outputPanel id="outputpanelId02">
+                            <p:row>
+                                <p:column/>
+                                <p:column  style="text-align:right" footerText="Total:" />
+                                <p:column>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{contratoViewBean.sumaVigenciaObra}">
+                                            <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                            </p:row>
+                        </p:outputPanel>
+                    </p:columnGroup>
+                </p:dataTable>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column colspan="2">
+                <center>
+                    <p:dataTable value="#{contratoViewBean.contrato.contratoProrrogaObraList}" 
+                                 id="tableProrrogaObra"
+                                 var="prorrogaObra"
+                                 emptyMessage="No existen prorrogas registradas"
+                                 >
+                        <f:facet name="header">Obra - Prorrogas Registradas</f:facet>
+                        <p:column headerText="Fecha">
+                            <p:outputLabel value="#{prorrogaObra.fecha}" >
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Meses" style="text-align: right">
+                            <p:outputLabel value="#{prorrogaObra.cantidad}" >
+                                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"  />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column >
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:outputPanel >
+                                <p:row>
+                                    <p:column style="text-align:right" footerText="Total:" />
+                                    <p:column style="text-align:right">
+                                        <f:facet name="footer">
+                                            <h:outputText value="#{contratoViewBean.sumaProrrogaObra}">
+                                                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"  />
+                                            </h:outputText>
+                                        </f:facet>
+                                    </p:column>
+                                    <p:column></p:column>
+                                </p:row>
+                            </p:outputPanel>
+                        </p:columnGroup>
+                    </p:dataTable>
+                    <br />
+                </center>
+            </p:column>
+            <p:column colspan="2">
+                <center>
+                    <p:dataTable value="#{contratoViewBean.contrato.contratoAdicionObraList}" 
+                                 id="tableAdicionObra"
+                                 var="adicionObra"
+                                 emptyMessage="No existen adiciones registradas"
+                                 >
+                        <f:facet name="header">Obra - Adiciones Registradas</f:facet>
+                        <p:column headerText="Fecha" style="width: 30%">
+                            <p:outputLabel value="#{adicionObra.fecha}" >
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Valor" style="text-align: right">
+                            <p:outputLabel value="#{adicionObra.valor}" >
+                                <f:convertNumber type="currency" 
+                                                 currencySymbol="$" 
+                                                 maxFractionDigits="2"
+                                                 />
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column >
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:outputPanel >
+                                <p:row>
+                                    <p:column style="text-align:right" footerText="Total:" />
+                                    <p:column style="text-align:right">
+                                        <f:facet name="footer">
+                                            <h:outputText value="#{contratoViewBean.sumaAdicionObra}">
+                                                <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                            </h:outputText>
+                                        </f:facet>
+                                    </p:column>
+                                    <p:column></p:column>
+                                </p:row>
+                            </p:outputPanel>
+                        </p:columnGroup>
+                    </p:dataTable>
+                    <br />
+                </center>
+            </p:column>
+        </p:row>
+        <p:row>
+
+        </p:row>
+        <p:row>
+            <p:column colspan="4" style="text-align: center">
+
+                <p:dataTable   id="tableAjusteObra" 
+                               emptyMessage="No existen registros"
+                               value="#{contratoViewBean.contrato.contratoAjusteObraList}" 
+                               var="ajtObr" >
+                    <f:facet name="header">Obra - Modificaciones/Aclaraciones/Suspensiones/Reanudaciones</f:facet>
+                    <p:column headerText="Fecha" style="width: 8%">
+                        <p:outputLabel value="#{ajtObr.fecha}" >
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Tipo" style="width: 15%">
+                        <p:outputLabel value="#{ajtObr.fkAjuste.ajuste}" />
+                    </p:column>
+                    <p:column headerText="Descripcion">
+                        <p:outputLabel value="#{ajtObr.descripcion}" />
+                    </p:column>
+                    <p:column >
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+
+</ui:component>

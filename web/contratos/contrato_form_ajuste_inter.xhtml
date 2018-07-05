@@ -1,0 +1,63 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    >
+    <h:form id="formAjusteInter">
+        <p:dialog header="Ajuste del contrato de Interventoria" widgetVar="adicionAjusteInterDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="ajusteInterDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Fecha de aprobación minuta"  />
+                        </p:column>
+                        <p:column  >
+                            <p:calendar value="#{contratoNewBean.curAjusteInter.fecha}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Tipo"  />
+                        </p:column>
+                        <p:column  >
+                            <p:selectOneMenu id="selPrograma" value="#{contratoNewBean.curAjusteInter.fkAjuste.identificador}" required="true" requiredMessage="Seleccione el tipo" >
+                                <f:selectItem itemLabel="Seleccione" itemValue=""/>                            
+                                <f:selectItems value="#{contratoNewBean.ajusteLst}"
+                                               var="varAjt"
+                                               itemLabel="#{varAjt.ajuste}"
+                                               itemValue="#{varAjt.identificador}"/> 
+                            </p:selectOneMenu>
+
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  colspan="2" >
+                            <p:outputLabel value="Descripcion"  /><br/>
+                            <p:inputTextarea value="${contratoNewBean.curAjusteInter.descripcion}" 
+                                             rows="3" cols="40"
+                                             maxlength="200"
+                                             />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column  colspan="2">
+                            <p:commandButton id="addAjuste" value="Adicionar" 
+                                             oncomplete="PF('adicionAjusteInterDialog').hide()"
+                                             actionListener="#{contratoNewBean.adicionarAjusteInter()}"
+                                             update=":formData:tabView:tableAjusteInter"
+                                             icon="ui-icon-disk" />
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('adicionAjusteInterDialog').hide()"/>                            
+                        </p:column>
+                    </p:row>
+
+
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</ui:component>
+

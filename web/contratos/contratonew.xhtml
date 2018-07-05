@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="panel_inicio">
+                <h:form id="formData">
+                    <p:growl id="growl" />
+                    <p:outputLabel value="#{contratoNewBean.curContratoTerceroObra.fkTercero.razonsocial}" id="value01" />
+                    cod:<p:inputText value="#{contratoNewBean.contrato.codigocont}"  />
+                    <p:dataTable value="#{contratoNewBean.contrato.contratoTerceroObraList}" 
+                                 id="terceroObraTable"
+                                 emptyMessage="No existen integrantes registrados"
+                                 var="obrter"> 
+                        <p:column headerText="Nit" style="width: 15%" >
+                            <p:outputLabel value="#{obrter.fkTercero.nit}" />
+                        </p:column>
+                        <p:column headerText="Razon social" style="width: 55%" >
+                            <p:outputLabel value="#{obrter.fkTercero.razonsocial}"/>
+                        </p:column>
+                        <p:column headerText="Participación %"  style="width: 18%">
+                            <p:outputLabel value="#{obrter.cantidad}"/>
+                        </p:column>
+                        <p:column >
+                            <p:commandButton icon="ui-icon-trash" />
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:outputPanel id="outputpanelId">
+                                <p:row>
+                                    <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                    <p:column>
+                                        <f:facet name="footer">
+                                            <h:outputText value="#{contratoNewBean.sumaParticipacionObra}"/>
+                                        </f:facet>
+                                    </p:column>
+                                    <p:column />
+                                </p:row>
+                            </p:outputPanel>
+                        </p:columnGroup>
+                    </p:dataTable>
+                    <p:commandButton oncomplete="PF('dlgIntegranteObra').show()"  />
+
+
+                    <p:dialog header="Integrante obra" widgetVar="dlgIntegranteObra" 
+                              modal="true" showEffect="fade" 
+                              hideEffect="fade" resizable="false">
+                        <p:outputPanel id="financieroObraDetail" >
+                            <p:selectOneMenu value="#{contratoNewBean.curContratoTerceroObra.fkTercero.identificador}" id="dlgCTIdentificador">
+                                <f:selectItem itemLabel="Seleecione" itemValue="" />
+                                <f:selectItems value="#{contratoNewBean.terceroLst}" var="ter"
+                                               itemLabel="#{ter.nit} - #{ter.razonsocial}"        
+                                               itemValue="#{ter.identificador}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:inputNumber value="#{contratoNewBean.curContratoTerceroObra.cantidad}" id="numero" />
+                            <p:commandButton value="Aceptar" 
+                                             >
+                                <p:ajax event="click" listener="#{contratoNewBean.addicionarTerceroObra()}" 
+                                        update=":formData:terceroObraTable"
+                                        process="dlgCTIdentificador numero"
+                                        oncomplete="PF('dlgIntegranteObra').hide()"
+                                        />
+                            
+                            </p:commandButton>
+                                
+                        </p:outputPanel>
+                    </p:dialog>
+
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+

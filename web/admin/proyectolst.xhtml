@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form id="formData">
+                <p:growl id="growl" />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column styleClass="ui-widget-header">Lista de Proyectos</p:column>  
+                    </p:row>
+                    <p:row>
+                        <p:column >
+                            <p:commandButton oncomplete="PF('insertarDialog').show()"
+                                             actionListener="#{proyectoBean.newProyecto()}"
+                                             value="Nuevo Proyecto"/>
+
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:dataTable value="#{proyectoBean.proyectoLst}" var="det" id="dataTable">
+                                <p:column headerText="Descripcion" style="width: 70%">
+                                    <p:outputLabel value="#{det.nombre}" />
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton oncomplete="PF('modificarDialog').show()" 
+                                                     icon="ui-icon-pencil" 
+                                                     title="Modificar" 
+                                                     update=":formData:modificarDetail,:formData:growl"
+                                                     >
+                                        <f:setPropertyActionListener value="#{det}" 
+                                                                     target="#{proyectoBean.curProyecto}" />
+                                    </p:commandButton>
+                                    <p:commandButton oncomplete="PF('eliminarDialog').show()" 
+                                                     icon="ui-icon-trash" 
+                                                     title="Eliminar" 
+                                                     update=":formData:eliminarDetail"
+                                                     >
+                                        <f:setPropertyActionListener value="#{det}" 
+                                                                     target="#{proyectoBean.curProyecto}" />
+                                        
+                                    </p:commandButton>
+
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dialog header="Proyecto" widgetVar="eliminarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="eliminarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column colspan="2">
+                                    Confirme 
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> 
+                                    <p:outputLabel value="Proyecto:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel   value="#{proyectoBean.curProyecto.nombre}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="eliminarButton" value="Eliminar" 
+                                                     actionListener="#{proyectoBean.eliminarProyecto()}"
+                                                     oncomplete="PF('eliminarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('eliminarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                            
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Proyecto" widgetVar="modificarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="modificarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column><p:outputLabel value="Proyecto:"/></p:column>
+                                <p:column>
+                                    <p:inputText value="#{proyectoBean.curProyecto.nombre}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButtonEdit" value="Guardar" 
+                                                     actionListener="#{proyectoBean.modificarProyecto()}"
+                                                     oncomplete="PF('modificarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     process="modificarDetail"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('modificarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Insertar Proyecto" widgetVar="insertarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="insertarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Proyecto:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{proyectoBean.curProyecto.nombre}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButton" value="Insertar" 
+                                                     actionListener="#{proyectoBean.insertarProyecto()}"
+                                                     oncomplete="PF('insertarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('insertarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

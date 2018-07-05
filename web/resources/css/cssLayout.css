@@ -1,0 +1,86 @@
+
+#top {
+    position: relative;
+    background-color: azure;
+
+    margin: 0px 0px 10px 0px;
+    height: 140px;
+    
+}
+
+#bottom {
+    position: relative;
+    background-color: #c2dfef;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+}
+
+#left {
+    float: left;
+    background-color:silver;
+    padding: 5px;
+    width: 200px;
+}
+
+#right {
+    float: right;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}
+
+.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 10px;
+    min-height: 450px;
+}
+
+.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 210px;
+    
+}
+
+.right_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+}
+
+#top a:link, #top a:visited {
+  color: white;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+  color: black;
+  font-weight : bold;
+  text-decoration : underline;
+  text-align: center;
+}
+.logo{
+   background:url("#{resource['images:cifraheader.jpg']}") 0 0 no-repeat;
+   width:100%;
+   height:150px;
+   border: #000000;
+}
+.label_form{
+    font-weight: bold;
+    width: 150px;
+}
+.panel_input{
+    width: 580px;
+}
+.panel_inicio{
+    width: 100%;
+    height: 400px;
+    text-align: center;
+    font:large;
+    background-color: #FFCC00;
+}
+#tableInfo{
+    border: 1px solid black;   
+}

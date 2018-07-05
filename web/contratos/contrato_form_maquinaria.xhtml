@@ -1,0 +1,66 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+
+
+
+    <h:form id="formMaquinaria">
+        <p:dialog header="Maquinaria y equípo " widgetVar="maquinariaDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="maquinariaDetail" >
+                <p:panelGrid  >
+                    <p:row >
+                        <p:column><p:outputLabel value="Maquinaria o equipo:" /></p:column>
+                        <p:column>
+                            <p:selectOneMenu id="selTipoMaq" value="#{contratoNewBean.curContratoMaquinaria.fkMaquinaria.identificador}" 
+                                             disabled="#{contratoNewBean.editContratoMaquinaria}" 
+                                             >
+                                <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                <f:selectItems value="#{contratoNewBean.maquinariaLst }"
+                                               var="maquina"
+                                               itemLabel="#{maquina.maquinaria}"
+                                               itemValue="#{maquina.identificador}"/> 
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Equipo mínimo requerido:" /></p:column>
+                        <p:column>
+                            <p:inputText value="#{contratoNewBean.curContratoMaquinaria.cantidad}" id="textCantMaq"/>
+                        </p:column>
+                    </p:row>
+                    <p:row >
+                        <p:column colspan="4" style="text-align: center"> 
+                            <p:commandButton value="Adicionar" 
+                                             rendered="#{!contratoNewBean.editContratoMaquinaria}"
+                                             actionListener="#{contratoNewBean.addicionarMaquinaria()}"
+                                             update="formData:tabView:tableMaquinaria"
+                                             oncomplete="PF('maquinariaDialog').hide()"/>
+                            
+                            <p:commandButton value="Eliminar"
+                                             icon="ui-icon-trash"
+                                             rendered="#{contratoNewBean.editContratoMaquinaria}"
+                                             actionListener="#{contratoNewBean.removeMaquinaria()}"
+                                             update="formData:tabView:tableMaquinaria,:formData:mensajes"
+                                             oncomplete="PF('maquinariaDialog').hide()"/>
+                            <p:commandButton value="Actualizar"
+                                             icon="ui-icon-disk"
+                                             rendered="#{contratoNewBean.editContratoMaquinaria}"
+                                             actionListener="#{contratoNewBean.modificarMaquinaria()}"
+                                             update="formData:tabView:tableMaquinaria,:formData:mensajes"
+                                             oncomplete="PF('maquinariaDialog').hide()"/>                            
+                            
+                            
+                            
+                            
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('maquinariaDialog').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</ui:component>

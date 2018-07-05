@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form id="formData">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column styleClass="ui-widget-header">Lista de Obras</p:column>  
+                    </p:row>
+                    <p:row>
+                        <p:column >
+                            <p:commandButton oncomplete="PF('insertarDialog').show()"
+                                             actionListener="#{tablesBean.newActividad()}"
+                                             value="Nueva Actividad"/>
+
+                        </p:column>  
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:dataTable value="#{tablesBean.actividadLst}" var="act" id="dataTable">
+                                <p:column headerText="Descripcion" style="width: 70%">
+                                    <p:outputLabel value="#{act.actividad}" />
+                                </p:column>
+                                <p:column headerText="Unidades">
+                                    <p:outputLabel value="#{act.unidades}" style="width: 20%"/>
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton oncomplete="PF('modificarDialog').show()" 
+                                                     icon="ui-icon-pencil" 
+                                                     title="Modificar" 
+                                                     update=":formData:modificarDetail"
+                                                     >
+                                        <f:setPropertyActionListener value="#{act}" 
+                                                                     target="#{tablesBean.curActividad}" />
+                                    </p:commandButton>
+                                    <p:commandButton oncomplete="PF('eliminarDialog').show()" 
+                                                     icon="ui-icon-trash" 
+                                                     title="Eliminar" 
+                                                     update=":formData:eliminarDetail"
+                                                     >
+                                        <f:setPropertyActionListener value="#{act}" 
+                                                                     target="#{tablesBean.curActividad}" />
+                                        
+                                    </p:commandButton>
+
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dialog header="Actividad" widgetVar="eliminarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="eliminarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column colspan="2">
+                                    Confirme 
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> 
+                                    <p:outputLabel value="Actividad:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel   value="#{tablesBean.curActividad.actividad}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Unidades:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:outputLabel   value="#{tablesBean.curActividad.unidades}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="eliminarButton" value="Eliminar" 
+                                                     actionListener="#{tablesBean.eliminarActividad()}"
+                                                     oncomplete="PF('eliminarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('eliminarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                            
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Actividad" widgetVar="modificarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="modificarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column><p:outputLabel value="Actividad:"/></p:column>
+                                <p:column>
+                                    <p:inputText value="#{tablesBean.curActividad.actividad}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Unidades:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu  value="#{tablesBean.curActividad.unidades}" >
+                                        <f:selectItem itemLabel="Unidades" itemValue="Unidades"/>
+                                        <f:selectItem itemLabel="Porcentaje" itemValue="Porcentaje"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButtonEdit" value="Guardar" 
+                                                     actionListener="#{tablesBean.modificarActividad()}"
+                                                     oncomplete="PF('modificarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('modificarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+
+                    </p:outputPanel>
+                </p:dialog>
+                <p:dialog header="Insertar Actividad" widgetVar="insertarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="insertarDetail" style="text-align:center;">
+                        <p:panelGrid  >
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Actividad:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{tablesBean.curActividad.actividad}" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Unidades:"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="selGestor" value="#{tablesBean.curActividad.unidades}" >
+                                        <f:selectItem itemLabel="Unidades" itemValue="Unidades"/>
+                                        <f:selectItem itemLabel="Porcentaje" itemValue="Porcentaje"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:commandButton id="saveButton" value="Insertar" 
+                                                     actionListener="#{tablesBean.insertarActividad()}"
+                                                     oncomplete="PF('insertarDialog').hide()"
+                                                     update=":formData:dataTable"
+                                                     icon="ui-icon-disk" />
+                                    <p:commandButton value="Cancelar"
+                                                     oncomplete="PF('insertarDialog').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

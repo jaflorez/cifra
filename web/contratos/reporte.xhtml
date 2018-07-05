@@ -1,0 +1,893 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/tpl_invi.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:breadCrumb>
+                    <p:menuitem value="Inicio"  url="/faces/inicio/index.xhtml" />
+                    <p:menuitem value="Contratos"  />
+                    <p:menuitem value="Contratos registrados" url="/faces/contratos/contratolst.xhtml" />
+                    <p:menuitem value="Reporte Semanal"  url="/faces/contratos/reportelst.xhtml"  />
+                    <p:menuitem value="Actualizar" />
+                </p:breadCrumb>
+            </h:form>
+
+            <h:form id="formData">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                <p:panel id="pnlInfo" header="Informacion General del Contrato">
+                    <p:panelGrid  styleClass="panel_input" >
+                        <p:row >
+                            <p:column><p:outputLabel value="Contrato:" /></p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.contrato.contObraCodigo}" />
+                                <p:outputLabel value="-" />
+                                <p:outputLabel value="#{reporteBean.contrato.contObraVigencia}" />
+                            </p:column>
+                            <p:column><p:outputLabel value="Fecha del Contrato :" /></p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.contrato.contObraFecha}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Objeto del Contrato de Obra" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:outputLabel  value="#{reporteBean.contrato.objeto}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4"><p:separator /> </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Numero de Semana"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.numerosemana}" />
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Numero de Reporte"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.numeroreporte}" />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Fecha desde"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.reportedesde}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="Fecha hasta"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.reporte.reportehasta}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title" >
+                                <p:outputLabel value="Fecha límite de presentacion"/>
+                            </p:column>
+                            <p:column  >
+                                <p:outputLabel value="#{reporteBean.reporte.fechaLimitePresentacion}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column styleClass="column_title" >
+                                <p:outputLabel value="Fecha de diligenciamiento"/>
+                            </p:column>
+                            <p:column  >
+                                <p:outputLabel value="#{reporteBean.reporte.fechaPresentacionReporte}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                                </p:outputLabel>
+                            </p:column>
+
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel id="panel00"  rendered="#{reporteBean.panelFocus[0]}">
+                    <center>
+                        <p:panelGrid  styleClass="panel_input">
+                            <p:row>
+                                <p:column style="text-align: center;width: 40%" ><p:outputLabel value="Avance Finaciero" styleClass="column_input_title" /></p:column>
+                                <p:column style="text-align: center;width: 10%" >
+                                    <p:commandLink    actionListener="#{reporteBean.onFocusPanel(1)}"
+                                                      update=":formData,:filesForm"
+                                                      >
+                                        <h:graphicImage  name="/images/rp_final.jpg" rendered="#{reporteBean.panelOk[1]}" />
+                                        <h:graphicImage  name="images/rp_work.jpg" rendered="#{!reporteBean.panelOk[1]}"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column style="text-align: center;width: 40%">
+                                    <p:outputLabel value="Avance Fisico" styleClass="column_input_title" />
+                                </p:column>
+                                <p:column style="text-align: center;width: 10%">
+                                    <p:commandLink    actionListener="#{reporteBean.onFocusPanel(2)}"
+                                                      update=":formData,:filesForm"
+                                                      >
+                                        <h:graphicImage name="/images/rp_final.jpg" rendered="#{reporteBean.panelOk[2]}" />
+                                        <h:graphicImage name="images/rp_work.jpg" rendered="#{!reporteBean.panelOk[2]}"/>
+                                    </p:commandLink>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="text-align: center;width: 40%"><p:outputLabel value="Gestion Ambiental" styleClass="column_input_title" /></p:column>
+                                <p:column style="text-align: center;width: 10%">
+                                    <p:commandLink    actionListener="#{reporteBean.onFocusPanel(3)}"
+                                                      update=":formData,:filesForm"
+                                                      >
+                                        <h:graphicImage  name="/images/rp_final.jpg" rendered="#{reporteBean.panelOk[3]}" />
+                                        <h:graphicImage  name="images/rp_work.jpg" rendered="#{!reporteBean.panelOk[3]}"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column style="text-align: center;width: 40%">
+                                    <p:outputLabel value="Gestión Predial y Social" styleClass="column_input_title" />
+                                </p:column>
+                                <p:column style="text-align: center;width: 10%">
+                                    <p:commandLink    actionListener="#{reporteBean.onFocusPanel(4)}"
+                                                      update=":formData,:filesForm"
+                                                      >
+                                        <h:graphicImage name="/images/rp_final.jpg" rendered="#{reporteBean.panelOk[4]}" />
+                                        <h:graphicImage name="images/rp_work.jpg" rendered="#{!reporteBean.panelOk[4]}"/>
+                                    </p:commandLink>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="text-align: center;width: 40%" ><p:outputLabel value="Actividades y acciones a seguir" styleClass="column_input_title" /></p:column>
+                                <p:column style="text-align: center;width: 10%">
+                                    <p:commandLink    actionListener="#{reporteBean.onFocusPanel(5)}"
+                                                      update=":formData,:filesForm">
+                                        <h:graphicImage  name="/images/rp_final.jpg" rendered="#{reporteBean.panelOk[5]}" />
+                                        <h:graphicImage  name="images/rp_work.jpg" rendered="#{!reporteBean.panelOk[5]}"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column style="text-align: center;width: 40%" ><p:outputLabel value="Soporte gráfico" styleClass="column_input_title" /></p:column>
+                                <p:column style="text-align: center;width: 10%">
+                                    <p:commandLink    actionListener="#{reporteBean.onFocusPanel(6)}"
+                                                      update=":formData,:filesForm">
+                                        <h:graphicImage  name="/images/rp_final.jpg" rendered="#{reporteBean.panelOk[6]}" />
+                                        <h:graphicImage  name="images/rp_work.jpg" rendered="#{!reporteBean.panelOk[6]}"/>
+                                    </p:commandLink>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="text-align: center;width: 40%" ><p:outputLabel value="Información del director de interventoria" styleClass="column_input_title" /></p:column>
+                                <p:column style="text-align: center;width: 10%" >
+                                    <p:commandLink    actionListener="#{reporteBean.onFocusPanel(7)}"
+                                                      update=":formData,:filesForm"
+                                                      >
+                                        <h:graphicImage  name="/images/rp_final.jpg" rendered="#{reporteBean.panelOk[7]}" />
+                                        <h:graphicImage  name="images/rp_work.jpg" rendered="#{!reporteBean.panelOk[7]}"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column style="text-align: center;width: 40%">
+                                </p:column>
+                                <p:column style="text-align: center;width: 10%">
+                                </p:column>
+                            </p:row>
+
+                        </p:panelGrid>
+                    </center>
+                </p:panel>
+                <p:panel id="panel01"  rendered="#{reporteBean.panelFocus[1]}">
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Avance Financiero</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column  colspan="2" style="text-align: center">
+                                <p:outputLabel value="Obra" style="font-weight: bold;font-size: 14px" />
+                            </p:column>
+                            <p:column  colspan="2" style="text-align: center">
+                                <p:outputLabel value="Interventoria" style="font-weight: bold;font-size: 14px" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column   >
+                                <p:outputLabel value="Mes o Periodo:" style="font-weight: bold;font-size: 14px;width: 25%" />
+                            </p:column>
+                            <p:column   style="width: 25%" >
+                                <p:selectOneMenu id="selCorteObra" value="#{reporteBean.reporte.fkCtoFinancieroObra}" required="true" requiredMessage="Seleccione el corte de obra" >
+                                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                    <f:selectItems value="#{reporteBean.contratoFinancieroObraLst}"
+                                                   var="financiertoObra"
+                                                   itemLabel="#{financiertoObra.ano} :  #{financiertoObra.corte}"
+                                                   itemValue="#{financiertoObra.identificador}"/> 
+                                    <p:ajax update="lblCorteObra"  listener="#{reporteBean.setCurrentFinancieroObra()}"  process="@this" />                                     
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column   >
+                                <p:outputLabel value="Mes facturado" />
+                            </p:column>
+                            <p:column  >
+                                <p:inputNumber value="#{reporteBean.reporte.intMesFacturado}" decimalPlaces="0" 
+                                               required="true" requiredMessage="Ingrese el numero de mes de facutracion de la interventoria"
+                                               maxValue="500" validatorMessage="Error en el valor, debe ingresar el numero del mes para la interventoria (max 500)"
+
+                                               />
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Valor corte obra" />
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{reporteBean.curFinancieroObra.valor}" id="lblCorteObra" >
+                                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column  colspan="2" >
+
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title" style="width: 25%">
+                                <p:outputLabel value="Obra: Presentó factura en la presente semana"/>
+                            </p:column>
+                            <p:column style="width: 25%">
+                                <p:selectOneRadio id="presentoFactura" value="#{reporteBean.reporte.obrPresentoFactura}" required="true" requiredMessage="Presento factura obra: Es obligatorio">
+                                    <f:selectItem itemLabel="Si" itemValue="#{true}" />
+                                    <f:selectItem itemLabel="No" itemValue="#{false}" />
+
+                                    <p:ajax process="@this" update="dataFacturaObra"  />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column styleClass="column_title" style="width: 25%">
+                                <p:outputLabel value="Interventoria: Presento factura en la presente semana" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.intPresentoFactura}">
+                                    <f:selectItem itemLabel="Si" itemValue="#{true}" />
+                                    <f:selectItem itemLabel="No" itemValue="#{false}" />
+                                    <p:ajax process="@this" update="lblFecFactInt,lblValFactInt"  />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteBean.labelFechaFactura(1)}" id="lblFecFactObra"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{reporteBean.reporte.obrFechaFactura}" required="true"  
+                                            locale="es"
+                                            requiredMessage="Fecha factura obra: Ingrese un valor" />
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteBean.labelFechaFactura(2)}" id="lblFecFactInt"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{reporteBean.reporte.intFechaFactura}" required="true" requiredMessage="Feha factura interventoria: Ingrese una fecha" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column  colspan="2">
+                                <p:panelGrid id="dataFacturaObra" style="width: 100%">
+                                    <p:row>
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="#{reporteBean.labelValorFactura(1)}" id="lblValFactObra"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorInversion}" 
+                                                           required="true"
+                                                           requiredMessage="Ingrese el valor basico de obra segun factura"
+                                                           decimalPlaces="2" decimalSeparator="," thousandSeparator="." symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor de Estudios y Diseños"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorEstudios}" required="true" 
+                                                           requiredMessage="Ingrese un valor de factura de interventoria" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor Predial"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorPredial}" required="true" 
+                                                           requiredMessage="Ingrese un valor de factura de interventoria" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor Ambiental"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorAmbiental}" required="true" 
+                                                           requiredMessage="Ingrese un valor de factura de interventoria" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor Ajustes"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorAjustes}" required="true" 
+                                                           requiredMessage="Ingrese un valor de factura de interventoria" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor IVA"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorIva}" required="true" 
+                                                           requiredMessage="Ingrese un valor de factura de interventoria" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor otros"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorOtros}" required="true" 
+                                                           requiredMessage="Ingrese un valor de factura de interventoria" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor de amortización del anticipo"  />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorAmortizacion}" required="true" 
+                                                           requiredMessage="Ingrese el valor de amortización del anticipo" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row  rendered="#{reporteBean.reporte.obrPresentoFactura}">
+                                        <p:column styleClass="column_title">
+                                            <p:outputLabel value="Valor total facturado"  />
+                                        </p:column>
+                                        <p:column >
+                                            <p:inputNumber value="#{reporteBean.reporte.obrValorFacturado}" required="true" 
+                                                           requiredMessage="Ingrese un valor  total facturado de la obra" 
+                                                           decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " >
+                                                <p:ajax event="blur" update="validatorFactura" />
+                                            </p:inputNumber>
+                                            <p:inputText value="#{reporteBean.validarValorFactura}" id="validatorFactura" required="true" 
+                                                         style="visibility: hidden"
+                                                         requiredMessage="La sumatoria de los valores ejecutados por las partidas menos la amortizacion de anticipo debe ser igual al valor facturado"/>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:column>
+                            <p:column styleClass="column_title">
+                                <p:outputLabel value="#{reporteBean.labelValorFactura(2)}" id="lblValFactInt"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputNumber value="#{reporteBean.reporte.intValorFactura}" required="true" 
+                                               requiredMessage="Ingrese un valor de factura de interventoria" 
+                                               decimalPlaces="2" thousandSeparator="." decimalSeparator="," symbol="$ " />
+
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel id="panel02" rendered="#{reporteBean.panelFocus[2]}">
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Avance Fisico</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Avance Físico Acumulado %" />
+                            </p:column>
+                            <p:column>
+                                <p:inputNumber value="#{reporteBean.reporte.obrAvanceFisico}"  decimalPlaces="2"  symbol="%"  required="true" requiredMessage="Ingrese el valor del porcentaje de avace de obra"/>
+                            </p:column>
+                            <p:column>
+
+                            </p:column>
+                            <p:column>
+
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column  colspan="4">
+                                <ui:include src="reporte_tableact.xhtml"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <ui:include src="reporte_tablemaq.xhtml"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel id="panel03"  rendered="#{reporteBean.panelFocus[3]}">
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Gestión ambiental</p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="row_title" colspan="4" style="text-align: center"><p:outputLabel value="Fuentes de materiales" /></p:column>                         
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <center>
+                                    <p:dataTable style="width: 80%"
+                                                 id="tableMateriales"
+                                                 emptyMessage="No existen fuentes de materiales registradas"
+                                                 value="#{reporteBean.reporte.reporteMaterialesList}" var="mat">
+                                        <p:column headerText="Ubicacion" style="width: 60%">
+                                            <p:outputLabel value="#{mat.ubicacion}"/>
+                                        </p:column>
+                                        <p:column headerText="Permiso Minero" >
+                                            <p:outputLabel rendered="#{mat.permisoMinero}" value="Si" />
+                                            <p:outputLabel rendered="#{!mat.permisoMinero}" value="No" />
+                                        </p:column>
+                                        <p:column headerText="Licencia ambiental">
+                                            <p:outputLabel rendered="#{mat.licenciaAmbiental}" value="Si" />
+                                            <p:outputLabel rendered="#{!mat.licenciaAmbiental}" value="No" />
+                                        </p:column>
+                                        <p:column >
+                                            <p:commandButton icon="ui-icon-trash" 
+                                                             actionListener="#{reporteBean.removeMateriales(mat)}" 
+                                                             update=":formData:tableMateriales,:formData:msgs"
+                                                             process="@this">
+                                            </p:commandButton>
+
+                                        </p:column>
+                                    </p:dataTable>
+                                    <p:commandButton value="Nueva fuente de materiales" 
+                                                     oncomplete="PF('newMaterialDialog').show()"
+                                                     process="@this"
+                                                     update=":formData:materialesDetail"
+                                                     />
+                                </center>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column >
+                                <p:outputLabel value="Observaciones" />
+                            </p:column>
+                            <p:column colspan="3">
+                                <p:inputTextarea cols="90" 
+                                                 rows="4" 
+                                                 id="textFtMatObservaciones"
+                                                 required="true"
+                                                 requiredMessage="Ingrese las observaciones de las fuentes de materiales"
+                                                 counter="dispFtMatObservaciones"
+                                                 maxlength="1000"
+                                                 validatorMessage="El numero menor de caracteres para las actividades de esta semana es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.ftmatObservaciones}">
+                                    <f:validateLength minimum="25" />
+                                </p:inputTextarea>
+                                <br/>
+                                <h:outputText id="dispFtMatObservaciones" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: center" ><p:outputLabel value="Permisos ambientales y/o licenciamiento ambiental" styleClass="row_title"/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Zonas de deposito" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambBotaderos}" required="true" requiredMessage="Seleccione los datos de botaderos">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Licencia Ambiental" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambLicenciambiental}" required="true" requiredMessage="Ingrese si requiere licencia ambiental">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Aprovechamiento Forestal" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambAprovforestal}" required="true" requiredMessage="Ingrese los datos de aprovechamiento forestal">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Concesión de Aguas" />
+                            </p:column>
+                            <p:column>
+                                <p:selectOneRadio value="#{reporteBean.reporte.ambConcecionaguas}" required="true" requiredMessage="Ingrese los datos de concesion de aguas">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Ocupación de cauces" /></p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambOcupacioncauces}" required="true" requiredMessage="Ingrese el valor de ocupacion de cauces">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column><p:outputLabel value="Vertimientos" /></p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambVertimentos}" required="true" requiredMessage="Ingrese los datos de vertimientos">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Emisiones" /></p:column>
+                            <p:column>
+                                <p:selectOneRadio  value="#{reporteBean.reporte.ambEmiciones}" required="true" requiredMessage="Ingrese los datos de emisiones">
+                                    <f:selectItem itemLabel="Si" itemValue="1" />
+                                    <f:selectItem itemLabel="No" itemValue="-1" />
+                                    <f:selectItem itemLabel="No Aplica" itemValue="0" />
+                                </p:selectOneRadio>
+                            </p:column>
+                            <p:column></p:column>
+                            <p:column></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Observaciones" />
+
+                            </p:column>
+                            <p:column colspan="3">
+
+                                <p:inputTextarea cols="90" rows="4" id="textPermisosObservaciones" required="true"
+                                                 requiredMessage="Ingrese las observaciones de las fuentes de materiales"
+                                                 counter="dispPermisosObservaciones" maxlength="1000"
+                                                 validatorMessage="El numero menor de caracteres para las actividades de esta semana es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.ambObservaciones}">
+                                    <f:validateLength minimum="25" />
+                                </p:inputTextarea>
+                                <br/>
+                                <h:outputText id="dispPermisosObservaciones" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: center">
+                                <p:outputLabel value="Paga (Programa de adaptacion a la Guia Ambiental)" styleClass="row_title"  />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Estado" /></p:column>
+                            <p:column colspan="3">
+                                <p:inputTextarea cols="90" rows="4" id="textPagaEstado" required="true"
+                                                 requiredMessage="Ingrese las observaciones de las fuentes de materiales"
+                                                 counter="dispPagaEstado" maxlength="250"
+                                                 validatorMessage="El numero menor de caracteres para las actividades de esta semana es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.pagaEstado}">
+                                    <f:validateLength minimum="25" />
+                                </p:inputTextarea>
+                                <br/>
+                                <h:outputText id="dispPagaEstado" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Observaciones" /></p:column>
+                            <p:column colspan="3">
+
+                                <p:inputTextarea cols="90" rows="4" id="textPagaObservaciones" required="true"
+                                                 requiredMessage="Ingrese las observaciones de las fuentes de materiales"
+                                                 counter="dispPagaObservaciones" maxlength="1000"
+                                                 validatorMessage="El numero menor de caracteres para las actividades de esta semana es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.pagaObservaciones}">
+                                    <f:validateLength minimum="25" />
+                                </p:inputTextarea>
+                                <br/>
+                                <h:outputText id="dispPagaObservaciones" />
+
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel id="panel04"  rendered="#{reporteBean.panelFocus[4]}">
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row >
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Gestión Predial</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Total Predios adquirir" /> </p:column>
+                            <p:column><p:inputNumber value="#{reporteBean.reporte.geprPredadquirir}" decimalPlaces="0" required="true" requiredMessage="Total predios a adquirir" /></p:column>
+                            <p:column colspan="2" rowspan="4">
+                                <p:outputLabel value="Observaciones" /> <br/>
+                                <p:inputTextarea cols="60" rows="4" id="textGePrObservaciones" required="true"
+                                                 requiredMessage="Ingrese las observaciones de las fuentes de materiales"
+                                                 counter="dispGePrObservaciones" maxlength="1000"
+                                                 validatorMessage="El numero menor de caracteres para las actividades de esta semana es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.geprObservaciones}">
+                                    <f:validateLength minimum="25" />
+                                </p:inputTextarea>
+                                <br/>
+                                <h:outputText id="dispGePrObservaciones" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Fichas Prediales aprobadas" /></p:column>
+                            <p:column><p:inputNumber value="#{reporteBean.reporte.geprFichasaprob}"  decimalPlaces="0" required="true" requiredMessage="Ingrese el numero de fichas prediales aprobadas" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Avalúos aprobados" /></p:column>
+                            <p:column><p:inputNumber value="#{reporteBean.reporte.geprAvaluos}"  decimalPlaces="0" required="true" requiredMessage="Ingrese los avaluos aprobados" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Predios adquiridos" /></p:column>
+                            <p:column><p:inputNumber value="#{reporteBean.reporte.geprPredadquiridos}" decimalPlaces="0" required="true" requiredMessage="ingrese el total de predios adquiridos" /></p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Gestión Social</p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column><p:outputLabel value="Total empleos generados" />   </p:column>
+                            <p:column><p:inputNumber value="#{reporteBean.reporte.gesoEmpgen}" decimalPlaces="0" required="true" requiredMessage="Ingrese el total de empleos generados"/> </p:column>
+                            <p:column rowspan="5" colspan="2"><p:outputLabel value="Observaciones" /><br/>
+
+                                <p:inputTextarea cols="60" rows="4" id="textGeSoObservaciones" required="true"
+                                                 requiredMessage="Ingrese las observaciones de las fuentes de materiales"
+                                                 counter="dispGeSoObservaciones" maxlength="1000"
+                                                 validatorMessage="El numero menor de caracteres para las actividades de esta semana es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.gesoObservaciones}">
+                                    <f:validateLength minimum="25" />
+                                </p:inputTextarea>
+                                <br/>
+                                <h:outputText id="dispGeSoObservaciones" />
+
+
+
+
+
+
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Empleos directos Generados" /> </p:column>
+                            <p:column>
+                                <p:inputNumber value="#{reporteBean.reporte.gesoEmpdirgen}" decimalPlaces="0" required="true" requiredMessage="Ingrese el numero total de empleos directos generados"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Empleos indirectos Generados" /> </p:column>
+                            <p:column>
+                                <p:inputNumber value="#{reporteBean.reporte.gesoEmpindirgen}" decimalPlaces="0" required="true" requiredMessage="Ingrese el número de empleos indirectos generados"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="No. Socializaciones generadas" /> </p:column>
+
+                            <p:column>
+                                <p:inputNumber value="#{reporteBean.reporte.gesoNosocializaciones}" decimalPlaces="0" required="true" requiredMessage="Ingres el numero de socializaciones"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="No. Capacitaciones realizadas" /> 
+                            </p:column>
+                            <p:column>
+                                <p:inputNumber value="#{reporteBean.reporte.gesoNocapacitaciones}" decimalPlaces="0" required="true" requiredMessage="requerido número de capacitaciones"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Sede servicio atención al usuario" /> 
+                            </p:column>
+                            <p:column colspan="3"><p:inputText value="#{reporteBean.reporte.gesoSede}" size="68"  required="true" requiredMessage="requerido sede atencion al usuario"/> </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel id="panel05"  rendered="#{reporteBean.panelFocus[5]}">
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">VII. Actividades realizadas en la semana</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:inputTextarea cols="120" 
+                                                 rows="4" 
+                                                 id="textActividadRealizada"
+                                                 required="true"
+                                                 requiredMessage="Ingrese la descripción de las actividades realizadas en la presente semana"
+                                                 counter="dispActividadRealizada"
+                                                 maxlength="1000"
+                                                 validatorMessage="El numero menor de caracteres para las actividades de esta semana es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.actividadRealizada}">
+                                    <f:validateLength minimum="50" />
+                                </p:inputTextarea>
+
+                                <br/>
+                                <h:outputText id="dispActividadRealizada" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">VIII. Actividades a realizar en la siguiente semana</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:inputTextarea cols="120" rows="4" 
+                                                 value="#{reporteBean.reporte.actividadARealizar}" 
+                                                 required="true" 
+                                                 maxlength="1000"
+                                                 counter="displayActARealizar"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 validatorMessage="La longitud minima de las actividades realizadas es de 50 caracteres"
+                                                 requiredMessage="Ingrese los datos de actividades a realizar" >
+                                    <f:validateLength minimum="50" />
+                                </p:inputTextarea><br/>
+                                <h:outputText id="displayActARealizar" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">XI. Acciones a seguir por parte de la interventoría para el cumplimiento de las obligaciones contractuales</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:inputTextarea cols="120" rows="4" 
+                                                 id="textResumen"
+                                                 required="true"
+                                                 requiredMessage="Ingrese un resumen del proyecto"
+                                                 counter="dispResumen"
+                                                 maxlength="1000"
+                                                 validatorMessage="El numero menor de caracteres para el resumen es de 50 caracteres"
+                                                 counterTemplate="{0} Caracteres disponibles"
+                                                 value="#{reporteBean.reporte.resumen}">
+                                    <f:validateLength minimum="50" />
+                                </p:inputTextarea><br/><h:outputText id="dispResumen" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+
+                <p:panel id="panel07"  rendered="#{reporteBean.panelFocus[7]}">
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column styleClass="ui-widget-header" colspan="4" style="text-align: center">Información del interventor responsable de la interventoria</p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="Nombre del director de interventoría:" /></p:column>  
+                            <p:column colspan="3"><p:inputText value="#{reporteBean.reporte.nombreFirma}" size="80" required="true" /></p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column ><p:outputLabel value="Matricula profesional" /></p:column>  
+                            <p:column><p:inputText value="#{reporteBean.reporte.matriculaProfesional}" required="true" /></p:column>  
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" >
+                                <p:fileUpload fileUploadListener="#{reporteBean.handleFileUploadFirma}" mode="advanced" dragDropSupport="false"
+                                              cancelLabel="Cancelar"
+                                              uploadLabel="Cargar"
+                                              invalidFileMessage="Error en el tipo de archivo"
+                                              invalidSizeMessage="Exede el tamaño permitido maximo 700 Mb "
+                                              fileLimitMessage="Máximo numero de archivos 1"
+                                              label="Seleccionar"
+                                              sizeLimit="700000" 
+                                              update="imageFirma"
+                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column  >
+                                <p:outputLabel value="Firma" />
+                            </p:column>
+                            <p:column  >
+                                <p:graphicImage    name="#{reporteBean.nomFileImageFirma}"  library="tmp"  id="imageFirma" width="180px" height="120px" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+                </p:panel>
+
+                <p:panel id="panel99"  rendered="#{!reporteBean.panelFocus[6]}">
+                    <p:panelGrid styleClass="panel_input">
+                        <p:row>
+                            <p:column style="text-align: center;font-size: 18px">
+                                <p:outputLabel value="Las cifras cantidades y valores consignados en este reporte son responsabilidad esclusiva del interventor" 
+                                               rendered="#{reporteBean.panelFocus[0]}"
+                                               />
+
+                                <br/>
+                                <p:outputLabel value="Aceptar" rendered="#{reporteBean.panelFocus[0]}" />
+                                <p:selectBooleanCheckbox id="chkAceptarReporte" rendered="#{reporteBean.panelFocus[0]}" value="#{reporteBean.aceptarReporte}" >
+                                    <p:ajax event="change" update="cmdTerminarRpt" /> 
+                                </p:selectBooleanCheckbox>
+
+                            </p:column>
+                        </p:row>
+                        <p:row >
+                            <p:column colspan="4" style="text-align: center">
+                                <p:commandButton value="Aceptar" 
+                                                 id="cmdAceptarRpt"
+                                                 actionListener="#{reporteBean.actualizarReporte()}"
+                                                 update=":formData,:filesForm,:formData:msgs"
+                                                 rendered="#{!reporteBean.panelFocus[0]}"
+                                                 />
+                                <p:commandButton value="Terminar reporte" 
+                                                 id="cmdTerminarRpt"
+                                                 disabled="#{!reporteBean.aceptarReporte}"
+
+
+                                                 actionListener="#{reporteBean.actualizarTerminarReporte()}"
+                                                 update="msgs"
+                                                 rendered="#{reporteBean.panelFocus[0]}"
+                                                 />
+
+                                <p:commandButton value="Cancelar" 
+                                                 actionListener="#{reporteBean.cancelUpdateImages()}"
+                                                 update=":formData,:filesForm"
+                                                 process="@this"
+                                                 rendered="#{!reporteBean.panelFocus[0]}"
+                                                 />
+                                <p:commandButton value="Regresar" 
+                                                 action="reportelst?faces-redirect=true"
+                                                 process="@this"
+                                                 rendered="#{reporteBean.panelFocus[0]}"
+                                                 />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+                <ui:include src="reporte_materiales.xhtml"/>
+            </h:form>
+            <ui:include src="reporte_images.xhtml"/>
+
+        </ui:define>
+    </ui:composition>
+
+</html>
+

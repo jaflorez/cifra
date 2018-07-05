@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="cifraPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>invias.cifra.entity.ContratoTerceroObra</class>
+    <class>invias.cifra.entity.Contrato</class>
+    <class>invias.cifra.entity.ContratoActividad</class>
+    <class>invias.cifra.entity.Estado</class>
+    <class>invias.cifra.entity.ContratoTramo</class>
+    <class>invias.cifra.entity.Maquinaria</class>
+    <class>invias.cifra.entity.ContratoProrrogaInter</class>
+    <class>invias.cifra.entity.ContratoFinancieroObra</class>
+    <class>invias.cifra.entity.DireccionTerritorial</class>
+    <class>invias.cifra.entity.ReporteActividad</class>
+    <class>invias.cifra.entity.Actividad</class>
+    <class>invias.cifra.entity.Reporte</class>
+    <class>invias.cifra.entity.ContratoAjusteObra</class>
+    <class>invias.cifra.entity.ContratoTerceroInter</class>
+    <class>invias.cifra.entity.UnidadEjecutora</class>
+    <class>invias.cifra.entity.Proyecto</class>
+    <class>invias.cifra.entity.ReporteMaquinaria</class>
+    <class>invias.cifra.entity.Programa</class>
+    <class>invias.cifra.entity.Usuario</class>
+    <class>invias.cifra.entity.ContratoAdicionObra</class>
+    <class>invias.cifra.entity.ContratoVigenciaObra</class>
+    <class>invias.cifra.entity.ContratoProrrogaObra</class>
+    <class>invias.cifra.entity.ReporteEstado</class>
+    <class>invias.cifra.entity.ContratoFinancieroInter</class>
+    <class>invias.cifra.entity.ContratoAjusteInter</class>
+    <class>invias.cifra.entity.CargaSiifHeader</class>
+    <class>invias.cifra.entity.ReporteMateriales</class>
+    <class>invias.cifra.entity.Parametros</class>
+    <class>invias.cifra.entity.ContratoMaquinaria</class>
+    <class>invias.cifra.entity.Ajuste</class>
+    <class>invias.cifra.entity.ReporteArchivo</class>
+    <class>invias.cifra.entity.ContratoAdicionInter</class>
+    <class>invias.cifra.entity.Tercero</class>
+    <class>invias.cifra.entity.CargaSiifDetail</class>
+    <class>invias.cifra.entity.ViewReporteFecha</class>
+    <class>invias.cifra.entity.RptConsolidado</class>
+    <class>invias.cifra.entity.RptVigenciaReporte</class>
+    <class>invias.cifra.entity.UsuarioContrato</class>
+    <class>invias.cifra.entity.ReporteObservacion</class>
+    <class>invias.cifra.entity.EstadoContrato</class>
+    <class>invias.cifra.entity.RptConsolidadoActual</class>
+    <class>invias.cifra.entity.RptReporte</class>
+    <class>invias.cifra.entity.AuxSiifCarga</class>
+    <class>invias.cifra.entity.ContratoSiifDocumento</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.40.0.12:3306/cifra?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="cifra_web"/>
+      <property name="javax.persistence.jdbc.password" value="CifraAz2016*"/>
+    </properties>
+  </persistence-unit>
+</persistence>
+<!--
+<property name="javax.persistence.jdbc.url" value="jdbc:mysql://sw2k12r2prujava:3306/cifra?zeroDateTimeBehavior=convertToNull"/>
+<property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.40.0.12:3306/cifra?zeroDateTimeBehavior=convertToNull"/>
+-->

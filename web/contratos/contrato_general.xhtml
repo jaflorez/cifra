@@ -1,0 +1,118 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+    <p:panelGrid  styleClass="panel_input" >
+        <p:row >
+            <p:column style="width: 25%"><p:outputLabel value="Proyecto" /></p:column>
+            <p:column colspan="3">
+                <p:selectOneMenu id="selProyecto" value="#{contratoNewBean.contrato.fkProyecto.identificador}" required="true" requiredMessage="Seleccione el proyecto" >
+                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                    <f:selectItems value="#{contratoNewBean.proyectoLst}"
+                                   var="varTp"
+                                   itemLabel="#{varTp.nombre}"
+                                   itemValue="#{varTp.identificador}"/> 
+                </p:selectOneMenu>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column style="width: 15%"><p:outputLabel value="Programa" /></p:column>
+            <p:column style="width: 35%">
+                <p:selectOneMenu id="selPrograma" value="#{contratoNewBean.contrato.fkPrograma.identificador}" required="true" requiredMessage="Seleccione el programa" >
+                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                    <f:selectItems value="#{contratoNewBean.programaLst}"
+                                   var="varPr"
+                                   itemLabel="#{varPr.nombre}"
+                                   itemValue="#{varPr.identificador}"/> 
+                </p:selectOneMenu>
+            </p:column>
+            <p:column style="width: 15%" ><p:outputLabel value="Dirección territorial:" /></p:column>
+            <p:column style="width: 35%">                                    
+                <p:selectOneMenu id="selDir" value="#{contratoNewBean.contrato.fkDireccionTerritorial.identificador}" required="true" requiredMessage="Seleccione la direccion territorial" >
+                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                    <f:selectItems value="#{contratoNewBean.direccionTerritorialLst}"
+                                   var="varTp"
+                                   itemLabel="#{varTp.direccionTerrritorial}"
+                                   itemValue="#{varTp.identificador}"/> 
+                </p:selectOneMenu>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Unidad ejecutora:" /></p:column>
+            <p:column colspan="3">
+                <p:selectOneMenu id="selUnidEjec" value="#{contratoNewBean.contrato.fkUnidadEjecutora.identificador}" required="true"  requiredMessage="Seleccioenuna unidad ejecutora">
+                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                    <f:selectItems value="#{contratoNewBean.unidadEjecutoraLst}"
+                                   var="varTp"
+                                   itemLabel="#{varTp.unidadEjecutora}"
+                                   itemValue="#{varTp.identificador}"/> 
+                </p:selectOneMenu>
+            </p:column>
+        </p:row>
+        <p:row >
+            <p:column><p:outputLabel value="Supervisor:" /></p:column>
+            <p:column>
+                <p:selectOneMenu id="selSupervisor" value="#{contratoNewBean.contrato.fkUsuarioSupervisor.identificador}"
+                                 required="true"  requiredMessage="Seleccione el Gestor tecnico de contrato">
+                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                    <f:selectItems value="#{contratoNewBean.usuarioSupervisorLst}"
+                                   var="varUsr"
+                                   itemLabel="#{varUsr.nombre}  #{varUsr.apellido}"
+                                   itemValue="#{varUsr.identificador}"/> 
+                </p:selectOneMenu>
+            </p:column>
+
+
+
+            <p:column><p:outputLabel value="Gestor técnico del proyecto:" /></p:column>
+            <p:column>
+                <p:selectOneMenu id="selGestor" value="#{contratoNewBean.contrato.fkUsuarioGestor.identificador}"
+                                 required="true"  requiredMessage="Seleccione el Gestor tecnico de contrato">
+                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                    <f:selectItems value="#{contratoNewBean.usuarioGestorLst}"
+                                   var="varUsr"
+                                   itemLabel="#{varUsr.nombre}  #{varUsr.apellido}"
+                                   itemValue="#{varUsr.identificador}"/> 
+                </p:selectOneMenu>
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column><p:outputLabel value="Interventor:" /></p:column>
+            <p:column>
+                <p:outputLabel value="#{cifraSessionBean.curUsuario.nombre} #{cifraSessionBean.curUsuario.apellido}" />
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column>
+                <p:outputLabel value="Objeto del contrato de obra" />
+            </p:column>
+            <p:column colspan="3">
+                <p:inputTextarea cols="70" rows="3" value="#{contratoNewBean.contrato.objeto}" required="true" requiredMessage="Debe ingresar un objeto de contrato" />
+            </p:column>
+        </p:row>
+        <p:row>
+            <p:column>
+                <p:outputLabel value="Tramo" />
+            </p:column>
+            <p:column >
+                <p:inputText  value="#{contratoNewBean.contrato.tramo}" required="true" requiredMessage="Debe ingresar el tramo del contrato" />
+            </p:column>
+            <p:column>
+                <p:outputLabel value="Modo de transporte" />
+            </p:column>
+            <p:column >
+                <p:selectOneMenu id="selTipoContr" value="#{contratoNewBean.contrato.tipocont}"
+                                 required="true"  requiredMessage="Seleccione el modo de transporte">
+                    <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                    <f:selectItem itemLabel="Carretero" itemValue="1"/>
+                    <f:selectItem itemLabel="Ferrero" itemValue="2"/>
+                    <f:selectItem itemLabel="Fluvial y Maritimo" itemValue="3"/>
+                </p:selectOneMenu>
+            </p:column>
+        </p:row>
+        
+
+    </p:panelGrid>
+</ui:component>

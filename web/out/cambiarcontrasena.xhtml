@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="/templates/tpl_out.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                    <p:panelGrid style="width: 80%" >
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Cambio de clave de acceso  "/>
+                                <p:outputLabel value="#{contrasenaBean.usuario.nombre} - #{contrasenaBean.usuario.apellido}" />
+                            </p:column> 
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Clave:"/>
+                            </p:column> 
+                            <p:column>
+                                <p:password id="txtpassword"
+                                            value="#{contrasenaBean.clave}" 
+                                            required="true"
+                                            match="txtpasswordok"
+                                            requiredMessage="Debe ingresar la clave de acceso"
+                                            validatorMessage="Debe coincidir la clave de acceso"
+                                            />
+                                <p:message for="txtpassword" display="icon" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Confirme la Clave:"/>
+                            </p:column> 
+                            <p:column>
+                                <p:password id="txtpasswordok"  value="#{contrasenaBean.claveOk}"         />
+                                <p:message for="txtpasswordok" display="icon" />
+                            </p:column>
+                        </p:row>
+
+
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center" >
+                                <p:commandButton value="Cambiar" icon="ui-icon-carat-1-e" action="#{contrasenaBean.cambiarContrasena()}" />
+                                <p:commandButton value="Cancelar" icon="ui-icon-carat-1-e" action="inicio" />
+                            </p:column>
+
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
+

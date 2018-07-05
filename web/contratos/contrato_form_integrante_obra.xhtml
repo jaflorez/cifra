@@ -1,0 +1,53 @@
+                
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="formIntegranteObra" >
+        <p:dialog header="Integrante Contrato de Obra" widgetVar="dlgIntegranteObra" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="integranteObraDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column><p:outputLabel value="Empresa:" /></p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{contratoNewBean.curContratoTerceroObra.fkTercero.identificador}" id="dlgCTIdentificador">
+                                <f:selectItem itemLabel="Seleecione" itemValue="" />
+                                <f:selectItems value="#{contratoNewBean.terceroLst}" var="ter"
+                                               itemLabel="#{ter.nit} - #{ter.razonsocial}"        
+                                               itemValue="#{ter.identificador}"
+                                               />
+                            </p:selectOneMenu>                                
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Porcentaje" /></p:column>
+                        <p:column>
+                            <p:inputNumber value="#{contratoNewBean.curContratoTerceroObra.cantidad}" size="10" 
+                                           decimalPlaces="0"
+                                           required="true"      
+                                           requiredMessage="Debe ingresar el valor del porcentaje"
+                                           minValue="1"
+                                           maxValue="99"
+                                           id="dlgCTCantidad"  />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton 
+                                actionListener="#{contratoNewBean.addicionarTerceroObra()}"
+                                value="Adicionar" icon="ui-icon-disk"
+                                oncomplete="PF('dlgIntegranteObra').hide()"
+                                update=":formData:tabView:terceroObraTable,:formData:mensajes"
+                                />
+                            <p:commandButton value="Cancelar"
+                                             process="@this"
+                                             oncomplete="PF('dlgIntegranteObra').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>    
+</ui:component>

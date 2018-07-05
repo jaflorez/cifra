@@ -1,0 +1,63 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" >
+
+    <h:form id="formVigenciaObra">
+        <p:dialog header="Vigencia" widgetVar="dlgVigenciaObra" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="vigenciaObraDetail" >
+                <p:panelGrid  >
+                    <p:row >
+                        <p:column><p:outputLabel value="Año:" /></p:column>
+                        <p:column>
+                            <p:selectOneMenu id="selAnoFinanciero" value="#{contratoNewBean.curVigenciaObra.ano}" required="true" requiredMessage="Ingrese el año" >
+                                <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                <f:selectItems value="#{contratoNewBean.listaAnos}" /> 
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="Valor vigencia:" /></p:column>
+                        <p:column>
+                            <p:inputNumber value="#{contratoNewBean.curVigenciaObra.valor}" id="textCantFin"
+                                           thousandSeparator="."
+                                           required="true" 
+                                           requiredMessage="Ingrese el valor para la vigencia"
+                                           decimalPlaces="2"
+                                           symbol="$ "
+                                           decimalSeparator=","/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column><p:outputLabel value="Facturado de la vigencia:" /></p:column>
+                        <p:column>
+                            <p:inputNumber value="#{contratoNewBean.curVigenciaObra.avance}" id="textAvance"
+                                           thousandSeparator="."
+                                           decimalPlaces="2"
+                                           symbol="$ "
+                                           required="true"
+                                           requiredMessage="Ingrese lo facturado para la vigencia"
+                                           decimalSeparator=","/>
+                        </p:column>
+                    </p:row>
+                    
+                    
+                    
+                    <p:row >
+                        <p:column colspan="4"> 
+                            <p:commandButton value="Adicionar" 
+                                             actionListener="#{contratoNewBean.addicionarVigenciaObra()}"
+                                             update="formData:tabView:vigenciaObraTable,:formData:mensajes,:formData:tabView:resumenContratoObra"
+                                             oncomplete="PF('dlgVigenciaObra').hide()"/>
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('dlgVigenciaObra').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</ui:component>

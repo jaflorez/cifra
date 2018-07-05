@@ -1,0 +1,55 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="formProrrogaObra">
+        <p:dialog header="Prorroga de la obra" widgetVar="prorrogaObraDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="prorrogaObraDetail" >
+                <p:panelGrid  >
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Fecha de aprobación minuta"  />
+                        </p:column>
+                        <p:column  >
+                            <p:calendar value="#{contratoNewBean.curProrrogaObra.fecha}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Meses"  />
+                        </p:column>
+                        <p:column  >
+                            <p:inputNumber  value="#{contratoNewBean.curProrrogaObra.cantidad}"
+                                            decimalPlaces="1"
+                                            />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column  >
+                            <p:outputLabel value="Fecha final del contrato:"  />
+                        </p:column>
+                        <p:column  >
+                            <p:calendar  value="#{contratoNewBean.curProrrogaObra.fechaFinalContrato}" locale="es" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column  colspan="2">
+                            <p:commandButton id="addFuenteMaterial" value="Adicionar" 
+                                             oncomplete="PF('prorrogaObraDialog').hide()"
+                                             actionListener="#{contratoNewBean.adicionarProrrogaObra()}"
+                                             update=":formData:tabView:tableProrrogaObra"
+                                             icon="ui-icon-disk" />
+                            <p:commandButton value="Cancelar"
+                                             oncomplete="PF('prorrogaObraDialog').hide()"/>                            
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</ui:component>
+

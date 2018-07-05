@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="/templates/tpl_out.xhtml">
+            <ui:define name="content">
+                <p:panel styleClass="panel_inicio">
+                    <h:form id="formData">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        <p:panelGrid style="width: 100%" >
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="Cedula:" />
+                                    <h:outputLabel value="#{cifraSessionBean.enEdicion}" style="display: none" />
+                                </p:column>
+                                <p:column>
+                                    <p:message for="txtcedula" display="icon" />
+                                    <p:inputText id="txtcedula" value="#{loginBean.documento}"   />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="Clave:"/>
+                                </p:column> 
+                                <p:column>
+                                    <p:password id="txtpassword"
+                                                
+                                                value="#{loginBean.clave}" 
+                                                />
+                                    <p:message for="txtpassword" display="icon" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2" style="text-align: center" >
+                                    <p:commandButton value="Ingresar" icon="ui-icon-check" 
+                                                     action="#{loginBean.validarUsuario()}" 
+                                                     update=":formData:messages"
+                                                     ajax="true"
+                                                      />
+                                    <p:commandButton action="solicambiocontrasena" value="Cambiar contraseña" />
+                                </p:column>
+
+                            </p:row>
+
+                        </p:panelGrid>
+
+                    </h:form>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
+
